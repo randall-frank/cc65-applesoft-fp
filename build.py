@@ -103,7 +103,27 @@ def find_ciderpress() -> str:
         cpapp += ".exe"
     log.info(f"Using CiderPress2: {cpapp}")
     return cpapp
-    
+
+
+def find_doxygen() -> str:
+    if not os.path.exists("doxygen"):
+        url = "https://www.doxygen.nl/files/doxygen-1.18.0.windows.x64.bin.zip"
+        if not download_file(url, "doxygen.zip"):
+            raise RuntimeError("Unable to download doxygen tools.")
+        # unpack
+        try:
+            os.makedirs("doxygen")
+            with zipfile.ZipFile("doxygen.zip", "r") as zf:
+                zf.extractall("doxygen")
+            os.unlink("doxygen.zip")
+        except Exception as e:
+            log.warning(f"Unable to unpack doxygen: {e}")
+    doxapp = os.path.join(os.getcwd(), "doxygen", "doxygen")
+    if platform.system().lower().startswith("windows"):
+        doxapp += ".exe"
+    log.info(f"Using doxygen: {doxapp}")
+    return doxapp
+
 
 def clean(remove_cli_tools: bool = False) -> None:
     """
@@ -114,12 +134,19 @@ def clean(remove_cli_tools: bool = False) -> None:
     """
     try:
         shutil.rmtree("build")
-        if remove_cli_tools:
-            shutil.rmtree("cc65")
-            shutil.rmtree("ciderpress")
-        os.mkdir("build")
+        shutil.rmtree("html")
     except OSError:
         pass
+    if remove_cli_tools:
+        try:
+            shutil.rmtree("cc65")
+            shutil.rmtree("ciderpress")
+            shutil.rmtree("doxygen")
+        except OSError:
+            pass
+    os.mkdir("build")
+    os.mkdir("html")
+
     build_files = glob.glob(os.path.join("src","*.o"))
     build_files.extend(glob.glob(os.path.join("src","*.lst")))
     for filename in build_files:
@@ -237,10 +264,15 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     
 
 def build_docs(verbose: bool = False) -> None:
+    doxygen = find_doxygen()
+    try:
+        shutil.rmtree("html")
+    except OSError:
+        pass
+    os.mkdir("html")
     original_dir = os.getcwd()
     os.chdir("docs")
     try:
-        doxygen = os.path.join("..", "doxygen", f"doxygen{exe_ext}")
         if not os.path.exists(doxygen):
             log.error(f"Could not find doxygen executable")
             sys.exit(1)
@@ -268,7 +300,7 @@ def gh_pages(commit_str: str = "Update pages") -> None:
     if not os.path.exists(".git"):
         log.error("Not in a git repository")
     build()
-    ghp_import('build', push=True, mesg=commit_str)
+    ghp_import('html', push=True, mesg=commit_str)
 
 
 def five_bytes(value: str) -> bytearray:

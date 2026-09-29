@@ -13,13 +13,17 @@ __pycache__/
 .vscode/
 src/*.lst
 src/example.txt
-
-*.po
+a2fp_release.po
 
 # Environments
 .env
 .venv
 venv/
+cc65/
+ciderpress/
+build/
+html/
+SYSTEM/FP*
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
