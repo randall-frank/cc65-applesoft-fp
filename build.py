@@ -181,9 +181,9 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     for name in lib_sources:
         filename = os.path.join("src", name)
         cmd = [asm, "-t", "apple2"]
-        if args.verbose:
+        if verbose:
             cmd.append("-v")
-        if args.symbols:
+        if symbols:
             cmd.append("--listing")
             cmd.append(filename.replace(".s", ".lst"))
         cmd.append(filename)
@@ -299,7 +299,6 @@ def gh_pages(commit_str: str = "Update pages") -> None:
     # Check if we are in a git repository
     if not os.path.exists(".git"):
         log.error("Not in a git repository")
-    build()
     ghp_import('html', push=True, mesg=commit_str)
 
 
