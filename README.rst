@@ -1,5 +1,5 @@
-cc65 Applesoft Float Point Library
-==================================
+cc65 Applesoft Floating Point Library
+=====================================
 |MIT| |APPLE| |Apple2TS| |cc65|
 
 .. |MIT| image:: https://img.shields.io/badge/License-MIT-yellow.svg
@@ -39,8 +39,8 @@ Support is included for:
 - I/O to and from C strings
 - Utilities: sgn, reciprocal, absolute value, etc.
 
-Details
--------
+Building
+--------
 The program is written in a combination of C and 6502 assembly, compiled
 using the cc65 toolchain.
 
@@ -50,7 +50,8 @@ from the sources.  It requires several external tools:
 - Python
 - `cc65 C compiler <https://cc65.github.io/>`_
 - `CiderPress II <https://ciderpress2.com/>`_
-
+- `Doxygen <https://www.doxygen.nl/>`_
+ 
 The build script will download the necessary tools, placing them in subdirectories
 of the one containing the 'build.py' script.
 
@@ -62,6 +63,62 @@ The following commands will build the `a2fp_release.po` file:
    .\venv\Scripts\activate.ps1
    python -m pip install -r requirements.txt
    python build.py build
+
+
+Build Options
+-------------
+The build script is capable of performing a number of tasks:
+
+- Build the library and .po image
+- Generate library documentation
+- Push documentation to github pages
+- Convert IEEE 754 floats to/from Applesoft binary representation
+
+*build.py* has several options:
+
+- clean [--full]
+ 
+  - Remove the contents of the `build` and `html` directories.  `--full` removes the build tools as well.
+
+- build, fullbuild [--debug] [--symbols]
+
+  - rebuild the entire `build` directory. This does a `clean` followed by a build of the library
+    `--debug` includes `BASIC.SYSTEM` in the disk image and boots to Applesoft. `--symbols` generates
+    an assembly level listing file of the interface.
+
+- ghpages [--ghmsg 'commit message']
+
+  - ghpages will first execute a `docs` operation. It will then push the contents of
+    the `build` directory to the `gh-pages` branch of the current git repository.  This 
+    will make the story available on GitHub Pages.  The `--ghmsg` option allows you to 
+    specify a commit message for the push.  The default is the current version number 
+    of the story
+
+- docs 
+
+  - This command will generate the `html` directory contents using Doxygen.  It can be previewed
+    by viewing the `html/index.html` file.
+
+- flt2as [--varname VARNAME]
+
+  - This command will convert an IEEE 754 float to AppleSoft floating point format.  It will output
+    the C source code needed to embed the constant into a C application. 
+
+    .. code::
+
+      >  python build.py flt2as 0.5 --varname hello
+      AS_FAC_FP hello = {0x80, {0x00, 0x00, 0x00, 0x00}}; /* 0.5 */
+
+
+- as2flt
+
+  - This command will convert an AppleSoft floating point value to an IEEE 754 float. 
+
+   .. code::
+
+      > python build.py as2flt 8000000000
+      0.5
+
 
 Documentation and Issues
 ------------------------
