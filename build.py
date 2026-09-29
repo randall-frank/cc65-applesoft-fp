@@ -296,6 +296,7 @@ def gh_pages(commit_str: str = "Update pages") -> None:
     
     :return: None
     """
+    build_docs()
     # Check if we are in a git repository
     if not os.path.exists(".git"):
         log.error("Not in a git repository")

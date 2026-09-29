@@ -1,17 +1,19 @@
 /**
  * @file apple2_asfp.h
- * @brief Header description of the assembly language glue interface to the Applesoft floating point routines
+ * @brief Header description of an assembly language glue interface to the Applesoft floating point routines
  */
 
  /**
-  * @defgroup asfp AS_FAC Interface Module
-  * @brief The C interface to the Applesoft floating point routines
-  * @details cc65 compatible wrapper for the Applesoft FAC floating point routines
+  * @defgroup asfp Overview
+  * @details This library provides a C interface to the Applesoft floating point routines.  It is a 
+  *          cc65 compatible wrapper written in C and 6502 assembly.
+  * @note The bindings utilize one zero page location ($FA) for state tracking along with
+  *       the standard zero page locations used by Applesoft.  The latter locations include
+  *       the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD and $A0-$A1.
   * 
   * @copyright Copyright (c) 2026 Randall Frank.  
   *   This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.
   * 
-  * @{
   */
  
 #ifndef _APPLE2ASFP_H
@@ -62,16 +64,16 @@ const AS_FAC_FP *AS_CONST_half      = (AS_FAC_FP *)0xEE64;  ///< The number 0.5
 const AS_FAC_FP *AS_CONST_neghalf   = (AS_FAC_FP *)0xE937;  ///< The number -0.5
 const AS_FAC_FP *AS_CONST_one       = (AS_FAC_FP *)0xE913;  ///< The number 1.0
 const AS_FAC_FP *AS_CONST_ten       = (AS_FAC_FP *)0xEA50;  ///< The number 10.0
-const AS_FAC_FP *AS_CONST_sqrt_half = (AS_FAC_FP *)0xE92D;  ///< The number 0.2236067 sqrt(0.5)
-const AS_FAC_FP *AS_CONST_sqrt_two  = (AS_FAC_FP *)0xE932;  ///< The number 1.4142135 sqrt(2.0)
-const AS_FAC_FP *AS_CONST_ln_two    = (AS_FAC_FP *)0xE93C;  ///< The number 0.6931471 ln(2)
-const AS_FAC_FP *AS_CONST_log_2_e   = (AS_FAC_FP *)0xEEDB;  ///< The number 1.4426950 ln(e) log base 2 of e
-const AS_FAC_FP *AS_CONST_half_PI   = (AS_FAC_FP *)0xF063;  ///< The number 1.5707963 PI*0.5
-const AS_FAC_FP *AS_CONST_two_PI    = (AS_FAC_FP *)0xF06B;  ///< The number 6.2831853 PI*2.0
+const AS_FAC_FP *AS_CONST_sqrt_half = (AS_FAC_FP *)0xE92D;  ///< The number 0.2236067 (sqrt(0.5))
+const AS_FAC_FP *AS_CONST_sqrt_two  = (AS_FAC_FP *)0xE932;  ///< The number 1.4142135 (sqrt(2.0))
+const AS_FAC_FP *AS_CONST_ln_two    = (AS_FAC_FP *)0xE93C;  ///< The number 0.6931471 (ln(2) natural log of 2.0)
+const AS_FAC_FP *AS_CONST_log_2_e   = (AS_FAC_FP *)0xEEDB;  ///< The number 1.4426950 (log base 2 of e)
+const AS_FAC_FP *AS_CONST_half_PI   = (AS_FAC_FP *)0xF063;  ///< The number 1.5707963 (PI*0.5)
+const AS_FAC_FP *AS_CONST_two_PI    = (AS_FAC_FP *)0xF06B;  ///< The number 6.2831853 (PI*2.0)
 /** @} */
 
 /**
- * @defgroup funcs AS_FAC Floating Point Math Functions
+ * @defgroup funcs Floating Point Math Functions
  * @brief Applesoft ROM floating point math routines for the Apple II.
  *
  * @details The system is designed around a a pair of virtual registers located in zero page memory,
@@ -204,7 +206,8 @@ extern int __fastcall__ as_fp_sgn();
 /* I/O */
 /**
  * @brief Initialize the floating-point helper state needed by string conversion routines.
- * @note This is only required before using as_fp_str2fac() or as_fp_fac2str().
+ * @note This is only required before using as_fp_str2fac() or as_fp_fac2str() and only if the
+ *       zero page CHRGET routine is not enabled.
  */
 extern void __fastcall__ as_fp_init();
 
@@ -290,7 +293,7 @@ extern void __fastcall__ as_fp_uchar2fac(unsigned char v);
 
 /**
  * @defgroup reference Reference Documentation
- * @brief Documentation of the Applesoft entry points from Apple
+ * @details Documentation of the Applesoft entry points from Apple
  * @{
  *
  * - Numeric layout details [Floating Point Specification](TIL00074.pdf).
@@ -302,4 +305,3 @@ extern void __fastcall__ as_fp_uchar2fac(unsigned char v);
 
 #endif
 
-/** @} */

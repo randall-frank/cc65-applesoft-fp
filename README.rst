@@ -39,6 +39,10 @@ Support is included for:
 - I/O to and from C strings
 - Utilities: sgn, reciprocal, absolute value, etc.
 
+Because this library leverages pre-existing routines in the Applesoft ROM,
+it has a very small memory footprint (typically less than 512 bytes).  However,
+it does use the non-standard 40bit float format rather than the IEEE 754 standard.
+
 Building
 --------
 The program is written in a combination of C and 6502 assembly, compiled
@@ -114,7 +118,7 @@ The build script is capable of performing a number of tasks:
 
   - This command will convert an AppleSoft floating point value to an IEEE 754 float. 
 
-   .. code::
+    .. code::
 
       > python build.py as2flt 8000000000
       0.5
