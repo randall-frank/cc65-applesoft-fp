@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['numeric_20constants_0',['Numeric Constants',['../group__consts.html',1,'']]]
+  ['point_20math_20functions_0',['Floating Point Math Functions',['../group__funcs.html',1,'']]]
 ];

@@ -1,5 +1,6 @@
 var apple2__asfp_8h =
 [
+    [ "AS_FAC_FP", "struct_a_s___f_a_c___f_p.html", "struct_a_s___f_a_c___f_p" ],
     [ "as_fp_abs_fac", "group__funcs.html#ga3566866b501e9f3984805566c2a3cff3", null ],
     [ "as_fp_arg2fac", "group__funcs.html#ga4698d1e638994cb757e2b84d371885fc", null ],
     [ "as_fp_arg_add_fac", "group__funcs.html#ga25e25be5eaae2b9cd3c11471ca4a6639", null ],

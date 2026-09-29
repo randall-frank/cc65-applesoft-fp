@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.18.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Applesoft floating point cc65 bindings: Main Page</title>
+<title>Applesoft floating point cc65 bindings: cc65 Applesoft Floating Point Library</title>
 <link rel="icon" href="no_text_icon.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
@@ -110,10 +110,34 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('index.html',''
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">Applesoft floating point cc65 bindings Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">cc65 Applesoft Floating Point Library </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md_mainpage"></a></p>
+<p>This project adds floating-point arithmetic support to software built with the cc65 toolchain for Apple II systems. Rather than inventing a separate numeric format, it wraps the built-in Applesoft ROM floating-point routines and uses the same 40-bit Apple II floating-point representation used by Applesoft.</p>
+<p>The library is aimed at developers who want C programs to work naturally with floating-point values on Apple II hardware, while still compiling with cc65 and targeting the classic Apple II platform. It provides the types and functions needed to perform math operations, convert between C values and Apple II floating-point representation, and interact with string-based inputs and outputs.</p>
+<p>In short, this project is a practical Apple II floating-point toolkit for cc65 developers: it brings Applesoft-compatible floating-point capability to C programs while staying faithful to the Apple II platform's native numeric model.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Why it exists</h1>
+<p>The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (less than 512 bytes).</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+Typical use</h1>
+<p>Applications can include the library, perform standard floating-point calculations from C, and store or print values using the Apple II floating-point format. The project also includes utilities to convert values to and from the binary representation expected by Applesoft, which makes it useful for both emulator and real-machine development.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+What the project provides</h1>
+<ul>
+<li>Floating-point arithmetic: addition, subtraction, multiplication, and division</li>
+<li>Advanced math: sine, cosine, tangent, arctangent, logarithm, exponential, square root, and power</li>
+<li>Comparison and utility operations: sign, reciprocal, absolute value, and related helpers</li>
+<li>Conversion between C integers, strings, and Applesoft floating-point values</li>
+<li>Integration with Apple II software and firmware conventions through the Applesoft ROM routines</li>
+<li>Small memory footprint</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Project structure</h1>
+<p>The repository contains the library sources, Apple II assembly glue, a build script, test utilities, and generated documentation. The build process compiles the library and packages it into a disk image format used by Apple II emulation and hardware. </p>
+</div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 </div><!-- doc-content -->

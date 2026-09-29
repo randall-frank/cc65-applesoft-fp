@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.18.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Applesoft floating point cc65 bindings: AS_FAC Interface Module</title>
+<title>Applesoft floating point cc65 bindings: Overview</title>
 <link rel="icon" href="no_text_icon.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
@@ -111,30 +111,10 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__asfp.ht
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">AS_FAC Interface Module </div></div>
+  <div class="headertitle"><div class="title">Overview </div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>The C interface to the Applesoft floating point routines.  
-<a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-groups" class="groupheader"><a id="groups" name="groups"></a>
-Topics</h2></td></tr>
-<tr class="memitem:consts" id="r_consts"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="group__consts.html">Numeric Constants</a></td></tr>
-<tr class="memdesc:group__consts"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of useful numbers that are included in the ROM. <br /></td></tr>
-<tr class="memitem:funcs" id="r_funcs"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="group__funcs.html">AS_FAC Floating Point Math Functions</a></td></tr>
-<tr class="memdesc:group__funcs"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applesoft ROM floating point math routines for the Apple II. <br /></td></tr>
-<tr class="memitem:reference" id="r_reference"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="group__reference.html">Reference Documentation</a></td></tr>
-<tr class="memdesc:group__reference"><td class="mdescLeft">&#160;</td><td class="mdescRight">Documentation of the Applesoft entry points from Apple. <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Data Structures</h2></td></tr>
-<tr class="memitem:AS_5FFAC_5FFP" id="r_AS_5FFAC_5FFP"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Applesoft 5 byte floating point memory representation.  <a href="struct_a_s___f_a_c___f_p.html#details">More...</a><br /></td></tr>
-</table>
-<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The C interface to the Applesoft floating point routines. </p>
-<p>cc65 compatible wrapper for the Applesoft FAC floating point routines</p>
+<div class="textblock"><p>This library provides a C interface to the Applesoft floating point routines. It is a cc65 compatible wrapper written in C and 6502 assembly. </p><dl class="section note"><dt>Note</dt><dd>The bindings utilize one zero page location ($FA) for state tracking along with the standard zero page locations used by Applesoft. The latter locations include the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD and $A0-$A1.</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2026 Randall Frank. <br  />
  This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details. </dd></dl>
 </div></div><!-- contents -->

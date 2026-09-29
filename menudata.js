@@ -24,7 +24,7 @@
 */
 var menudata={children:[
 {text:"Main Page",url:"index.html"},
-{text:"Topics",url:"topics.html"},
+{text:"AS_FAC Interface Module",url:"topics.html"},
 {text:"Data Structures",url:"annotated.html",children:[
 {text:"Data Structures",url:"annotated.html"},
 {text:"Data Structure Index",url:"classes.html"},
@@ -35,7 +35,9 @@ var menudata={children:[
 {text:"File List",url:"files.html"},
 {text:"Globals",url:"globals.html",children:[
 {text:"All",url:"globals.html",children:[
-{text:"a",url:"globals.html#index_a"}]},
+{text:"a",url:"globals.html#index_a"},
+{text:"m",url:"globals.html#index_m"}]},
 {text:"Functions",url:"globals_func.html",children:[
-{text:"a",url:"globals_func.html#index_a"}]},
+{text:"a",url:"globals_func.html#index_a"},
+{text:"m",url:"globals_func.html#index_m"}]},
 {text:"Variables",url:"globals_vars.html"}]}]}]}

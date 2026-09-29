@@ -1,11 +1,12 @@
 var indexSectionsWithContent =
 {
-  0: "acdefimnpr",
+  0: "acdefilmnoprstuw",
   1: "a",
-  2: "a",
-  3: "a",
+  2: "amt",
+  3: "am",
   4: "aem",
-  5: "acdfimnpr"
+  5: "cdfmnopr",
+  6: "acefilpstuw"
 };
 
 var indexSectionNames =
@@ -15,7 +16,8 @@ var indexSectionNames =
   2: "files",
   3: "functions",
   4: "variables",
-  5: "groups"
+  5: "groups",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -25,6 +27,7 @@ var indexSectionLabels =
   2: "Files",
   3: "Functions",
   4: "Variables",
-  5: "Modules"
+  5: "Modules",
+  6: "Pages"
 };
 
