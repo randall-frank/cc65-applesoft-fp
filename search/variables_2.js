@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['mantissa_0',['mantissa',['../struct_a_s___f_a_c___f_p.html#a78920b7ef1a763d2f33cbb51ef73a00a',1,'AS_FAC_FP']]]
+];
