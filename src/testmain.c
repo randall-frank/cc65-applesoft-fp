@@ -14,7 +14,7 @@ int main(void)
     printf("Version: 0.0.1\n\n\n");
 
     as_fp_init();
-    
+
     as_fp_mem2fac(AS_CONST_two_PI);
     as_fp_mem2arg(AS_CONST_half);
     as_fp_arg_mul_fac();

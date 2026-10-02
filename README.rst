@@ -40,7 +40,7 @@ Support is included for:
 - Utilities: sgn, reciprocal, absolute value, etc.
 
 Because this library leverages pre-existing routines in the Applesoft ROM,
-it has a very small memory footprint (typically less than 512 bytes).  However,
+it has a very small memory footprint (typically less than 600 bytes).  However,
 it does use the non-standard 40bit float format rather than the IEEE 754 standard.
 
 Building
