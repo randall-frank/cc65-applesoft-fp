@@ -5,11 +5,18 @@ AS_ARG     = $A5  ; $A5-$AA
 AS_LC_STATE = $FA
 
 ; Some operations return 16bit values via zero page memory locations
-AS_INT16_H = $A0
-AS_INT16_L = $A1
+AS_TMP_L = $A0
+AS_TMP_H = $A1
 
 ; The string function returns a zero terminated string located in stack memory
 AS_FBUFFR  = $0100
+
+; To work around language card issues, the library uses $200-$2ff to
+; buffer input strings and AS_FAC_FP objects which could be located 
+; in language card RAM.
+AS_SCR_STR = $0200    ; 127(+1) byte string buffer
+AS_SCR_FAC = $0280 ; 5 bytes
+AS_SCR_TMP = $0285 ; 5 bytes
 
 ; Other temp zero page memory locations used by the various functions: 
 ; 93-97,98-9C,8A-8E,C9-CD
@@ -54,6 +61,7 @@ AS_ADDR_FOUT    = $ED34 ; Create null terminated string in AS_FBUFFR from FAC On
 
 AS_TXTPTR   = $B8   ; Zero page pointer to text string (2 bytes)
 AS_CHRGET   = $B1   ; Zero page routine to get next character
+AS_CHRGOT   = $B7   ; Zero page routine to re-reads current character into A
 AS_ADDR_FIN = $EC4A ; ROM routine to parse string into FAC (use Apple II chars $30-$39+$2B+$2E+$2D+$05)
 
 
@@ -287,26 +295,23 @@ _as_fp_arg_cmp_fac:
 
 ; Convert text pointed to by a C string into a number and store into FAC
 ; TODO: currently errors are fatal.  Need to override Applesoft error handling.  
-_as_fp_str2fac:
-    ; A = low byte of the pointer (LSB)
-    ; X = high byte of the pointer (MSB)
+_as_fp_str2fac: 
+    jsr _as_cache_str
+    lda #<AS_SCR_STR
     sta AS_TXTPTR
-    stx AS_TXTPTR+1
-    ; backup one byte
-    lda AS_TXTPTR
-    bne skip_hi
-    dec AS_TXTPTR+1
-skip_hi:
+    lda #>AS_SCR_STR
+    sta AS_TXTPTR+1
     jsr _as_save_lc_state 
-    dec AS_TXTPTR
-    jsr AS_CHRGET
-    jsr  AS_ADDR_FIN
+    jsr AS_CHRGOT
+    jsr AS_ADDR_FIN
     jmp _as_restore_lc_state
 
 ; Convert FAC to a temp string (stored at bottom of FBUFFER aka hw stack)
 _as_fp_fac2str:
-    jsr _as_save_lc_state  
+    jsr _as_save_lc_state
+    jsr _as_save_fac 
     jsr  AS_ADDR_FOUT ; Y=MSB, A=LSB
+    jsr _as_restore_fac
     jsr _as_restore_lc_state
     pha
     tya      ; Y = high
@@ -383,8 +388,11 @@ _as_fp_arg2fac:
 ; Generally, this is not needed, but if the zero page CHRGET code
 ; is not set up, this can be called to init it.
 AS_CHRGET_ORIG = $F10B ; The 'template' chrget routine in Applesoft
+AS_INIT_APPLESOFT = $E40C
+
 _as_fp_init:
     jsr _as_save_lc_state
+    jsr AS_INIT_APPLESOFT 
     ; Set up the CHRGET routine from the template in ROM
     ldx #23 ; 24 bytes
 cpy_loop:
@@ -418,3 +426,63 @@ _as_restore_lc_state:
 leave_rom_enabled:
     pla
     rts
+
+; Save and restore FAC routines
+_as_save_fac:
+    pha
+    ldx #4
+@loop:
+    lda AS_FAC,x
+    sta AS_SCR_FAC,x
+    dex
+    bpl @loop
+    pla
+    rts
+
+_as_restore_fac:
+    pha
+    ldx #4
+@loop:
+    lda AS_SCR_FAC,x
+    sta AS_FAC,x
+    dex
+    bpl @loop
+    pla
+    rts
+
+; Copy data from a C pointer to a scratch location, either a float or a string
+; This works around RAM/RAM language card paging
+_as_cache_float:
+    ; A = low byte of the pointer (LSB)
+    ; X = high byte of the pointer (MSB)
+    sta AS_TMP_L
+    stx AS_TMP_H
+    ldy #5
+@loop:
+    lda (AS_TMP_L),y
+    sta AS_SCR_TMP,y
+    dey
+    bpl @loop
+    rts
+
+_as_cache_str:
+    ; A = low byte of the pointer (LSB)
+    ; X = high byte of the pointer (MSB)
+    sta AS_TMP_L
+    stx AS_TMP_H
+    ldy #0
+@loop:
+    lda (AS_TMP_L),y
+    and #$7f
+    sta AS_SCR_STR,y
+    iny
+    cmp #0
+    bne @loop
+    rts
+
+
+; TODO: 
+; as_fp_str2fac - done
+; as_fp_arg_cmp_fac
+; as_fp_fac2mem
+; as_fp_mem2arg

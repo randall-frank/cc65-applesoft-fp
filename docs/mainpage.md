@@ -25,4 +25,45 @@ Applications can include the library, perform standard floating-point calculatio
 
 ## Project structure
 
-The repository contains the library sources, Apple II assembly glue, a build script, test utilities, and generated documentation. The build process compiles the library and packages it into a disk image format used by Apple II emulation and hardware.
+The library source code, a single assembly language file and accompanying header file, are located in the `src` directory. The build script, `build.py`, automates the compilation and provides utility functions for converting between IEEE 754 and Applesoft float formats, etc.  
+
+Documentation is doxygen based and is located in the `docs` directory.  The documentation build creates the directory `html`.  Open `index.html` in a web browser to view the documentation.
+
+The build process creates a `build` directory.  It is all that is needed to use the library in another project.  Additionally, a disk image file (`.po`) is generated that can be useful for debugging, etc.
+
+## Implementation notes
+
+The library is a cc65 thin compatible wrapper written as a C header file and a 6502 assembly language file.  The library does use the Applesoft floating point routines in ROM.  As such, it uses a few resources that could conflict with a higher level application.  These are noted below.
+
+### Zero page usage
+
+The bindings utilize one zero page location ($FA) for state tracking along with
+the standard zero page locations used by Applesoft.  The latter locations include
+the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD and $A0-$A1.
+
+### ROM/Language card bank switching
+
+Many Apple II cc65 applications run with the language card bank enabled for additional 
+memory.  This library wraps functions that make ROM calls with code that 
+switches to ROM reading before making the call and restores the incoming bank selection
+afterward.
+
+Additionally, the library 'caches' any input arguments from C as they could be located
+in the language card.  This is done in the traditional Apple input buffer: $0200.  Thus, 
+several routines will destroy memory between $200 and $2FF.
+
+## Reference documentation
+
+Some reference documentation used to develop this library is available in the `docs` directory.
+These files document the Applesoft entry points from Apple.
+
+- Numeric layout details [Floating Point Specification](TIL00074.pdf).
+- Basic numeric function details [Core Math Functions](TIL00075.pdf).
+- I/O and other transform functions [Utility Functions](TIL00076.pdf).
+
+## license and copyright
+
+**Library version:** \asfp_version  
+**Copyright:** © \asfp_year Randall Frank
+
+This project is licensed under the MIT OpenSource license. See the file <a href="LICENSE">LICENSE</a> for details.

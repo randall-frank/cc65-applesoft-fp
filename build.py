@@ -279,6 +279,7 @@ def build_docs(verbose: bool = False) -> None:
         cmd = [doxygen]
         env = os.environ.copy()
         env["ASFP_VERSION"] = __version__
+        env["ASFP_YEAR"] = str(datetime.datetime.now().year)
         result = subprocess.run(cmd, capture_output=True, env=env, text=True)
         if result.returncode != 0:
             log.error(f"Doxygen error: {result.stdout}\n{result.stderr}")

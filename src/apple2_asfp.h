@@ -2,20 +2,12 @@
  * @file apple2_asfp.h
  * @brief Header description of an assembly language glue interface to the Applesoft floating point routines
  */
-
- /**
-  * @defgroup asfp Overview
-  * @details This library provides a C interface to the Applesoft floating point routines.  It is a 
-  *          cc65 compatible wrapper written in C and 6502 assembly.
-  * @note The bindings utilize one zero page location ($FA) for state tracking along with
-  *       the standard zero page locations used by Applesoft.  The latter locations include
-  *       the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD and $A0-$A1.
-  * 
-  * @copyright Copyright (c) 2026 Randall Frank.  
-  *   This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.
-  * 
-  */
  
+ /* 
+  * Copyright (C) 2026 Randall Frank
+  * Released under the MIT OpenSource license.  See the file LICENSE for details.
+  */
+
 #ifndef _APPLE2ASFP_H
 #define _APPLE2ASFP_H
 
@@ -56,9 +48,22 @@ typedef struct {
 /**
  * @defgroup consts Numeric Constants
  * @brief A collection of useful numbers that are included in the ROM
+ * @details These read-only constants are often passed to as_fp_mem2arg() or
+ *          as_fp_mem2fac() to initialize the FAC or ARG registers.  
+ *          An example using two constants to compute PI:
+ *       
+ * @code
+ *   as_fp_mem2fac(AS_CONST_two_PI);  // FAC=2PI
+ *   as_fp_mem2arg(AS_CONST_half);    // ARG=0.5
+ *   as_fp_arg_mul_fac();             // FAC=0.5*2PI
+ *   printf("Computed PI: %s\n", as_fp_fac2str());
+ * @endcode
+ *
+ * @note All of these are located in $D000-$7FFF which are outside of
+ *       the language card bank 0/1 and thus do are always accessible.
+ *
  * @{
  */
-const AS_FAC_FP *AS_CONST_rnd       = (AS_FAC_FP *)0x00C9;  ///< The last random number
 const AS_FAC_FP *AS_CONST_quarter   = (AS_FAC_FP *)0xF070;  ///< The number 0.25
 const AS_FAC_FP *AS_CONST_half      = (AS_FAC_FP *)0xEE64;  ///< The number 0.5
 const AS_FAC_FP *AS_CONST_neghalf   = (AS_FAC_FP *)0xE937;  ///< The number -0.5
@@ -207,7 +212,7 @@ extern int __fastcall__ as_fp_sgn();
 /**
  * @brief Initialize the floating-point helper state needed by string conversion routines.
  * @note This is only required before using as_fp_str2fac() or as_fp_fac2str() and only if the
- *       zero page CHRGET routine is not enabled.
+ *       zero page CHRGET routine is not enabled (e.g. if running w/o Applesoft initialized)
  */
 extern void __fastcall__ as_fp_init();
 
@@ -290,18 +295,6 @@ extern void __fastcall__ as_fp_uchar2fac(unsigned char v);
 
 /** @} */
 
-
-/**
- * @defgroup reference Reference Documentation
- * @details Documentation of the Applesoft entry points from Apple
- * @{
- *
- * - Numeric layout details [Floating Point Specification](TIL00074.pdf).
- * - Basic numeric function details [Core Math Functions](TIL00075.pdf).
- * - I/O and other transform functions [Utility Functions](TIL00076.pdf).
- *
- * @} 
- */
 
 #endif
 
