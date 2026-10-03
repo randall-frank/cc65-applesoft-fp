@@ -3,7 +3,6 @@ var group__funcs =
     [ "as_fp_abs_fac", "group__funcs.html#ga3566866b501e9f3984805566c2a3cff3", null ],
     [ "as_fp_arg2fac", "group__funcs.html#ga4698d1e638994cb757e2b84d371885fc", null ],
     [ "as_fp_arg_add_fac", "group__funcs.html#ga25e25be5eaae2b9cd3c11471ca4a6639", null ],
-    [ "as_fp_arg_cmp_fac", "group__funcs.html#gafbefee701d655bb79ea5d26fc2e52a46", null ],
     [ "as_fp_arg_div_fac", "group__funcs.html#ga153419da23ae63da9c54e9c2b03f75da", null ],
     [ "as_fp_arg_mul_fac", "group__funcs.html#gaf01bdba0c2132eccd0f31063093a8f47", null ],
     [ "as_fp_arg_pow_fac", "group__funcs.html#ga89bfc1412da60c88d1a4d48c710a4e82", null ],
@@ -15,10 +14,11 @@ var group__funcs =
     [ "as_fp_fac2arg", "group__funcs.html#ga86b1ee4cdd66158d3763d9ca5f9a7870", null ],
     [ "as_fp_fac2mem", "group__funcs.html#gaf337146beff887df9d8cc5a5f2bcdcec", null ],
     [ "as_fp_fac2str", "group__funcs.html#ga94ef166804d7402308da0c3db104834a", null ],
+    [ "as_fp_fac_cmp_mem", "group__funcs.html#ga86edcf27615a636a4438e03aa3bcbe2c", null ],
     [ "as_fp_fac_div_ten", "group__funcs.html#ga8d30ea92c5a614098cd0a04ffa55c49a", null ],
     [ "as_fp_fac_mult_ten", "group__funcs.html#gad1d3ddbe9e20068220bdbb1ddc5779c1", null ],
     [ "as_fp_init", "group__funcs.html#gaa6cf9f5d2d2939a025f620b947995831", null ],
-    [ "as_fp_int2fac", "group__funcs.html#ga4b61f6fc7c4daf61692d7510f93f20b3", null ],
+    [ "as_fp_int2fac", "group__funcs.html#ga97bcd2cc2f19d3b36fe3c5171c451392", null ],
     [ "as_fp_int_fac", "group__funcs.html#gad3e35f6ce033a8e6e84655a47d1f77e2", null ],
     [ "as_fp_inv_fac", "group__funcs.html#ga8cf74825f7b51a76c02114011ca3a176", null ],
     [ "as_fp_log_fac", "group__funcs.html#ga909b076ea084a25a1891cbdf6fac338f", null ],
@@ -35,5 +35,6 @@ var group__funcs =
     [ "as_fp_str2fac", "group__funcs.html#ga678da50c5225601e6f37efcec3ba4645", null ],
     [ "as_fp_swap_fac_arg", "group__funcs.html#ga6680dd77162f6b012b5682b2ca8baf4c", null ],
     [ "as_fp_tan_fac", "group__funcs.html#ga05846ee769fd1a1f2e5662c688bd6721", null ],
-    [ "as_fp_uchar2fac", "group__funcs.html#gab62d3b136c0a92fcbda785de8b77d6e2", null ]
+    [ "as_fp_uchar2fac", "group__funcs.html#gab62d3b136c0a92fcbda785de8b77d6e2", null ],
+    [ "as_fp_version", "group__funcs.html#ga21bb474ad2653b6c5f7bc5f728895617", null ]
 ];

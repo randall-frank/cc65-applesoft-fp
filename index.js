@@ -9,5 +9,5 @@ var index =
       [ "ROM/Language card bank switching", "index.html#autotoc_md7", null ]
     ] ],
     [ "Reference documentation", "index.html#autotoc_md8", null ],
-    [ "license and copyright", "index.html#autotoc_md9", null ]
+    [ "License and copyright", "index.html#autotoc_md9", null ]
 ];

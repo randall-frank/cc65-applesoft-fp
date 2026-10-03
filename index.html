@@ -27,7 +27,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.5.0</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -145,7 +145,7 @@ Implementation notes</h1>
 <p>The library is a cc65 thin compatible wrapper written as a C header file and a 6502 assembly language file. The library does use the Applesoft floating point routines in ROM. As such, it uses a few resources that could conflict with a higher level application. These are noted below.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Zero page usage</h2>
-<p>The bindings utilize one zero page location ($FA) for state tracking along with the standard zero page locations used by Applesoft. The latter locations include the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD and $A0-$A1.</p>
+<p>The bindings utilize one zero page location ($FA) for state tracking along with the standard zero page locations used by Applesoft. The latter locations include the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD, $60-$61 and $A0-$A1.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 ROM/Language card bank switching</h2>
 <p>Many Apple II cc65 applications run with the language card bank enabled for additional memory. This library wraps functions that make ROM calls with code that switches to ROM reading before making the call and restores the incoming bank selection afterward.</p>
@@ -159,8 +159,8 @@ Reference documentation</h1>
 <li>I/O and other transform functions <a href="TIL00076.pdf">Utility Functions</a>.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
-license and copyright</h1>
-<p><b>Library version:</b> 0.1.0 <br  />
+License and copyright</h1>
+<p><b>Library version:</b> 0.5.0 <br  />
  <b>Copyright:</b> © 2026 Randall Frank</p>
 <p>This project is licensed under the MIT OpenSource license. See the file <a href="LICENSE">LICENSE</a> for details. </p>
 </div></div><!-- PageDoc -->
