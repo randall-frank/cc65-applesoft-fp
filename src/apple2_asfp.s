@@ -75,6 +75,8 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $3
 
 .export _as_fp_mem2arg
 .export _as_fp_mem2fac
+.export _as_fp_rom2arg
+.export _as_fp_rom2fac
 .export _as_fp_fac2mem
 .export _as_fp_swap_fac_arg
 .export _as_fp_fac2arg
@@ -339,13 +341,37 @@ _as_fp_mem2arg:
     jsr AS_ADDR_CONUPK ; Y=MSB, A=LSB
     jmp _as_restore_lc_state
 
+; Load ARG from ROM constant (AS_FAC_FP struct)
+_as_fp_rom2arg:
+    ; A = low byte of the pointer (LSB)
+    ; X = high byte of the pointer (MSB)
+    pha
+    txa
+    tay
+    pla
+    jsr _as_save_lc_state
+    jsr AS_ADDR_CONUPK ; Y=MSB, A=LSB
+    jmp _as_restore_lc_state
+
 ; Load FAC from memory (AS_FAC_FP struct)
 _as_fp_mem2fac:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     jsr _as_cache_float  ; (X,A) -> AS_SCR_TMP
+    jsr _as_save_lc_state
     lda #<AS_SCR_TMP
     ldy #>AS_SCR_TMP
+    jsr AS_ADDR_MOVFM ; Y=MSB, A=LSB
+    jmp _as_restore_lc_state
+
+; Load FAC from ROM constant (AS_FAC_FP struct)
+_as_fp_rom2fac:
+    ; A = low byte of the pointer (LSB)
+    ; X = high byte of the pointer (MSB)
+    pha
+    txa
+    tay
+    pla
     jsr _as_save_lc_state
     jsr AS_ADDR_MOVFM ; Y=MSB, A=LSB
     jmp _as_restore_lc_state
@@ -365,14 +391,14 @@ _as_fp_fac2mem:
 
 ; Swap the FAC and ARG
 _as_fp_swap_fac_arg:
-    ldx #4
-swap_loop:
+    ldx #5   ; FAC and ARG are 6 byte representations
+@loop:
     lda AS_FAC,x
     ldy AS_ARG,x
     sta AS_ARG,x
     sty AS_FAC,x
     dex
-    bpl swap_loop
+    bpl @loop
     rts
 
 ; ARG = FAC
@@ -459,7 +485,7 @@ _as_cache_float:  ; Copy the 5 bytes from (X,A) to AS_SCR_TMP
     ; X = high byte of the pointer (MSB)
     sta AS_TMP_L
     stx AS_TMP_H
-    ldy #5
+    ldy #4
 @loop:
     lda (AS_TMP_L),y
     sta AS_SCR_TMP,y
@@ -474,7 +500,7 @@ _as_restore_float:  ; Copy the 5 bytes from AS_SCR_TMP to (AS_SCR_TMPX,AS_SCR_TM
     sta AS_TMP_L
     lda AS_SCR_TMPX
     sta AS_TMP_H
-    ldy #5
+    ldy #4
 @loop:
     lda AS_SCR_TMP,y
     sta (AS_TMP_L),y

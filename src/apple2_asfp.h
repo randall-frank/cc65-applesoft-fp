@@ -48,19 +48,18 @@ typedef struct {
 /**
  * @defgroup consts Numeric Constants
  * @brief A collection of useful numbers that are included in the ROM
- * @details These read-only constants are often passed to as_fp_mem2arg() or
- *          as_fp_mem2fac() to initialize the FAC or ARG registers.  
+ * @details These read-only constants may be passed as_fp_rom2arg() or
+ *          as_fp_rom2fac() to initialize the FAC or ARG registers.  
  *          An example using two constants to compute PI:
  *       
  * @code
- *   as_fp_mem2fac(AS_CONST_two_PI);  // FAC=2PI
- *   as_fp_mem2arg(AS_CONST_half);    // ARG=0.5
- *   as_fp_arg_mul_fac();             // FAC=0.5*2PI
- *   printf("Computed PI: %s\n", as_fp_fac2str());
+   as_fp_rom2fac(AS_CONST_two_PI);  // FAC=2PI
+   as_fp_rom2arg(AS_CONST_half);    // ARG=0.5
+   as_fp_arg_mul_fac();             // FAC=0.5*2PI
+   printf("Computed PI: %s\n", as_fp_fac2str());
  * @endcode
  *
- * @note All of these are located in $D000-$7FFF which are outside of
- *       the language card bank 0/1 and thus do are always accessible.
+ * @note These constants cannot be used with as_fp_mem2arg() or as_fp_mem2fac().
  *
  * @{
  */
@@ -91,31 +90,41 @@ const AS_FAC_FP *AS_CONST_two_PI    = (AS_FAC_FP *)0xF06B;  ///< The number 6.28
  /* Operations */
 /**
  * @brief Add ARG to FAC and leave the result in ARG.
- * @details Implements the Applesoft operation ARG = ARG + FAC.
+ * @details Implements the math operation ARG = ARG + FAC.
  */
 extern void __fastcall__ as_fp_arg_add_fac();
 
 /**
  * @brief Subtract FAC from ARG and leave the result in ARG.
- * @details Implements the Applesoft operation ARG = ARG - FAC.
+ * @details Implements the math operation ARG = ARG - FAC.
  */
 extern void __fastcall__ as_fp_arg_sub_fac();
 
 /**
  * @brief Multiply ARG by FAC and leave the result in ARG.
- * @details Implements the Applesoft operation ARG = ARG * FAC.
+ * @details Implements the math operation ARG = ARG * FAC.
  */
 extern void __fastcall__ as_fp_arg_mul_fac();
 
 /**
  * @brief Divide ARG by FAC and leave the result in ARG.
- * @details Implements the Applesoft operation ARG = ARG / FAC.
+ * @details Implements the math operation ARG = ARG / FAC.
  */
 extern void __fastcall__ as_fp_arg_div_fac();
 
 /**
  * @brief Raise ARG to the power FAC and leave the result in ARG.
- * @details Implements the Applesoft operation ARG = ARG ^ FAC.
+ * @details Implements the math operation ARG = ARG ^ FAC.  For example
+ *          ARG ^ 0.5 is the square root of ARG.
+* @code
+    as_fp_str2fac("2.0");
+    as_fp_mem2arg(&ram_half); 
+    as_fp_swap_fac_arg();
+    as_fp_arg_pow_fac();      
+    printf("Computed pow(2, 0.5): %s\n", as_fp_fac2str());
+    as_fp_rom2fac(AS_CONST_sqrt_two);
+ * @endcode
+ * 
  */
 extern void __fastcall__ as_fp_arg_pow_fac();
 
@@ -237,15 +246,27 @@ extern void __fastcall__ as_fp_fac2mem(AS_FAC_FP* mem);
 
 /**
  * @brief Load FAC from a memory-resident Applesoft float structure.
- * @param mem Source data to copy into FAC.
+ * @param mem Source data to copy into FAC. Note: AS_CONST_ values are not legal.
  */
 extern void __fastcall__ as_fp_mem2fac(const AS_FAC_FP* mem);
 
 /**
+ * @brief Load FAC from a ROM-resident Applesoft float structure.
+ * @param rom Source data to copy into FAC.  Valid values will be AS_CONST_* values.
+ */
+extern void __fastcall__ as_fp_rom2fac(const AS_FAC_FP* rom);
+
+/**
  * @brief Load ARG from a memory-resident Applesoft float structure.
- * @param mem Source data to copy into ARG.
+ * @param mem Source data to copy into ARG. Note: AS_CONST_ values are not legal.
  */
 extern void __fastcall__ as_fp_mem2arg(const AS_FAC_FP* mem);
+
+/**
+ * @brief Load ARG from a ROM-resident Applesoft float structure.
+ * @param rom Source data to copy into ARG. Valid values will be AS_CONST_* values.
+ */
+extern void __fastcall__ as_fp_rom2arg(const AS_FAC_FP* rom);
 
 /**
  * @brief Swap the contents of FAC and ARG.
