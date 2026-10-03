@@ -300,6 +300,7 @@ _as_fp_arg_cmp_fac:
     rts
 
 ; Convert text pointed to by a C string into a number and store into FAC.
+; Returns 0 on success, non-zero on error.
 ; TODO: errors are currently fatal; need to override Applesoft error handling.
 _as_fp_str2fac:
     jsr _as_cache_str
@@ -310,7 +311,10 @@ _as_fp_str2fac:
     jsr _as_save_lc_state
     jsr AS_CHRGOT
     jsr AS_ADDR_FIN
-    jmp _as_restore_lc_state
+    jsr _as_restore_lc_state
+    lda #0  ; return (X,A) as a 16 bit int
+    tax
+    rts
 
 ; Convert FAC to a temp string (stored at bottom of FBUFFER, aka hardware stack).
 _as_fp_fac2str:

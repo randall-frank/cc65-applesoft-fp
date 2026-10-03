@@ -228,12 +228,13 @@ extern void __fastcall__ as_fp_init();
 /**
  * @brief Convert a null-terminated ASCII string into an Applesoft floating-point value in FAC.
  * @param str Pointer to the numeric string to parse.
+ * @return 0 on success, non-zero on failure.
  */
-extern void __fastcall__ as_fp_str2fac(char *str);
+extern int __fastcall__ as_fp_str2fac(char *str);
 
 /**
  * @brief Convert the current FAC value to its canonical string representation.
- * @return Pointer to the generated text buffer containing the formatted number.
+ * @return Pointer to a const char * string null terminated buffer containing the formatted number.
  */
 extern const char * __fastcall__ as_fp_fac2str();
 
