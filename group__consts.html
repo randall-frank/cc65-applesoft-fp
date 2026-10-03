@@ -120,8 +120,6 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__consts.
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:gaea73a9631728228f6df0adb514dd4d23" id="r_gaea73a9631728228f6df0adb514dd4d23"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *&#160;</td><td class="memItemRight"><a class="el" href="#gaea73a9631728228f6df0adb514dd4d23">AS_CONST_rnd</a> = (<a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *)0x00C9</td></tr>
-<tr class="memdesc:gaea73a9631728228f6df0adb514dd4d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">The last random number.  <br /></td></tr>
 <tr class="memitem:gaeab77986c1bd0e806f8ca74b14ac3953" id="r_gaeab77986c1bd0e806f8ca74b14ac3953"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *&#160;</td><td class="memItemRight"><a class="el" href="#gaeab77986c1bd0e806f8ca74b14ac3953">AS_CONST_quarter</a> = (<a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *)0xF070</td></tr>
 <tr class="memdesc:gaeab77986c1bd0e806f8ca74b14ac3953"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 0.25.  <br /></td></tr>
 <tr class="memitem:gacb71b5ae07aa1fa8d2f670e01926ddab" id="r_gacb71b5ae07aa1fa8d2f670e01926ddab"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *&#160;</td><td class="memItemRight"><a class="el" href="#gacb71b5ae07aa1fa8d2f670e01926ddab">AS_CONST_half</a> = (<a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *)0xEE64</td></tr>
@@ -147,6 +145,19 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A collection of useful numbers that are included in the ROM. </p>
+<p>These read-only constants may be passed <a class="el" href="group__funcs.html#ga520c9119a7cbc92ff5a02437c7f2a054" title="Load ARG from a ROM-resident Applesoft float structure.">as_fp_rom2arg()</a> or <a class="el" href="group__funcs.html#ga25691480ab5b85368d2d0a364dc154ab" title="Load FAC from a ROM-resident Applesoft float structure.">as_fp_rom2fac()</a> to initialize the FAC or ARG registers. <br  />
+ An example using two constants to compute PI:</p>
+<div class="fragment"><div class="line"><a class="code hl_function" href="group__funcs.html#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a>(<a class="code hl_variable" href="#ga09b8a8faec20aee78a3731956e8ef8d2">AS_CONST_two_PI</a>);  <span class="comment">// FAC=2PI</span></div>
+<div class="line"><a class="code hl_function" href="group__funcs.html#ga520c9119a7cbc92ff5a02437c7f2a054">as_fp_rom2arg</a>(<a class="code hl_variable" href="#gacb71b5ae07aa1fa8d2f670e01926ddab">AS_CONST_half</a>);    <span class="comment">// ARG=0.5</span></div>
+<div class="line"><a class="code hl_function" href="group__funcs.html#gaf01bdba0c2132eccd0f31063093a8f47">as_fp_arg_mul_fac</a>();             <span class="comment">// FAC=0.5*2PI</span></div>
+<div class="line">printf(<span class="stringliteral">&quot;Computed PI: %s\n&quot;</span>, <a class="code hl_function" href="group__funcs.html#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a>());</div>
+<div class="ttc" id="agroup__consts_html_ga09b8a8faec20aee78a3731956e8ef8d2"><div class="ttname"><a href="#ga09b8a8faec20aee78a3731956e8ef8d2">AS_CONST_two_PI</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_two_PI</div><div class="ttdoc">The number 6.2831853 (PI*2.0).</div><div class="ttdef"><b>Definition</b> apple2_asfp.h:76</div></div>
+<div class="ttc" id="agroup__consts_html_gacb71b5ae07aa1fa8d2f670e01926ddab"><div class="ttname"><a href="#gacb71b5ae07aa1fa8d2f670e01926ddab">AS_CONST_half</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_half</div><div class="ttdoc">The number 0.5.</div><div class="ttdef"><b>Definition</b> apple2_asfp.h:67</div></div>
+<div class="ttc" id="agroup__funcs_html_ga25691480ab5b85368d2d0a364dc154ab"><div class="ttname"><a href="group__funcs.html#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a></div><div class="ttdeci">void __fastcall__ as_fp_rom2fac(const AS_FAC_FP *rom)</div><div class="ttdoc">Load FAC from a ROM-resident Applesoft float structure.</div></div>
+<div class="ttc" id="agroup__funcs_html_ga520c9119a7cbc92ff5a02437c7f2a054"><div class="ttname"><a href="group__funcs.html#ga520c9119a7cbc92ff5a02437c7f2a054">as_fp_rom2arg</a></div><div class="ttdeci">void __fastcall__ as_fp_rom2arg(const AS_FAC_FP *rom)</div><div class="ttdoc">Load ARG from a ROM-resident Applesoft float structure.</div></div>
+<div class="ttc" id="agroup__funcs_html_ga94ef166804d7402308da0c3db104834a"><div class="ttname"><a href="group__funcs.html#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a></div><div class="ttdeci">const char *__fastcall__ as_fp_fac2str()</div><div class="ttdoc">Convert the current FAC value to its canonical string representation.</div></div>
+<div class="ttc" id="agroup__funcs_html_gaf01bdba0c2132eccd0f31063093a8f47"><div class="ttname"><a href="group__funcs.html#gaf01bdba0c2132eccd0f31063093a8f47">as_fp_arg_mul_fac</a></div><div class="ttdeci">void __fastcall__ as_fp_arg_mul_fac()</div><div class="ttdoc">Multiply ARG by FAC and leave the result in ARG.</div></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>These constants cannot be used with <a class="el" href="group__funcs.html#ga55d0ea8f0d12ebcebcf14ac20e707bc7" title="Load ARG from a memory-resident Applesoft float structure.">as_fp_mem2arg()</a> or <a class="el" href="group__funcs.html#gab4c6c531bfa79876ce265030f5792320" title="Load FAC from a memory-resident Applesoft float structure.">as_fp_mem2fac()</a>. </dd></dl>
 </div><a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="gacb71b5ae07aa1fa8d2f670e01926ddab" name="gacb71b5ae07aa1fa8d2f670e01926ddab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gacb71b5ae07aa1fa8d2f670e01926ddab">&#9670;&#160;</a></span>AS_CONST_half</h2>
@@ -257,22 +268,6 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The number 0.25. </p>
-
-</div>
-</div>
-<a id="gaea73a9631728228f6df0adb514dd4d23" name="gaea73a9631728228f6df0adb514dd4d23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaea73a9631728228f6df0adb514dd4d23">&#9670;&#160;</a></span>AS_CONST_rnd</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>* AS_CONST_rnd = (<a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *)0x00C9</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The last random number. </p>
 
 </div>
 </div>

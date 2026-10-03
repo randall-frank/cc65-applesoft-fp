@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['what_20the_20project_20provides_0',['What the project provides',['../index.html#autotoc_md3',1,'']]],
-  ['why_20it_20exists_1',['Why it exists',['../index.html#autotoc_md1',1,'']]]
+  ['reference_20documentation_0',['Reference documentation',['../index.html#autotoc_md8',1,'']]],
+  ['rom_20language_20card_20bank_20switching_1',['ROM/Language card bank switching',['../index.html#autotoc_md7',1,'']]]
 ];

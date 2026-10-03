@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['applesoft_20floating_20point_20library_0',['cc65 Applesoft Floating Point Library',['../index.html',1,'']]]
+  ['and_20copyright_0',['license and copyright',['../index.html#autotoc_md9',1,'']]],
+  ['applesoft_20floating_20point_20library_1',['cc65 Applesoft Floating Point Library',['../index.html',1,'']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['overview_0',['Overview',['../group__asfp.html',1,'']]]
+  ['notes_0',['Implementation notes',['../index.html#autotoc_md5',1,'']]],
+  ['numeric_20constants_1',['Numeric Constants',['../group__consts.html',1,'']]]
 ];

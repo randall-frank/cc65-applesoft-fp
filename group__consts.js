@@ -7,7 +7,6 @@ var group__consts =
     [ "AS_CONST_neghalf", "group__consts.html#gae2de2a9ba8146b10800d7e4a4fcf6f08", null ],
     [ "AS_CONST_one", "group__consts.html#ga9ec41ad7ec33e105cd5f0571a179b932", null ],
     [ "AS_CONST_quarter", "group__consts.html#gaeab77986c1bd0e806f8ca74b14ac3953", null ],
-    [ "AS_CONST_rnd", "group__consts.html#gaea73a9631728228f6df0adb514dd4d23", null ],
     [ "AS_CONST_sqrt_half", "group__consts.html#gaa15ce12e8e208c5d1eb37a3a26df98bf", null ],
     [ "AS_CONST_sqrt_two", "group__consts.html#gaaa7f87236976379f1988ea1c714b0228", null ],
     [ "AS_CONST_ten", "group__consts.html#ga200ea53d0788d0ac37b3e59cf8bfc5ab", null ],

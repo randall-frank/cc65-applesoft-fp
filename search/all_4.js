@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['floating_20point_20library_0',['cc65 Applesoft Floating Point Library',['../index.html',1,'']]],
-  ['floating_20point_20math_20functions_1',['Floating Point Math Functions',['../group__funcs.html',1,'']]],
-  ['functions_2',['Floating Point Math Functions',['../group__funcs.html',1,'']]]
+  ['exists_0',['Why it exists',['../index.html#autotoc_md1',1,'']]],
+  ['exponent_1',['exponent',['../struct_a_s___f_a_c___f_p.html#abe2d7739a9589ef73f64cb04a655cc6e',1,'AS_FAC_FP']]]
 ];
