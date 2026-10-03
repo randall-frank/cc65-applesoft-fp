@@ -89,32 +89,32 @@ const AS_FAC_FP *AS_CONST_two_PI    = (AS_FAC_FP *)0xF06B;  ///< The number 6.28
 
  /* Operations */
 /**
- * @brief Add ARG to FAC and leave the result in ARG.
- * @details Implements the math operation ARG = ARG + FAC.
+ * @brief Add ARG to FAC and leave the result in FAC.
+ * @details Implements the math operation: FAC=ARG+FAC.
  */
 extern void __fastcall__ as_fp_arg_add_fac();
 
 /**
- * @brief Subtract FAC from ARG and leave the result in ARG.
- * @details Implements the math operation ARG = ARG - FAC.
+ * @brief Subtract FAC from ARG and leave the result in FAC.
+ * @details Implements the math operation: FAC=ARG-FAC.
  */
 extern void __fastcall__ as_fp_arg_sub_fac();
 
 /**
- * @brief Multiply ARG by FAC and leave the result in ARG.
- * @details Implements the math operation ARG = ARG * FAC.
+ * @brief Multiply ARG by FAC and leave the result in FAC.
+ * @details Implements the math operation: FAC=ARG*FAC.
  */
 extern void __fastcall__ as_fp_arg_mul_fac();
 
 /**
- * @brief Divide ARG by FAC and leave the result in ARG.
- * @details Implements the math operation ARG = ARG / FAC.
+ * @brief Divide ARG by FAC and leave the result in FAC.
+ * @details Implements the math operation: ARG=ARG/FAC.
  */
 extern void __fastcall__ as_fp_arg_div_fac();
 
 /**
  * @brief Raise ARG to the power FAC and leave the result in ARG.
- * @details Implements the math operation ARG = ARG ^ FAC.  For example
+ * @details Implements the math operation: FAC=ARG^FAC.  For example
  *          ARG ^ 0.5 is the square root of ARG.
 * @code
     as_fp_str2fac("2.0");
@@ -129,27 +129,27 @@ extern void __fastcall__ as_fp_arg_div_fac();
 extern void __fastcall__ as_fp_arg_pow_fac();
 
 /**
- * @brief Replace FAC with its absolute value.
+ * @brief Replace FAC with its absolute value:  FAC=abs(FAC)
  */
 extern void __fastcall__ as_fp_abs_fac();
 
 /**
- * @brief Convert FAC to an integer value in place.
+ * @brief Convert FAC to an integer value in place:  FAC=int(FAC)
  */
 extern void __fastcall__ as_fp_int_fac();
 
 /**
- * @brief Replace FAC with its square root.
+ * @brief Replace FAC with its square root:  FAC=sqrt(FAC)
  */
 extern void __fastcall__ as_fp_sqr_fac();
 
 /**
- * @brief Replace FAC with the natural logarithm of FAC.
+ * @brief Replace FAC with the natural logarithm of FAC:  FAC=ln(FAC)
  */
 extern void __fastcall__ as_fp_log_fac();
 
 /**
- * @brief Replace FAC with e raised to the power FAC.
+ * @brief Replace FAC with e raised to the power FAC:  FAC=exp(FAC)
  */
 extern void __fastcall__ as_fp_exp_fac();
 
@@ -159,61 +159,72 @@ extern void __fastcall__ as_fp_exp_fac();
 extern void __fastcall__ as_fp_rnd_fac();
 
 /**
- * @brief Replace FAC with the cosine of FAC, measured in radians.
+ * @brief Replace FAC with the cosine of FAC, measured in radians :  FAC=cos(FAC)
  */
 extern void __fastcall__ as_fp_cos_fac();
 
 /**
- * @brief Replace FAC with the sine of FAC, measured in radians.
+ * @brief Replace FAC with the sine of FAC, measured in radians:  FAC=sin(FAC)
  */
 extern void __fastcall__ as_fp_sin_fac();
 
 /**
- * @brief Replace FAC with the tangent of FAC, measured in radians.
+ * @brief Replace FAC with the tangent of FAC, measured in radians:  FAC=tan(FAC)
  */
 extern void __fastcall__ as_fp_tan_fac();
 
 /**
- * @brief Replace FAC with the arctangent of FAC.
+ * @brief Replace FAC with the arctangent of FAC:  FAC=atan(FAC)
  */
 extern void __fastcall__ as_fp_atn_fac();
 
 /**
- * @brief Negate the sign of FAC.
+ * @brief Negate the sign of the current FAC:  FAC=-FAC
  */
 extern void __fastcall__ as_fp_neg_fac();
 
 /**
- * @brief Replace FAC with 1 / FAC.
+ * @brief Replace FAC with its reciprocal:  FAC=1.0 / FAC
  */
 extern void __fastcall__ as_fp_inv_fac();
 
 /**
- * @brief Return the sign of FAC and normalize the FAC register as needed.
- * @return 1 for positive values, 0 for zero, and -1 for negative values.
+ * @brief Set the FAC to the status of the sign of the FAC.  This Functions
+ * set the FAC to the values:
+ *  -  1 if FAC > 0
+ *  -  0 if FAC == 0
+ *  -  -1 if FAC < 0
  */
 extern void __fastcall__ as_fp_sgn_fac();
 
 /**
- * @brief Multiply FAC by 10.
+ * @brief Multiply FAC by 10.0 and update the FAC to the new value.
  */
 extern void __fastcall__ as_fp_fac_mult_ten();
 
 /**
- * @brief Divide FAC by 10.
+ * @brief Divide FAC by 10.0 and update the FAC to the new value.
  */
 extern void __fastcall__ as_fp_fac_div_ten();
 
 /**
- * @brief Compare ARG against FAC.
+ * @brief Compare value in memory against FAC.
  * @param mem Pointer to a memory-resident Applesoft float to compare against FAC.
- * @return Negative, zero, or positive depending on whether ARG < FAC, ARG == FAC, or ARG > FAC.
+ * @return Negative, zero, or positive depending on the comparison between FAC and MEM 
+ *  - -1 if FAC < MEM
+ *  -  0 if FAC == MEM
+ *  -  1 if FAC > MEM.
+ *
+ * @note Equality comparison can be inaccurate due to the nature of floating-point arithmetic.
  */
-extern int __fastcall__ as_fp_arg_cmp_fac(const AS_FAC_FP* mem);
+extern int __fastcall__ as_fp_fac_cmp_mem(const AS_FAC_FP* mem);
 
 /**
  * @brief Return the sign of the current FAC value.
- * @return 1 for positive values, 0 for zero, and -1 for negative values.
+ * @return an integer related to the sign of the FAC
+ *  -  1 if FAC > 0
+ *  -  0 if FAC == 0
+ *  -  -1 if FAC < 0
  */
 extern int __fastcall__ as_fp_sgn();
 
@@ -226,15 +237,26 @@ extern int __fastcall__ as_fp_sgn();
 extern void __fastcall__ as_fp_init();
 
 /**
+ * @brief Return the current version of the library as a string.
+ * @return Pointer to a const char * string null terminated buffer containing library 
+ *         version number in the form "x.y.z"
+ * @note This string is ephemeral and may be replaced on the next as_fp_ library function.
+ */
+extern const char * __fastcall__ as_fp_version();
+
+/**
  * @brief Convert a null-terminated ASCII string into an Applesoft floating-point value in FAC.
  * @param str Pointer to the numeric string to parse.
  * @return 0 on success, non-zero on failure.
+ * @note Simple error checking is performed.  There is a check to see if all of the characters
+ *       to the first whitespace are consumed. It also supports both 'E' and 'e' unlike the ROM call. 
  */
 extern int __fastcall__ as_fp_str2fac(char *str);
 
 /**
  * @brief Convert the current FAC value to its canonical string representation.
  * @return Pointer to a const char * string null terminated buffer containing the formatted number.
+ * @note This string is ephemeral and may be replaced on the next as_fp_ library function.
  */
 extern const char * __fastcall__ as_fp_fac2str();
 
@@ -293,17 +315,17 @@ extern void __fastcall__ as_fp_arg2fac();
 
 /**
  * @brief Load a signed integer into FAC.
- * @details This function is used to load the FAC with a signed 16 bit integer value
- *         in the range [−32768, 32767].
- * @param v Integer value to convert to an Applesoft float.
+ * @details This function is used to load the FAC with an signed 16 bit integer value
+ *         in the range [-32768, 32767].
+ * @param v Signed integer value to load into the FAC.
  */
-extern void __fastcall__ as_fp_int2fac(signed int v);
+extern void __fastcall__ as_fp_int2fac(unsigned int v);
 
 /**
  * @brief Load a signed character value into FAC.
  * @details This function is used to load the FAC with an single byte signed value
  *         in the range [-128, 127].
- * @param v Byte value to convert to an Applesoft float.
+ * @param v Signed byte value to load into the FAC.
  */
 extern void __fastcall__ as_fp_char2fac(signed char v);
 
@@ -311,7 +333,7 @@ extern void __fastcall__ as_fp_char2fac(signed char v);
  * @brief Load an unsigned character value into FAC.
  * @details This function is used to load the FAC with an unsigned value
  *         in the range [0, 255].
- * @param v Byte value to convert to an Applesoft float.
+ * @param v Unsigned byte value to load into the FAC.
  */
 extern void __fastcall__ as_fp_uchar2fac(unsigned char v);
 

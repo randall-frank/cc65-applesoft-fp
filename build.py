@@ -176,6 +176,9 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     ln = os.path.join("cc65", "bin", f"cl65{exe_ext}")       
     lib_bins = []
     
+    with open(os.path.join("src","asfp_vers.inc"), "w") as fp:
+        fp.write(f'AS_VERSION: .asciiz "{__version__}"')
+    
     # assemble library sources
     lib_sources = ["apple2_asfp.s"]
     for name in lib_sources:

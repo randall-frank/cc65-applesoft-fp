@@ -53,7 +53,7 @@ AS_ADDR_FCOMP = $EBB2 ; Compare FAC and number pointed to by Y,A. A=1 if (Y,A) <
 ; Data transfers
 AS_ADDR_FLOAT  = $EB93 ; FAC = signed integer A
 AS_ADDR_SNGFLT = $E301 ; FAC = unsigned integer Y
-AS_ADDR_GIVAYF = $E2F2 ; FAC = value of 2-byte signed integer loaded in the Y and A registers (Y,A)
+AS_ADDR_GIVAYF = $E2F2 ; FAC = value of 2-byte signed integer loaded in the Y and A registers (A,Y)
 AS_ADDR_MOVFA  = $EB53 ; FAC = ARG  copy the ARG to FAC
 AS_ADDR_MOVAF  = $EB63 ; ARG = FAC  copy the FAC to ARG
 AS_ADDR_MOVMF  = $EB2B ; Pack and store FAC to RAM. X register (low byte) and Y register (high byte)
@@ -69,7 +69,10 @@ AS_CHRGET      = $B1   ; Zero-page routine to get next character
 AS_CHRGOT      = $B7   ; Zero-page routine to re-read current character into A
 AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $30-$39+$2B+$2E+$2D+$05)
 
+.include "asfp_vers.inc"
+
 .export _as_fp_init
+.export _as_fp_version
 .export _as_fp_str2fac
 .export _as_fp_fac2str
 
@@ -107,7 +110,7 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $3
 .export _as_fp_sgn_fac
 .export _as_fp_fac_mult_ten
 .export _as_fp_fac_div_ten
-.export _as_fp_arg_cmp_fac
+.export _as_fp_fac_cmp_mem
 
 .segment "CODE"
 
@@ -243,9 +246,11 @@ _as_fp_fac_div_ten:
 
 ; Returned int is the output of SGN(FAC)
 _as_fp_sgn:
+    jsr _as_save_fac
     jsr _as_save_lc_state
     jsr AS_ADDR_SIGN
     jsr _as_restore_lc_state
+    jsr _as_restore_fac
     ldx #$00
     cmp #$00 ; return 16-bit signed number (X,A)
     bpl @positive
@@ -257,12 +262,10 @@ _as_fp_sgn:
 _as_fp_int2fac:
     ; A = low byte of the int (LSB)
     ; X = high byte of the int (MSB)
-    pha
-    txa
     tay
-    pla
+    txa
     jsr _as_save_lc_state
-    jsr AS_ADDR_GIVAYF ; Y,A = signed integer value
+    jsr AS_ADDR_GIVAYF    ; A,Y = signed integer (Note: A is MSB, Y is LSB)
     jmp _as_restore_lc_state
 
 ; FAC = passed signed char value
@@ -282,21 +285,21 @@ _as_fp_uchar2fac:
 
 
 ; Returns the result of comparing a number in memory to the FAC as a signed char.
-_as_fp_arg_cmp_fac:
+_as_fp_fac_cmp_mem:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     jsr _as_cache_float  ; (X,A) -> AS_SCR_TMP
+    jsr _as_save_lc_state
     lda #<AS_SCR_TMP
     ldy #>AS_SCR_TMP
-    jsr _as_save_lc_state
-    jsr AS_ADDR_FCOMP ; compare FAC and number pointed to by Y,A. A=1 if (Y,A)<FAC,
+    jsr AS_ADDR_FCOMP ; compare FAC and number pointed to by (Y,A). A=1 if (Y,A)<FAC,
                       ; A=0 if (Y,A)==FAC, A=$FF if (Y,A)>FAC.
     jsr _as_restore_lc_state
     ldx #$00
-    cmp #$00 ; return 16-bit signed number (X,A)
-    bpl @positive
+    cmp #$FF ; return 16-bit signed number (X,A)
+    bne @skip
     ldx #$FF
-@positive:
+@skip:
     rts
 
 ; Convert text pointed to by a C string into a number and store into FAC.
@@ -393,7 +396,7 @@ _as_fp_fac2mem:
     sta AS_SCR_TMPA
     stx AS_SCR_TMPX
     jsr _as_save_lc_state
-    lda #<AS_SCR_TMP
+    ldx #<AS_SCR_TMP
     ldy #>AS_SCR_TMP
     jsr AS_ADDR_MOVMF ; Y=MSB, X=LSB
     jsr _as_restore_lc_state
@@ -440,6 +443,21 @@ cpy_loop:
     bpl cpy_loop
     jmp _as_restore_lc_state
 
+_as_fp_version:
+    ldy        #0
+@loop:
+    lda AS_VERSION,y
+    sta AS_FBUFFR,y
+    iny
+    cmp #0
+    bne @loop
+    ; On return:
+    ; A = low byte of the pointer (LSB)
+    ; X = high byte of the pointer (MSB)
+    lda #<AS_FBUFFR
+    ldx #>AS_FBUFFR
+    rts
+
 ; c65 tends to enable the Apple II language-card bank 2 for extra RAM.
 ; We are calling ROM routines, so we need to save/restore the language-card state.
 ; TODO: should this lock out interrupts?
@@ -468,7 +486,7 @@ leave_rom_enabled:
 ; Save and restore FAC routines
 _as_save_fac:
     pha
-    ldx #4
+    ldx #5
 @loop:
     lda AS_FAC,x
     sta AS_SCR_FAC,x
@@ -479,7 +497,7 @@ _as_save_fac:
 
 _as_restore_fac:
     pha
-    ldx #4
+    ldx #5
 @loop:
     lda AS_SCR_FAC,x
     sta AS_FAC,x
@@ -518,6 +536,9 @@ _as_restore_float:  ; Copy the 5 bytes from AS_SCR_TMP to (AS_SCR_TMPX,AS_SCR_TM
     bpl @loop
     rts
 
+; Cache a string representing a number in AS_SCR_STR, converting 
+; lowercase 'e' to uppercase 'E' and terminating the string at
+; a space character.
 _as_cache_str:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
@@ -527,6 +548,14 @@ _as_cache_str:
 @loop:
     lda (AS_TMP_L),y
     and #$7F
+    cmp #$65 ; lowercase 'e'
+    bne @not_e
+    lda #$45 ; uppercase 'E'
+@not_e:
+    cmp #$20 ; space
+    bne @not_space
+    lda #$00
+@not_space:
     sta AS_SCR_STR,y
     iny
     cmp #0

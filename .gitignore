@@ -12,6 +12,7 @@ __pycache__/
 *$py.class
 .vscode/
 src/*.lst
+src/asfp_vers.inc
 src/example.txt
 a2fp_release.po
 

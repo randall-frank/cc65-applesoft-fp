@@ -39,7 +39,7 @@ The library is a cc65 thin compatible wrapper written as a C header file and a 6
 
 The bindings utilize one zero page location ($FA) for state tracking along with
 the standard zero page locations used by Applesoft.  The latter locations include
-the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD and $A0-$A1.
+the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD, $60-$61 and $A0-$A1.
 
 ### ROM/Language card bank switching
 
@@ -61,7 +61,7 @@ These files document the Applesoft entry points from Apple.
 - Basic numeric function details [Core Math Functions](TIL00075.pdf).
 - I/O and other transform functions [Utility Functions](TIL00076.pdf).
 
-## license and copyright
+## License and copyright
 
 **Library version:** \asfp_version  
 **Copyright:** © \asfp_year Randall Frank

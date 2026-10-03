@@ -126,7 +126,7 @@ The build script is capable of performing a number of tasks:
 
 Documentation and Issues
 ------------------------
-TBD
+`Documentation <https://randall-frank.github.io/cc65-applesoft-fp/>`_ for the library is generated using Doxygen and is stored in the github pages for this project. 
 
 Normally, one would download the `.po` file and use it with an emulator or 
 burn a 5.25" disk with the image.  Thanks to the great work by Chris Torrence
@@ -142,9 +142,8 @@ to post questions and code.
 
 Things To Do
 ~~~~~~~~~~~~
-Include a complete test suite
-Add error handling support for C string parsing function
-Add examples
+- Include a complete test suite
+- Add more examples
 
 License
 -------
