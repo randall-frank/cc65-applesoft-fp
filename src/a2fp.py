@@ -20,7 +20,7 @@ def float_to_applesoft_fp(value: float, verbose: bool = False) -> bytearray:
     mantissa = float_int & 0x7FFFFF              # Mask the lowest 23 bits (0x7FFFFF)
 
     if verbose:
-        print(f"sign: {sign}, exponent: {exponent}, mantissa: {mantissa:023b}")
+        print(f"IEEE 754 sign: {sign}, exponent: {exponent}, mantissa: {mantissa:023b}")
     
     # Convert to Applesoft format
     v = bytearray(5)
@@ -55,7 +55,7 @@ def applesoft_fp_to_float(value: bytearray, verbose: bool = False) -> float:
     mantissa = (mantissa << 8) | value[4] 
 
     if verbose:
-        print(f"sign: {sign}, exponent: {exponent}, mantissa: {mantissa:031b}")
+        print(f"Applesoft sign: {sign}, exponent: {exponent}, mantissa: {mantissa:031b}")
 
     # build an IEEE 754 float from the fields extracted from the AS FAC FP
     v = (sign << 31)               # sign bit

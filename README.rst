@@ -40,7 +40,7 @@ Support is included for:
 - Utilities: sgn, reciprocal, absolute value, etc.
 
 Because this library leverages pre-existing routines in the Applesoft ROM,
-it has a very small memory footprint (typically less than 600 bytes).  However,
+it has a very small memory footprint (typically less than 700 bytes).  However,
 it does use the non-standard 40bit float format rather than the IEEE 754 standard.
 
 Building
@@ -76,7 +76,7 @@ The build script is capable of performing a number of tasks:
 - Build the library and .po image
 - Generate library documentation
 - Push documentation to github pages
-- Convert IEEE 754 floats to/from Applesoft binary representation
+- Convert Python (IEEE 754) floats to/from Applesoft binary representation
 
 *build.py* has several options:
 
@@ -105,8 +105,9 @@ The build script is capable of performing a number of tasks:
 
 - flt2as [--varname VARNAME]
 
-  - This command will convert an IEEE 754 float to AppleSoft floating point format.  It will output
-    the C source code needed to embed the constant into a C application. 
+  - This command will convert a Python (IEEE 754) float to AppleSoft floating point format.  It will output
+    the C source code needed to embed the constant into a C application. If --verbose is specified, the individual IEEE 754 fields will be displayed along with the mantissa in 
+    binary.
 
     .. code::
 
@@ -116,7 +117,8 @@ The build script is capable of performing a number of tasks:
 
 - as2flt
 
-  - This command will convert an AppleSoft floating point value to an IEEE 754 float. 
+  - This command will convert an AppleSoft floating point value to a Python (IEEE 754) float.
+    If --verbose is specified, the individual Applesoft float fields will be displayed along with the mantissa in binary.
 
     .. code::
 

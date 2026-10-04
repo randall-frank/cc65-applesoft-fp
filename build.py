@@ -219,7 +219,6 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     cmd.extend(["-o", test_name])
     cmd.append(test_src)
     cmd.append(lib_name)
-    print("RJF:", cmd)
     log.info(f"Building test app: {test_name}")
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:

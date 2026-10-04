@@ -5,12 +5,35 @@
 
 #include "build/apple2_asfp.h"
 
+void page1();
+void page2();
+void keypress(const char *prompt);
+void title();
+
 int main(void)
 {
-    int err, cmp, sgn;
-    AS_FAC_FP ram_half = {0x80, {0x00, 0x00, 0x00, 0x00}}; /* 0.5 */
-    AS_FAC_FP ram_temp;
+    as_fp_init();
 
+    page1();
+    keypress("Press any key to continue...");
+
+    page2();
+    keypress("Press any key to reboot...");
+
+    // Exit does not always reset the language card/ROM state correctly.
+    rebootafterexit();
+}
+
+void keypress(const char *prompt)
+{
+    /* Use conio for specific positioning (x, y) */
+    gotoxy(0, 23);
+    cprintf(prompt);
+    cgetc();
+}
+
+void title()
+{
     /* Clear the text screen */
     clrscr();
 
@@ -18,8 +41,73 @@ int main(void)
     printf("Copyright (C) 2026 Randall Frank\n");
     printf("Version: %s\n", as_fp_version());
     printf("---------- Simple Test Cases ----------\n\n");
+}
 
-    as_fp_init();
+void page2()
+{
+    AS_FAC_FP e, rad_45_deg;
+
+    title();
+
+    // Transcendentals
+    // compute 45degrees in radians
+    as_fp_rom2fac(AS_CONST_two_PI);
+    as_fp_swap_fac_arg();
+    as_fp_str2fac("8.0");
+    as_fp_arg_div_fac();
+    as_fp_fac2mem(&rad_45_deg);
+    printf("45 degrees in radians: %s\n", as_fp_fac2str());
+    as_fp_mem2fac(&rad_45_deg);
+    as_fp_cos_fac();
+    printf("cos(45 degrees): %s\n", as_fp_fac2str());
+    as_fp_mem2fac(&rad_45_deg);
+    as_fp_neg_fac();
+    as_fp_sin_fac();
+    printf("sin(-45 degrees): %s\n", as_fp_fac2str());
+    as_fp_mem2fac(&rad_45_deg);
+    as_fp_tan_fac();
+    printf("tan(45 degrees): %s\n", as_fp_fac2str());
+    as_fp_rom2fac(AS_CONST_one);
+    as_fp_atn_fac();
+    printf("arctan(1.0): %s\n", as_fp_fac2str());
+
+    // Other functions add, subtract, sqrt, abs
+    as_fp_rom2fac(AS_CONST_one);
+    as_fp_exp_fac();
+    as_fp_fac2mem(&e);
+    printf("exp(1.0): %s\n", as_fp_fac2str());
+    as_fp_int_fac();
+    printf("int(e): %s\n", as_fp_fac2str());
+    as_fp_mem2fac(&e);
+    as_fp_log_fac();
+    printf("log(e): %s\n", as_fp_fac2str());
+    as_fp_mem2fac(&e);
+    as_fp_inv_fac();
+    printf("1.0/e: %s\n", as_fp_fac2str());
+    as_fp_mem2fac(&e);
+    as_fp_fac_mult_ten();
+    printf("10*e: %s\n", as_fp_fac2str());
+    as_fp_fac_div_ten();
+    as_fp_fac_div_ten();
+    printf("e/10: %s\n", as_fp_fac2str());
+    as_fp_rom2fac(AS_CONST_ten);
+    as_fp_sqr_fac();
+    printf("sqrt(10.): %s\n", as_fp_fac2str());
+    as_fp_mem2arg(&e);
+    as_fp_rom2fac(AS_CONST_ten);
+    as_fp_arg_sub_fac();
+    printf("e-10: %s\n", as_fp_fac2str());
+    as_fp_abs_fac();
+    printf("abs(e-10): %s\n", as_fp_fac2str());
+}
+
+void page1()
+{
+    int err, cmp, sgn;
+    AS_FAC_FP ram_half = {0x80, {0x00, 0x00, 0x00, 0x00}}; /* 0.5 */
+    AS_FAC_FP ram_temp;
+
+    title();
 
     as_fp_rom2fac(AS_CONST_two_PI);
     as_fp_rom2arg(AS_CONST_half);
@@ -40,13 +128,14 @@ int main(void)
     as_fp_rom2fac(AS_CONST_sqrt_two);
     printf("Const sqrt(2): %s\n", as_fp_fac2str());
 
-    // too/from ram
+    // to/from ram
     as_fp_str2fac("0.4");
     as_fp_fac2mem(&ram_temp);
     as_fp_mem2fac(&ram_temp);
     printf("Check on FAC (0.4): %s\n", as_fp_fac2str());
     
-    // Comparision
+    // Comparison
+    as_fp_mem2fac(&ram_temp);
     cmp = as_fp_fac_cmp_mem(&ram_half);
     printf("Compare 0.4 (FAC) to 0.5 (mem): %d\n", cmp);
 
@@ -68,12 +157,4 @@ int main(void)
     // Random number (Note: first number in the sequence)
     as_fp_rnd_fac();
     printf("Random number: %s\n", as_fp_fac2str());
-
-    /* Use conio for specific positioning (x, y) */
-    gotoxy(0, 23);
-    cprintf("Press any key to exit...\n");
-    cgetc();
-
-    // Exit does not always reset the language card/ROM state correctly.
-    rebootafterexit();
 }

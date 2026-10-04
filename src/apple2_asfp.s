@@ -3,6 +3,10 @@
 AS_FAC        = $9D   ; $9D-$A2
 AS_ARG        = $A5   ; $A5-$AA
 
+; TODO Do we need to handle these
+AS_FAC_EXTENSION = $AC
+AS_ARG_EXTENSION = $9C    
+
 ; Some operations return 16-bit values via zero-page memory locations
 AS_TMP_L      = $A0
 AS_TMP_H      = $A1
@@ -14,11 +18,12 @@ AS_FBUFFR     = $0100
 ; buffer input strings and AS_FAC_FP objects which could be located
 ; in language-card RAM.
 AS_SCR_STR    = $0200 ; 127(+1) byte string buffer
-AS_SCR_FAC    = $0280 ; 5 bytes
-AS_SCR_TMP    = $0285 ; 5 bytes
-AS_SCR_TMPA   = $028a ; 1 byte  LSB of AS_SCR_TMP target
-AS_SCR_TMPX   = $028b ; 1 byte  MSB of AS_SCR_TMP target
-AS_LC_STATE   = $028c
+AS_SCR_FAC    = $0280 ; 6 bytes clone of the unpacked FAC
+AS_SCR_ARG    = $0286 ; 6 bytes clone of the unpacked ARG
+AS_SCR_TMP    = $028b ; 5 bytes cache of a mem argument
+AS_SCR_TMPA   = $0290 ; 1 byte  LSB of AS_SCR_TMP target
+AS_SCR_TMPX   = $0291 ; 1 byte  MSB of AS_SCR_TMP target
+AS_LC_STATE   = $0292
 
 ; Other temporary zero-page memory locations used by the various functions:
 ; 93-97, 98-9C, 8A-8E, C9-CD
@@ -285,6 +290,7 @@ _as_fp_uchar2fac:
 
 
 ; Returns the result of comparing a number in memory to the FAC as a signed char.
+; TODO: include a raw bitwise comparison to work around mantissa differences
 _as_fp_fac_cmp_mem:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
@@ -311,8 +317,10 @@ _as_fp_str2fac:
     lda #>AS_SCR_STR
     sta AS_TXTPTR+1
     jsr _as_save_lc_state
+    jsr _as_save_arg
     jsr AS_CHRGOT
     jsr AS_ADDR_FIN
+    jsr _as_restore_arg
     jsr _as_restore_lc_state
     ldy #0
     lda (AS_TXTPTR),y ; are we at the end of the string???
@@ -329,7 +337,9 @@ _as_fp_str2fac:
 _as_fp_fac2str:
     jsr _as_save_lc_state
     jsr _as_save_fac
+    jsr _as_save_arg
     jsr AS_ADDR_FOUT ; Y=MSB, A=LSB
+    jsr _as_restore_arg
     jsr _as_restore_fac
     jsr _as_restore_lc_state
     pha
@@ -501,6 +511,29 @@ _as_restore_fac:
 @loop:
     lda AS_SCR_FAC,x
     sta AS_FAC,x
+    dex
+    bpl @loop
+    pla
+    rts
+
+; Save and restore ARG routines
+_as_save_arg:
+    pha
+    ldx #5
+@loop:
+    lda AS_ARG,x
+    sta AS_SCR_ARG,x
+    dex
+    bpl @loop
+    pla
+    rts
+
+_as_restore_arg:
+    pha
+    ldx #5
+@loop:
+    lda AS_SCR_ARG,x
+    sta AS_ARG,x
     dex
     bpl @loop
     pla

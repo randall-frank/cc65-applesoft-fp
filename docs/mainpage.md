@@ -8,7 +8,7 @@ In short, this project is a practical Apple II floating-point toolkit for cc65 d
 
 ## Why it exists
 
-The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (less than 600 bytes).
+The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (less than 700 bytes).
 
 ## Typical use
 
@@ -57,9 +57,9 @@ several routines will destroy memory between $200 and $2FF.
 Some reference documentation used to develop this library is available in the `docs` directory.
 These files document the Applesoft entry points from Apple.
 
-- Numeric layout details [Floating Point Specification](TIL00074.pdf).
-- Basic numeric function details [Core Math Functions](TIL00075.pdf).
-- I/O and other transform functions [Utility Functions](TIL00076.pdf).
+- Numeric layout details <a href="TIL00074.pdf" target="_blank">Floating Point Specification</a>.
+- Basic numeric function details <a href="TIL00075.pdf" target="_blank">Core Math Functions</a>.
+- I/O and other transform functions <a href="TIL00076.pdf" target="_blank">Utility Functions</a>.
 
 ## License and copyright
 
