@@ -8,6 +8,7 @@
 <title>Applesoft floating point cc65 bindings: Floating Point Math Functions</title>
 <link rel="icon" href="no_text_icon.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
@@ -27,7 +28,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.8.1</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.8.2</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -368,7 +369,7 @@ Functions</h2></td></tr>
 <div class="line"><a class="code hl_function" href="#ga89bfc1412da60c88d1a4d48c710a4e82">as_fp_arg_pow_fac</a>();      </div>
 <div class="line">printf(<span class="stringliteral">&quot;Computed pow(2, 0.5): %s\n&quot;</span>, <a class="code hl_function" href="#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a>());</div>
 <div class="line"><a class="code hl_function" href="#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a>(<a class="code hl_variable" href="group__consts.html#gaaa7f87236976379f1988ea1c714b0228">AS_CONST_sqrt_two</a>);</div>
-<div class="ttc" id="agroup__consts_html_gaaa7f87236976379f1988ea1c714b0228"><div class="ttname"><a href="group__consts.html#gaaa7f87236976379f1988ea1c714b0228">AS_CONST_sqrt_two</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_sqrt_two</div><div class="ttdoc">The number 1.4142135 (sqrt(2.0)).</div><div class="ttdef"><b>Definition</b> apple2_asfp.h:72</div></div>
+<div class="ttc" id="agroup__consts_html_gaaa7f87236976379f1988ea1c714b0228"><div class="ttname"><a href="group__consts.html#gaaa7f87236976379f1988ea1c714b0228">AS_CONST_sqrt_two</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_sqrt_two</div><div class="ttdoc">The number 1.4142135 (sqrt(2.0)).</div><div class="ttdef"><b>Definition</b> <a href="apple2__asfp_8h_source.html#l00072">apple2_asfp.h:72</a></div></div>
 <div class="ttc" id="agroup__funcs_html_ga25691480ab5b85368d2d0a364dc154ab"><div class="ttname"><a href="#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a></div><div class="ttdeci">void __fastcall__ as_fp_rom2fac(const AS_FAC_FP *rom)</div><div class="ttdoc">Load FAC from a ROM-resident Applesoft float structure.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga55d0ea8f0d12ebcebcf14ac20e707bc7"><div class="ttname"><a href="#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a></div><div class="ttdeci">void __fastcall__ as_fp_mem2arg(const AS_FAC_FP *mem)</div><div class="ttdoc">Load ARG from a memory-resident Applesoft float structure.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga6680dd77162f6b012b5682b2ca8baf4c"><div class="ttname"><a href="#ga6680dd77162f6b012b5682b2ca8baf4c">as_fp_swap_fac_arg</a></div><div class="ttdeci">void __fastcall__ as_fp_swap_fac_arg()</div><div class="ttdoc">Swap the contents of FAC and ARG.</div></div>

@@ -8,6 +8,7 @@
 <title>Applesoft floating point cc65 bindings: Numeric Constants</title>
 <link rel="icon" href="no_text_icon.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
@@ -27,7 +28,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.8.1</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.8.2</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -151,8 +152,8 @@ Variables</h2></td></tr>
 <div class="line"><a class="code hl_function" href="group__funcs.html#ga520c9119a7cbc92ff5a02437c7f2a054">as_fp_rom2arg</a>(<a class="code hl_variable" href="#gacb71b5ae07aa1fa8d2f670e01926ddab">AS_CONST_half</a>);    <span class="comment">// ARG=0.5</span></div>
 <div class="line"><a class="code hl_function" href="group__funcs.html#gaf01bdba0c2132eccd0f31063093a8f47">as_fp_arg_mul_fac</a>();             <span class="comment">// FAC=0.5*2PI</span></div>
 <div class="line">printf(<span class="stringliteral">&quot;Computed PI: %s\n&quot;</span>, <a class="code hl_function" href="group__funcs.html#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a>());</div>
-<div class="ttc" id="agroup__consts_html_ga09b8a8faec20aee78a3731956e8ef8d2"><div class="ttname"><a href="#ga09b8a8faec20aee78a3731956e8ef8d2">AS_CONST_two_PI</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_two_PI</div><div class="ttdoc">The number 6.2831853 (PI*2.0).</div><div class="ttdef"><b>Definition</b> apple2_asfp.h:76</div></div>
-<div class="ttc" id="agroup__consts_html_gacb71b5ae07aa1fa8d2f670e01926ddab"><div class="ttname"><a href="#gacb71b5ae07aa1fa8d2f670e01926ddab">AS_CONST_half</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_half</div><div class="ttdoc">The number 0.5.</div><div class="ttdef"><b>Definition</b> apple2_asfp.h:67</div></div>
+<div class="ttc" id="agroup__consts_html_ga09b8a8faec20aee78a3731956e8ef8d2"><div class="ttname"><a href="#ga09b8a8faec20aee78a3731956e8ef8d2">AS_CONST_two_PI</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_two_PI</div><div class="ttdoc">The number 6.2831853 (PI*2.0).</div><div class="ttdef"><b>Definition</b> <a href="apple2__asfp_8h_source.html#l00076">apple2_asfp.h:76</a></div></div>
+<div class="ttc" id="agroup__consts_html_gacb71b5ae07aa1fa8d2f670e01926ddab"><div class="ttname"><a href="#gacb71b5ae07aa1fa8d2f670e01926ddab">AS_CONST_half</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_half</div><div class="ttdoc">The number 0.5.</div><div class="ttdef"><b>Definition</b> <a href="apple2__asfp_8h_source.html#l00067">apple2_asfp.h:67</a></div></div>
 <div class="ttc" id="agroup__funcs_html_ga25691480ab5b85368d2d0a364dc154ab"><div class="ttname"><a href="group__funcs.html#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a></div><div class="ttdeci">void __fastcall__ as_fp_rom2fac(const AS_FAC_FP *rom)</div><div class="ttdoc">Load FAC from a ROM-resident Applesoft float structure.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga520c9119a7cbc92ff5a02437c7f2a054"><div class="ttname"><a href="group__funcs.html#ga520c9119a7cbc92ff5a02437c7f2a054">as_fp_rom2arg</a></div><div class="ttdeci">void __fastcall__ as_fp_rom2arg(const AS_FAC_FP *rom)</div><div class="ttdoc">Load ARG from a ROM-resident Applesoft float structure.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga94ef166804d7402308da0c3db104834a"><div class="ttname"><a href="group__funcs.html#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a></div><div class="ttdeci">const char *__fastcall__ as_fp_fac2str()</div><div class="ttdoc">Convert the current FAC value to its canonical string representation.</div></div>
@@ -173,6 +174,8 @@ Variables</h2></td></tr>
 
 <p>The number 0.5. </p>
 
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00067">67</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
+
 </div>
 </div>
 <a id="gaa00d6970e4449ab4d9fd8925e55279b7" name="gaa00d6970e4449ab4d9fd8925e55279b7"></a>
@@ -188,6 +191,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The number 1.5707963 (PI*0.5). </p>
+
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00075">75</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
 
 </div>
 </div>
@@ -205,6 +210,8 @@ Variables</h2></td></tr>
 
 <p>The number 0.6931471 (ln(2) natural log of 2.0). </p>
 
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00073">73</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
+
 </div>
 </div>
 <a id="ga1f008d33531da6d8fd6c21239aca6f2a" name="ga1f008d33531da6d8fd6c21239aca6f2a"></a>
@@ -220,6 +227,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The number 1.4426950 (log base 2 of e). </p>
+
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00074">74</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
 
 </div>
 </div>
@@ -237,6 +246,8 @@ Variables</h2></td></tr>
 
 <p>The number -0.5. </p>
 
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00068">68</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
+
 </div>
 </div>
 <a id="ga9ec41ad7ec33e105cd5f0571a179b932" name="ga9ec41ad7ec33e105cd5f0571a179b932"></a>
@@ -252,6 +263,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The number 1.0. </p>
+
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00069">69</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
 
 </div>
 </div>
@@ -269,6 +282,8 @@ Variables</h2></td></tr>
 
 <p>The number 0.25. </p>
 
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00066">66</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
+
 </div>
 </div>
 <a id="gaa15ce12e8e208c5d1eb37a3a26df98bf" name="gaa15ce12e8e208c5d1eb37a3a26df98bf"></a>
@@ -284,6 +299,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The number 0.2236067 (sqrt(0.5)). </p>
+
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00071">71</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
 
 </div>
 </div>
@@ -301,6 +318,8 @@ Variables</h2></td></tr>
 
 <p>The number 1.4142135 (sqrt(2.0)). </p>
 
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00072">72</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
+
 </div>
 </div>
 <a id="ga200ea53d0788d0ac37b3e59cf8bfc5ab" name="ga200ea53d0788d0ac37b3e59cf8bfc5ab"></a>
@@ -317,6 +336,8 @@ Variables</h2></td></tr>
 
 <p>The number 10.0. </p>
 
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00070">70</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
+
 </div>
 </div>
 <a id="ga09b8a8faec20aee78a3731956e8ef8d2" name="ga09b8a8faec20aee78a3731956e8ef8d2"></a>
@@ -332,6 +353,8 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The number 6.2831853 (PI*2.0). </p>
+
+<p class="definition">Definition at line <a class="el" href="apple2__asfp_8h_source.html#l00076">76</a> of file <a class="el" href="apple2__asfp_8h_source.html">apple2_asfp.h</a>.</p>
 
 </div>
 </div>
