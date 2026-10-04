@@ -144,8 +144,7 @@ to post questions and code.
 
 Things To Do
 ~~~~~~~~~~~~
-- Include a complete test suite
-- Add more examples
+- Add more examples from testmain.c
 
 License
 -------

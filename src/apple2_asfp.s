@@ -11,6 +11,9 @@ AS_ARG_EXTENSION = $9C
 AS_TMP_L      = $A0
 AS_TMP_H      = $A1
 
+; temp usage for indexing
+AS_ZP         = $26
+
 ; The string function returns a zero-terminated string located in stack memory
 AS_FBUFFR     = $0100
 
@@ -578,11 +581,11 @@ _as_restore_arg:
 _as_cache_float:  ; Copy the 5 bytes from (X,A) to AS_SCR_TMP
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
-    sta AS_TMP_L
-    stx AS_TMP_H
+    sta AS_ZP
+    stx AS_ZP+1
     ldy #4
 @loop:
-    lda (AS_TMP_L),y
+    lda (AS_ZP),y
     sta AS_SCR_TMP,y
     dey
     bpl @loop
@@ -592,13 +595,13 @@ _as_restore_float:  ; Copy the 5 bytes from AS_SCR_TMP to (AS_SCR_TMPX,AS_SCR_TM
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     lda AS_SCR_TMPA
-    sta AS_TMP_L
+    sta AS_ZP
     lda AS_SCR_TMPX
-    sta AS_TMP_H
+    sta AS_ZP+1
     ldy #4
 @loop:
     lda AS_SCR_TMP,y
-    sta (AS_TMP_L),y
+    sta (AS_ZP),y
     dey
     bpl @loop
     rts
@@ -609,11 +612,11 @@ _as_restore_float:  ; Copy the 5 bytes from AS_SCR_TMP to (AS_SCR_TMPX,AS_SCR_TM
 _as_cache_str:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
-    sta AS_TMP_L
-    stx AS_TMP_H
+    sta AS_ZP
+    stx AS_ZP+1
     ldy #0
 @loop:
-    lda (AS_TMP_L),y
+    lda (AS_ZP),y
     and #$7F
     cmp #$65 ; lowercase 'e'
     bne @not_e
