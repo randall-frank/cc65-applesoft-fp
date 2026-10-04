@@ -28,7 +28,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.8.2</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.9.0</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('index.html',''
 <p>In short, this project is a practical Apple II floating-point toolkit for cc65 developers: it brings Applesoft-compatible floating-point capability to C programs while staying faithful to the Apple II platform's native numeric model.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 Why it exists</h1>
-<p>The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (approximately 600 bytes).</p>
+<p>The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (approximately 650 bytes).</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Typical use</h1>
 <p>Applications can include the library, perform standard floating-point calculations from C, and store or print values using the Apple II floating-point format. The project also includes utilities to convert values to and from the binary representation expected by Applesoft, which makes it useful for both emulator and real-machine development.</p>
@@ -137,33 +137,44 @@ What the project provides</h1>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Project structure</h1>
-<p>The library source code, a single assembly language file and accompanying header file, are located in the <span class="tt">src</span> directory. The build script, <span class="tt">build.py</span>, automates the compilation and provides utility functions for converting between IEEE 754 and Applesoft float formats, etc. <br  />
+<p>The library source code, a single assembly language file and accompanying header file, are located in the <b>src</b> directory. The build script, <b>build.py</b>, automates the compilation and provides utility functions for converting between IEEE 754 and Applesoft float formats, etc. <br  />
 </p>
-<p>Documentation is doxygen based and is located in the <span class="tt">docs</span> directory. The documentation build creates the directory <span class="tt">html</span>. Open <span class="tt">index.html</span> in a web browser to view the documentation.</p>
-<p>The build process creates a <span class="tt">build</span> directory. It is all that is needed to use the library in another project. Additionally, a disk image file (<span class="tt">.po</span>) is generated that can be useful for debugging, etc.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+<p>Documentation is doxygen based and is located in the <b>docs</b> directory. The documentation build creates the directory <b>html</b>. Open <b>index.html</b> in a web browser to view the documentation.</p>
+<p>The build process creates a <b>build</b> directory. It is all that is needed to use the library in another project. Additionally, a disk image file (<b>.po</b>) is generated that can be useful for debugging, etc. Specifically, the build output is:</p>
+<ul>
+<li><b><a class="el" href="apple2__asfp_8h.html" title="Header description of an assembly language glue interface to the Applesoft floating point routines.">apple2_asfp.h</a></b>: The header file for the library.</li>
+<li><b>libasfp.a</b>: The source code compiled into a library.</li>
+<li><b><a class="el" href="testmain_8c.html">testmain.c</a></b>: The source to the <b>.SYSTEM</b> file included in the disk image.</li>
+<li><b>a2fp_release.po</b>: A ProDOS disk image that includes the library and a simple test program</li>
+</ul>
+<p>All but the disk image file are included in the released <b>.zip</b> file.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Building the example file</h2>
+<p>The example <b>.SYSTEM</b> file is built using the following command:</p>
+<div class="fragment"><div class="line">&gt; cl65.exe -O -t apple2 -I . -C apple2-system.cfg -o FPTEST.SYSTEM testmain.c libasfp.a</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Implementation notes</h1>
 <p>The library is a cc65 thin compatible wrapper written as a C header file and a 6502 assembly language file. The library does use the Applesoft floating point routines in ROM. As such, it uses a few resources that could conflict with a higher level application. These are noted below.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
-Zero page usage</h2>
-<p>The bindings utilize one zero page location ($FA) for state tracking along with the standard zero page locations used by Applesoft. The latter locations include the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD, $60-$61 and $A0-$A1.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
+Zero page usage</h2>
+<p>The bindings utilize a bit of the stack (for returning strings) along with the standard zero page locations used by Applesoft. The latter locations include the FAC, ARG and temp variables: $9D-$A2, $A5-$AA, $93-$9C, $8A-$8E, $B1-$CD, $60-$61.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 ROM/Language card bank switching</h2>
 <p>Many Apple II cc65 applications run with the language card bank enabled for additional memory. This library wraps functions that make ROM calls with code that switches to ROM reading before making the call and restores the incoming bank selection afterward.</p>
-<p>Additionally, the library 'caches' any input arguments from C as they could be located in the language card. This is done in the traditional Apple input buffer: $0200. Thus, several routines will destroy memory between $200 and $2FF.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+<p>The library 'caches' any input arguments from C as they could be located in the language card. This is done in the traditional Apple input buffer: $0200. Thus, several routines will destroy memory between $0200 and $02A0.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 Reference documentation</h1>
-<p>Some reference documentation used to develop this library is available in the <span class="tt">docs</span> directory. These files document the Applesoft entry points from Apple.</p>
+<p>Some reference documentation used to develop this library is available in the <em>docs</em> directory. These files document the Applesoft entry points from Apple.</p>
 <ul>
 <li>Numeric layout details <a href="TIL00074.pdf" target="_blank">Floating Point Specification</a>.</li>
 <li>Basic numeric function details <a href="TIL00075.pdf" target="_blank">Core Math Functions</a>.</li>
 <li>I/O and other transform functions <a href="TIL00076.pdf" target="_blank">Utility Functions</a>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 License and copyright</h1>
-<p><b>Library version:</b> 0.8.2 <br  />
+<p><b>Library version:</b> 0.9.0 <br  />
  <b>Copyright:</b> © 2026 Randall Frank</p>
-<p>This project is licensed under the MIT OpenSource license. See the file <a href="LICENSE">LICENSE</a> for details. </p>
+<p>This project is licensed under the MIT OpenSource license. See the file <a href="LICENSE" target="_blank">LICENSE</a> for details. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->

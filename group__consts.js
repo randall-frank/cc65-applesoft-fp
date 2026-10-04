@@ -1,14 +1,12 @@
 var group__consts =
 [
-    [ "AS_CONST_half", "group__consts.html#gacb71b5ae07aa1fa8d2f670e01926ddab", null ],
-    [ "AS_CONST_half_PI", "group__consts.html#gaa00d6970e4449ab4d9fd8925e55279b7", null ],
-    [ "AS_CONST_ln_two", "group__consts.html#ga0f185a69fb514f574a2b6be15d19f075", null ],
-    [ "AS_CONST_log_2_e", "group__consts.html#ga1f008d33531da6d8fd6c21239aca6f2a", null ],
-    [ "AS_CONST_neghalf", "group__consts.html#gae2de2a9ba8146b10800d7e4a4fcf6f08", null ],
-    [ "AS_CONST_one", "group__consts.html#ga9ec41ad7ec33e105cd5f0571a179b932", null ],
-    [ "AS_CONST_quarter", "group__consts.html#gaeab77986c1bd0e806f8ca74b14ac3953", null ],
-    [ "AS_CONST_sqrt_half", "group__consts.html#gaa15ce12e8e208c5d1eb37a3a26df98bf", null ],
-    [ "AS_CONST_sqrt_two", "group__consts.html#gaaa7f87236976379f1988ea1c714b0228", null ],
-    [ "AS_CONST_ten", "group__consts.html#ga200ea53d0788d0ac37b3e59cf8bfc5ab", null ],
-    [ "AS_CONST_two_PI", "group__consts.html#ga09b8a8faec20aee78a3731956e8ef8d2", null ]
+    [ "AS_CONST_e", "group__consts.html#ga0e04b4ab1d37408a48484ab768667d7b", null ],
+    [ "AS_CONST_half", "group__consts.html#gac2283633989ae3b2396fbe6ecbc88cba", null ],
+    [ "AS_CONST_ln_two", "group__consts.html#ga728c8ccf5f2fbe9863f4a48f18f34acb", null ],
+    [ "AS_CONST_one", "group__consts.html#ga8fca774bb4b8d7e77a668b9de0612dde", null ],
+    [ "AS_CONST_pi", "group__consts.html#gad8276101f49f2aa2f302fb0cfa73ef55", null ],
+    [ "AS_CONST_sqrt_two", "group__consts.html#gacee4bb10560b774749bab27a6f110de0", null ],
+    [ "AS_CONST_ten", "group__consts.html#gaa106c512811106aa29f07fb9932ba5e0", null ],
+    [ "AS_CONST_two", "group__consts.html#ga20abdbc87111c90e6c841244f1ce0c02", null ],
+    [ "AS_CONST_two_pi", "group__consts.html#ga615b131b829e8fff0eca36ee09c55f7a", null ]
 ];

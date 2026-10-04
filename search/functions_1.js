@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['keypress_0',['keypress',['../testmain_8c.html#abe2cbacc8a05085eedb11c0be064bb28',1,'testmain.c']]]
+  ['dump_5ffac_5farg_0',['dump_fac_arg',['../testmain_8c.html#a3b4cbf858c109a07e51567d51ffffb11',1,'testmain.c']]],
+  ['dump_5fmem_5fflt_1',['dump_mem_flt',['../testmain_8c.html#aea41de17ee8164f9446eda4eb6845be3',1,'testmain.c']]]
 ];

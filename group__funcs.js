@@ -26,8 +26,6 @@ var group__funcs =
     [ "as_fp_mem2fac", "group__funcs.html#gab4c6c531bfa79876ce265030f5792320", null ],
     [ "as_fp_neg_fac", "group__funcs.html#ga02b1d0c7f36ca66177cf3434ca06e42a", null ],
     [ "as_fp_rnd_fac", "group__funcs.html#gacbf85371e2bd289adb59598e249645e2", null ],
-    [ "as_fp_rom2arg", "group__funcs.html#ga520c9119a7cbc92ff5a02437c7f2a054", null ],
-    [ "as_fp_rom2fac", "group__funcs.html#ga25691480ab5b85368d2d0a364dc154ab", null ],
     [ "as_fp_sgn", "group__funcs.html#gae86872bf2d52c89546a519540985e62c", null ],
     [ "as_fp_sgn_fac", "group__funcs.html#gae38bda12655881bb224e79746c8cc177", null ],
     [ "as_fp_sin_fac", "group__funcs.html#ga39e5b62a64d33c7eb08a71e02587f8fe", null ],

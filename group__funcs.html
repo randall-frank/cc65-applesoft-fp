@@ -28,7 +28,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.8.2</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.9.0</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -177,12 +177,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaf337146beff887df9d8cc5a5f2bcdcec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy FAC to a memory-resident Applesoft float structure.  <br /></td></tr>
 <tr class="memitem:gab4c6c531bfa79876ce265030f5792320" id="r_gab4c6c531bfa79876ce265030f5792320"><td class="memItemLeft">void __fastcall__&#160;</td><td class="memItemRight"><a class="el" href="#gab4c6c531bfa79876ce265030f5792320">as_fp_mem2fac</a> (const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *mem)</td></tr>
 <tr class="memdesc:gab4c6c531bfa79876ce265030f5792320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load FAC from a memory-resident Applesoft float structure.  <br /></td></tr>
-<tr class="memitem:ga25691480ab5b85368d2d0a364dc154ab" id="r_ga25691480ab5b85368d2d0a364dc154ab"><td class="memItemLeft">void __fastcall__&#160;</td><td class="memItemRight"><a class="el" href="#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a> (const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *rom)</td></tr>
-<tr class="memdesc:ga25691480ab5b85368d2d0a364dc154ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load FAC from a ROM-resident Applesoft float structure.  <br /></td></tr>
 <tr class="memitem:ga55d0ea8f0d12ebcebcf14ac20e707bc7" id="r_ga55d0ea8f0d12ebcebcf14ac20e707bc7"><td class="memItemLeft">void __fastcall__&#160;</td><td class="memItemRight"><a class="el" href="#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a> (const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *mem)</td></tr>
 <tr class="memdesc:ga55d0ea8f0d12ebcebcf14ac20e707bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ARG from a memory-resident Applesoft float structure.  <br /></td></tr>
-<tr class="memitem:ga520c9119a7cbc92ff5a02437c7f2a054" id="r_ga520c9119a7cbc92ff5a02437c7f2a054"><td class="memItemLeft">void __fastcall__&#160;</td><td class="memItemRight"><a class="el" href="#ga520c9119a7cbc92ff5a02437c7f2a054">as_fp_rom2arg</a> (const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *rom)</td></tr>
-<tr class="memdesc:ga520c9119a7cbc92ff5a02437c7f2a054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ARG from a ROM-resident Applesoft float structure.  <br /></td></tr>
 <tr class="memitem:ga6680dd77162f6b012b5682b2ca8baf4c" id="r_ga6680dd77162f6b012b5682b2ca8baf4c"><td class="memItemLeft">void __fastcall__&#160;</td><td class="memItemRight"><a class="el" href="#ga6680dd77162f6b012b5682b2ca8baf4c">as_fp_swap_fac_arg</a> ()</td></tr>
 <tr class="memdesc:ga6680dd77162f6b012b5682b2ca8baf4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap the contents of FAC and ARG.  <br /></td></tr>
 <tr class="memitem:ga86b1ee4cdd66158d3763d9ca5f9a7870" id="r_ga86b1ee4cdd66158d3763d9ca5f9a7870"><td class="memItemLeft">void __fastcall__&#160;</td><td class="memItemRight"><a class="el" href="#ga86b1ee4cdd66158d3763d9ca5f9a7870">as_fp_fac2arg</a> ()</td></tr>
@@ -364,18 +360,19 @@ Functions</h2></td></tr>
 
 <p>Raise ARG to the power FAC and leave the result in ARG. </p>
 <p>Implements the math operation: FAC=ARG^FAC. For example ARG ^ 0.5 is the square root of ARG. </p><div class="fragment"><div class="line"><a class="code hl_function" href="#ga678da50c5225601e6f37efcec3ba4645">as_fp_str2fac</a>(<span class="stringliteral">&quot;2.0&quot;</span>);</div>
-<div class="line"><a class="code hl_function" href="#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a>(&amp;ram_half); </div>
+<div class="line"><a class="code hl_function" href="#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a>(&amp;<a class="code hl_variable" href="group__consts.html#gac2283633989ae3b2396fbe6ecbc88cba">AS_CONST_half</a>); </div>
 <div class="line"><a class="code hl_function" href="#ga6680dd77162f6b012b5682b2ca8baf4c">as_fp_swap_fac_arg</a>();</div>
 <div class="line"><a class="code hl_function" href="#ga89bfc1412da60c88d1a4d48c710a4e82">as_fp_arg_pow_fac</a>();      </div>
 <div class="line">printf(<span class="stringliteral">&quot;Computed pow(2, 0.5): %s\n&quot;</span>, <a class="code hl_function" href="#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a>());</div>
-<div class="line"><a class="code hl_function" href="#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a>(<a class="code hl_variable" href="group__consts.html#gaaa7f87236976379f1988ea1c714b0228">AS_CONST_sqrt_two</a>);</div>
-<div class="ttc" id="agroup__consts_html_gaaa7f87236976379f1988ea1c714b0228"><div class="ttname"><a href="group__consts.html#gaaa7f87236976379f1988ea1c714b0228">AS_CONST_sqrt_two</a></div><div class="ttdeci">const AS_FAC_FP * AS_CONST_sqrt_two</div><div class="ttdoc">The number 1.4142135 (sqrt(2.0)).</div><div class="ttdef"><b>Definition</b> <a href="apple2__asfp_8h_source.html#l00072">apple2_asfp.h:72</a></div></div>
-<div class="ttc" id="agroup__funcs_html_ga25691480ab5b85368d2d0a364dc154ab"><div class="ttname"><a href="#ga25691480ab5b85368d2d0a364dc154ab">as_fp_rom2fac</a></div><div class="ttdeci">void __fastcall__ as_fp_rom2fac(const AS_FAC_FP *rom)</div><div class="ttdoc">Load FAC from a ROM-resident Applesoft float structure.</div></div>
+<div class="line"><a class="code hl_function" href="#gab4c6c531bfa79876ce265030f5792320">as_fp_mem2fac</a>(&amp;<a class="code hl_variable" href="group__consts.html#gacee4bb10560b774749bab27a6f110de0">AS_CONST_sqrt_two</a>);</div>
+<div class="ttc" id="agroup__consts_html_gac2283633989ae3b2396fbe6ecbc88cba"><div class="ttname"><a href="group__consts.html#gac2283633989ae3b2396fbe6ecbc88cba">AS_CONST_half</a></div><div class="ttdeci">const AS_FAC_FP AS_CONST_half</div><div class="ttdoc">The number 0.5.</div></div>
+<div class="ttc" id="agroup__consts_html_gacee4bb10560b774749bab27a6f110de0"><div class="ttname"><a href="group__consts.html#gacee4bb10560b774749bab27a6f110de0">AS_CONST_sqrt_two</a></div><div class="ttdeci">const AS_FAC_FP AS_CONST_sqrt_two</div><div class="ttdoc">The number 1.4142135623730951 (sqrt(2)).</div></div>
 <div class="ttc" id="agroup__funcs_html_ga55d0ea8f0d12ebcebcf14ac20e707bc7"><div class="ttname"><a href="#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a></div><div class="ttdeci">void __fastcall__ as_fp_mem2arg(const AS_FAC_FP *mem)</div><div class="ttdoc">Load ARG from a memory-resident Applesoft float structure.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga6680dd77162f6b012b5682b2ca8baf4c"><div class="ttname"><a href="#ga6680dd77162f6b012b5682b2ca8baf4c">as_fp_swap_fac_arg</a></div><div class="ttdeci">void __fastcall__ as_fp_swap_fac_arg()</div><div class="ttdoc">Swap the contents of FAC and ARG.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga678da50c5225601e6f37efcec3ba4645"><div class="ttname"><a href="#ga678da50c5225601e6f37efcec3ba4645">as_fp_str2fac</a></div><div class="ttdeci">int __fastcall__ as_fp_str2fac(char *str)</div><div class="ttdoc">Convert a null-terminated ASCII string into an Applesoft floating-point value in FAC.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga89bfc1412da60c88d1a4d48c710a4e82"><div class="ttname"><a href="#ga89bfc1412da60c88d1a4d48c710a4e82">as_fp_arg_pow_fac</a></div><div class="ttdeci">void __fastcall__ as_fp_arg_pow_fac()</div><div class="ttdoc">Raise ARG to the power FAC and leave the result in ARG.</div></div>
 <div class="ttc" id="agroup__funcs_html_ga94ef166804d7402308da0c3db104834a"><div class="ttname"><a href="#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a></div><div class="ttdeci">const char *__fastcall__ as_fp_fac2str()</div><div class="ttdoc">Convert the current FAC value to its canonical string representation.</div></div>
+<div class="ttc" id="agroup__funcs_html_gab4c6c531bfa79876ce265030f5792320"><div class="ttname"><a href="#gab4c6c531bfa79876ce265030f5792320">as_fp_mem2fac</a></div><div class="ttdeci">void __fastcall__ as_fp_mem2fac(const AS_FAC_FP *mem)</div><div class="ttdoc">Load FAC from a memory-resident Applesoft float structure.</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -873,7 +870,7 @@ Functions</h2></td></tr>
 <p>Load ARG from a memory-resident Applesoft float structure. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mem</td><td>Source data to copy into ARG. Note: AS_CONST_ values are not legal. </td></tr>
+    <tr><td class="paramname">mem</td><td>Source data to copy into ARG. </td></tr>
   </table>
   </dd>
 </dl>
@@ -906,7 +903,7 @@ Functions</h2></td></tr>
 <p>Load FAC from a memory-resident Applesoft float structure. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mem</td><td>Source data to copy into FAC. Note: AS_CONST_ values are not legal. </td></tr>
+    <tr><td class="paramname">mem</td><td>Source data to copy into FAC. </td></tr>
   </table>
   </dd>
 </dl>
@@ -964,72 +961,6 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Replace FAC with a random floating-point number in the range [0,1). </p>
-
-</div>
-</div>
-<a id="ga520c9119a7cbc92ff5a02437c7f2a054" name="ga520c9119a7cbc92ff5a02437c7f2a054"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga520c9119a7cbc92ff5a02437c7f2a054">&#9670;&#160;</a></span>as_fp_rom2arg()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void __fastcall__ as_fp_rom2arg </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *</td>          <td class="paramname"><span class="paramname"><em>rom</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Load ARG from a ROM-resident Applesoft float structure. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rom</td><td>Source data to copy into ARG. Valid values will be AS_CONST_* values. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga25691480ab5b85368d2d0a364dc154ab" name="ga25691480ab5b85368d2d0a364dc154ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga25691480ab5b85368d2d0a364dc154ab">&#9670;&#160;</a></span>as_fp_rom2fac()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void __fastcall__ as_fp_rom2fac </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a> *</td>          <td class="paramname"><span class="paramname"><em>rom</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Load FAC from a ROM-resident Applesoft float structure. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">rom</td><td>Source data to copy into FAC. Valid values will be AS_CONST_* values. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
