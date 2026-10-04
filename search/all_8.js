@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['main_0',['main',['../testmain_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'testmain.c']]],
-  ['mainpage_2emd_1',['mainpage.md',['../mainpage_8md.html',1,'']]],
-  ['mantissa_2',['mantissa',['../struct_a_s___f_a_c___f_p.html#a78920b7ef1a763d2f33cbb51ef73a00a',1,'AS_FAC_FP']]],
-  ['math_20functions_3',['Floating Point Math Functions',['../group__funcs.html',1,'']]]
+  ['language_20card_20bank_20switching_0',['ROM/Language card bank switching',['../index.html#autotoc_md7',1,'']]],
+  ['library_1',['cc65 Applesoft Floating Point Library',['../index.html',1,'']]],
+  ['license_20and_20copyright_2',['License and copyright',['../index.html#autotoc_md9',1,'']]]
 ];
