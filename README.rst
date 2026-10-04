@@ -138,7 +138,7 @@ burn a 5.25" disk with the image.  Thanks to the great work by Chris Torrence
 and Michael Morrison on the `Apple2TS <https://github.com/ct6502/apple2ts>`_ browser 
 hosted Apple II emulator, one can run the program via a web browser.  
 
-`Run the test case in a browser <https://github.com/randall-frank/cc65-applesoft-fp/releases/latest/download/a2fp_release.po>`_
+`Run the test case in a browser <https://apple2ts.com/?appmode=game&theme=dark#https://github.com/randall-frank/cc65-applesoft-fp/releases/latest/download/a2fp_release.po>`_
 
 Please feel free to post issues and other questions at `a2fp Issues
 <https://github.com/randall-frank/cc65-applesoft-fp/issues>`_. This is the best place
