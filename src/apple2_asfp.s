@@ -4,15 +4,11 @@ AS_FAC        = $9D   ; $9D-$A2
 AS_ARG        = $A5   ; $A5-$AA
 
 ; TODO Do we need to handle these
-AS_FAC_EXTENSION = $AC
-AS_ARG_EXTENSION = $9C    
+AS_FAC_EX     = $AC
+AS_ARG_EX     = $9C   
 
-; Some operations return 16-bit values via zero-page memory locations
-AS_TMP_L      = $A0
-AS_TMP_H      = $A1
-
-; temp usage for indexing
-AS_ZP         = $26
+; temp usage for indexing ($60,$61 are used by Applesoft for temp operations)
+AS_ZP         = $60
 
 ; The string function returns a zero-terminated string located in stack memory
 AS_FBUFFR     = $0100
@@ -22,11 +18,13 @@ AS_FBUFFR     = $0100
 ; in language-card RAM.
 AS_SCR_STR    = $0200 ; 127(+1) byte string buffer
 AS_SCR_FAC    = $0280 ; 6 bytes clone of the unpacked FAC
-AS_SCR_ARG    = $0286 ; 6 bytes clone of the unpacked ARG
-AS_SCR_TMP    = $028b ; 5 bytes cache of a mem argument
-AS_SCR_TMPA   = $0290 ; 1 byte  LSB of AS_SCR_TMP target
-AS_SCR_TMPX   = $0291 ; 1 byte  MSB of AS_SCR_TMP target
-AS_LC_STATE   = $0292
+AS_SCR_FAC_EX = $0286 ; 1 byte clone of AS_FAC_EX
+AS_SCR_ARG    = $0287 ; 6 bytes clone of the unpacked ARG
+AS_SCR_ARG_EX = $028d ; 1 byte clone of AS_ARG_EX
+AS_SCR_TMP    = $028e ; 5 bytes cache of a mem argument
+AS_SCR_TMPA   = $0293 ; 1 byte  LSB of AS_SCR_TMP target
+AS_SCR_TMPX   = $0294 ; 1 byte  MSB of AS_SCR_TMP target
+AS_LC_STATE   = $0295
 
 ; Other temporary zero-page memory locations used by the various functions:
 ; 93-97, 98-9C, 8A-8E, C9-CD
@@ -34,8 +32,8 @@ AS_LC_STATE   = $0292
 ; Operation addresses (LDA AS_FAC first)
 AS_ADDR_FADD  = $E7C1 ; FAC = ARG + FAC
 AS_ADDR_FSUB  = $E7AA ; FAC = ARG - FAC
-AS_ADDR_FMUL  = $E982 ; FAC = ARG × FAC
-AS_ADDR_FDIV  = $EA69 ; FAC = ARG ÷ FAC
+AS_ADDR_FMUL  = $E982 ; FAC = ARG * FAC
+AS_ADDR_FDIV  = $EA69 ; FAC = ARG / FAC
 AS_ADDR_FPWRT = $EE97 ; FAC = ARG ^ FAC
 AS_ADDR_ABS   = $EBAF ; FAC = abs(FAC) absolute value
 AS_ADDR_SQR   = $EE8D ; FAC = sqrt(FAC) square root
@@ -51,31 +49,39 @@ AS_ADDR_MUL10 = $EA39 ; FAC = FAC * 10.
 AS_ADDR_DIV10 = $EA55 ; FAC = FAC / 10.
 
 AS_ADDR_SGN   = $EB90 ; Same as AS_ADDR_SIGN, but store in FAC
-AS_ADDR_SIGN  = $EB82 ; Set A from FAC: A=1 if FAC is positive, A=0 if FAC is zero, A=$FF if FAC is negative
+AS_ADDR_SIGN  = $EB82 ; Set A from FAC: A=1 if FAC is positive, 
+                      ;                 A=0 if FAC is zero, 
+                      ;                 A=$FF if FAC is negative
 AS_ADDR_INT   = $EC23 ; FAC = int(FAC)
 
 ; (h,l) register pair as pointer, usually Y=MSB, A=LSB
-AS_ADDR_FCOMP = $EBB2 ; Compare FAC and number pointed to by Y,A. A=1 if (Y,A) < FAC,
-                       ; A=0 if (Y,A) == FAC, A=$FF if (Y,A) > FAC.
+AS_ADDR_FCOMP = $EBB2 ; Compare FAC and number pointed to by (Y,A). 
+                      ;         A=1 if (Y,A)<FAC,
+                      ;         A=0 if (Y,A)==FAC, 
+                      ;         A=$FF if (Y,A)>FAC.
 
 ; Data transfers
 AS_ADDR_FLOAT  = $EB93 ; FAC = signed integer A
 AS_ADDR_SNGFLT = $E301 ; FAC = unsigned integer Y
-AS_ADDR_GIVAYF = $E2F2 ; FAC = value of 2-byte signed integer loaded in the Y and A registers (A,Y)
+AS_ADDR_GIVAYF = $E2F2 ; FAC=value of 2-byte signed int from Y & A registers (A,Y)
 AS_ADDR_MOVFA  = $EB53 ; FAC = ARG  copy the ARG to FAC
 AS_ADDR_MOVAF  = $EB63 ; ARG = FAC  copy the FAC to ARG
-AS_ADDR_MOVMF  = $EB2B ; Pack and store FAC to RAM. X register (low byte) and Y register (high byte)
+AS_ADDR_MOVMF  = $EB2B ; Pack and store FAC to RAM. 
+                       ; X register (low byte) and Y register (high byte)
                        ; point to a destination address in RAM (Y,X)
-AS_ADDR_MOVFM  = $EAF9 ; Unpack and load FAC from RAM. 5-byte floating point number in memory pointed by (Y,A)
-AS_ADDR_CONUPK = $E9E3 ; Unpack and load ARG from RAM. 5-byte floating point number in memory pointed by (Y,A)
+AS_ADDR_MOVFM  = $EAF9 ; Unpack and load FAC from RAM. 
+                       ; 5-byte floating point number in memory pointed by (Y,A)
+AS_ADDR_CONUPK = $E9E3 ; Unpack and load ARG from RAM. 
+                       ; 5-byte floating point number in memory pointed by (Y,A)
 
-AS_ADDR_FOUT   = $ED34 ; Create null-terminated string in AS_FBUFFR from FAC. On exit, (Y,A)
-                       ; points to the string. FAC is scrambled.
+AS_ADDR_FOUT   = $ED34 ; Create null-terminated string in AS_FBUFFR from FAC. 
+                       ; On exit, (Y,A) points to the string. FAC is scrambled.
 
 AS_TXTPTR      = $B8   ; Zero-page pointer to text string (2 bytes)
 AS_CHRGET      = $B1   ; Zero-page routine to get next character
 AS_CHRGOT      = $B7   ; Zero-page routine to re-read current character into A
-AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $30-$39+$2B+$2E+$2D+$05)
+AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC 
+                       ; (Apple II char encoding $30-$39+$2B+$2E+$2D+$05)
 
 .include "asfp_vers.inc"
 
@@ -86,8 +92,6 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $3
 
 .export _as_fp_mem2arg
 .export _as_fp_mem2fac
-.export _as_fp_rom2arg
-.export _as_fp_rom2fac
 .export _as_fp_fac2mem
 .export _as_fp_swap_fac_arg
 .export _as_fp_fac2arg
@@ -119,9 +123,17 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $3
 .export _as_fp_fac_mult_ten
 .export _as_fp_fac_div_ten
 .export _as_fp_fac_cmp_mem
+.export _AS_CONST_one
+.export _AS_CONST_half
+.export _AS_CONST_two
+.export _AS_CONST_ten
+.export _AS_CONST_sqrt_two
+.export _AS_CONST_e
+.export _AS_CONST_pi
+.export _AS_CONST_two_pi
+.export _AS_CONST_ln_two
 
 .segment "RODATA"
-
 
 ; Many of the functions have identical signatures
 ; Use a dispatch table for these
@@ -407,21 +419,9 @@ _as_fp_mem2arg:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     jsr _as_cache_float  ; (X,A) -> AS_SCR_TMP
+    jsr _as_save_lc_state
     lda #<AS_SCR_TMP
     ldy #>AS_SCR_TMP
-    jsr _as_save_lc_state
-    jsr AS_ADDR_CONUPK ; Y=MSB, A=LSB
-    jmp _as_restore_lc_state
-
-; Load ARG from ROM constant (AS_FAC_FP struct)
-_as_fp_rom2arg:
-    ; A = low byte of the pointer (LSB)
-    ; X = high byte of the pointer (MSB)
-    pha
-    txa
-    tay
-    pla
-    jsr _as_save_lc_state
     jsr AS_ADDR_CONUPK ; Y=MSB, A=LSB
     jmp _as_restore_lc_state
 
@@ -433,18 +433,6 @@ _as_fp_mem2fac:
     jsr _as_save_lc_state
     lda #<AS_SCR_TMP
     ldy #>AS_SCR_TMP
-    jsr AS_ADDR_MOVFM ; Y=MSB, A=LSB
-    jmp _as_restore_lc_state
-
-; Load FAC from ROM constant (AS_FAC_FP struct)
-_as_fp_rom2fac:
-    ; A = low byte of the pointer (LSB)
-    ; X = high byte of the pointer (MSB)
-    pha
-    txa
-    tay
-    pla
-    jsr _as_save_lc_state
     jsr AS_ADDR_MOVFM ; Y=MSB, A=LSB
     jmp _as_restore_lc_state
 
@@ -471,6 +459,10 @@ _as_fp_swap_fac_arg:
     sty AS_FAC,x
     dex
     bpl @loop
+    lda AS_FAC_EX
+    ldy AS_ARG_EX
+    sta AS_ARG_EX
+    sty AS_FAC_EX
     rts
 
 ; Generally, this is not needed, but if the zero-page CHRGET code
@@ -539,6 +531,8 @@ _as_save_fac:
     sta AS_SCR_FAC,x
     dex
     bpl @loop
+    lda AS_FAC_EX
+    sta AS_SCR_FAC_EX
     pla
     rts
 
@@ -550,6 +544,8 @@ _as_restore_fac:
     sta AS_FAC,x
     dex
     bpl @loop
+    lda AS_SCR_FAC_EX
+    sta AS_FAC_EX
     pla
     rts
 
@@ -562,6 +558,8 @@ _as_save_arg:
     sta AS_SCR_ARG,x
     dex
     bpl @loop
+    lda AS_ARG_EX
+    sta AS_SCR_ARG_EX
     pla
     rts
 
@@ -573,6 +571,8 @@ _as_restore_arg:
     sta AS_ARG,x
     dex
     bpl @loop
+    lda AS_SCR_ARG_EX
+    sta AS_ARG_EX
     pla
     rts
 
@@ -631,3 +631,24 @@ _as_cache_str:
     cmp #0
     bne @loop
     rts
+
+; Table of useful constants
+_AS_CONST_one:
+    .byte $81, $00, $00, $00, $00  ; 1.0 
+_AS_CONST_half:
+    .byte $80, $00, $00, $00, $00  ; 0.5
+_AS_CONST_two:
+    .byte $82, $00, $00, $00, $00  ; 2.0
+_AS_CONST_ten:
+    .byte $84, $20, $00, $00, $00  ; 10.0
+_AS_CONST_sqrt_two:
+    .byte $81, $35, $04, $F3, $00  ; 1.4142135623730951
+_AS_CONST_e:
+    .byte $82, $2D, $F8, $54, $00  ; 2.718281828459045
+_AS_CONST_pi:
+    .byte $82, $49, $0F, $DB, $00  ; 3.141592653589793
+_AS_CONST_two_pi:
+    .byte $83, $49, $0F, $DB, $00  ; 6.283185307179586
+_AS_CONST_ln_two:
+    .byte $80, $31, $72, $18, $00  ; 0.6931471805599453
+

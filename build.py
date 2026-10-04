@@ -209,6 +209,10 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
         
     # include the header
     shutil.copy(os.path.join("src", "apple2_asfp.h"), "build")
+    # include the test program source
+    shutil.copy(os.path.join("src", "testmain.c"), "build")
+    # build a zip file for distribution
+    shutil.make_archive("a2fp_release", 'zip', "build")
     
     # build test app
     test_name = os.path.join("SYSTEM", "FPTEST.SYSTEM#FF2000")
@@ -356,6 +360,7 @@ if __name__ == "__main__":
     cvt_flt_as = cmd_parsers.add_parser("flt2as", help="Convert a float to AppleSoft floating point format")
     cvt_flt_as.add_argument("float", type=float, help="The float to convert")
     cvt_flt_as.add_argument("--varname", type=str, default="foo", help="The name of the variable to define. Default: 'foo'")
+    cvt_flt_as.add_argument("--assembly",action="store_true", default=False, help="Output as assembly (.s) source. Default: output as C source.")
 
     cvt_as_flt = cmd_parsers.add_parser("as2flt", help="Convert an Applesoft floating point format to a float")
     cvt_as_flt.add_argument("asfloat", type=five_bytes, help="A 10-char hex string representing 5 bytes (e.g., 0102030405)")
@@ -380,7 +385,10 @@ if __name__ == "__main__":
         build_docs(verbose=args.verbose)
     elif args.cmd == "flt2as":
         v = a2fp.float_to_applesoft_fp(args.float, verbose=args.verbose)
-        print(f"AS_FAC_FP {args.varname} = {{0x{v[0]:02X}, {{0x{v[1]:02X}, 0x{v[2]:02X}, 0x{v[3]:02X}, 0x{v[4]:02X}}}}}; /* {args.float} */")
+        if args.assembly:
+            print(f"{args.varname}:\n    .byte ${v[0]:02X}, ${v[1]:02X}, ${v[2]:02X}, ${v[3]:02X}, ${v[4]:02X}  ; {args.float}")
+        else:    
+            print(f"AS_FAC_FP {args.varname} = {{0x{v[0]:02X}, {{0x{v[1]:02X}, 0x{v[2]:02X}, 0x{v[3]:02X}, 0x{v[4]:02X}}}}}; /* {args.float} */")
         exit(0)
     elif args.cmd == "as2flt":
         v = a2fp.applesoft_fp_to_float(args.asfloat, verbose=args.verbose)

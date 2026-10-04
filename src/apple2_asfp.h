@@ -48,13 +48,13 @@ typedef struct {
 /**
  * @defgroup consts Numeric Constants
  * @brief A collection of useful numbers that are included in the ROM
- * @details These read-only constants may be passed as_fp_rom2arg() or
- *          as_fp_rom2fac() to initialize the FAC or ARG registers.  
+ * @details These read-only constants may be passed as_fp_mem2arg() or
+ *          as_fp_mem2fac() to initialize the FAC or ARG registers.  
  *          An example using two constants to compute PI:
  *       
  * @code
-   as_fp_rom2fac(AS_CONST_two_PI);  // FAC=2PI
-   as_fp_rom2arg(AS_CONST_half);    // ARG=0.5
+   as_fp_mem2fac(&AS_CONST_two_PI);  // FAC=2PI
+   as_fp_mem2arg(&AS_CONST_half);    // ARG=0.5
    as_fp_arg_mul_fac();             // FAC=0.5*2PI
    printf("Computed PI: %s\n", as_fp_fac2str());
  * @endcode
@@ -63,17 +63,16 @@ typedef struct {
  *
  * @{
  */
-const AS_FAC_FP *AS_CONST_quarter   = (AS_FAC_FP *)0xF070;  ///< The number 0.25
-const AS_FAC_FP *AS_CONST_half      = (AS_FAC_FP *)0xEE64;  ///< The number 0.5
-const AS_FAC_FP *AS_CONST_neghalf   = (AS_FAC_FP *)0xE937;  ///< The number -0.5
-const AS_FAC_FP *AS_CONST_one       = (AS_FAC_FP *)0xE913;  ///< The number 1.0
-const AS_FAC_FP *AS_CONST_ten       = (AS_FAC_FP *)0xEA50;  ///< The number 10.0
-const AS_FAC_FP *AS_CONST_sqrt_half = (AS_FAC_FP *)0xE92D;  ///< The number 0.2236067 (sqrt(0.5))
-const AS_FAC_FP *AS_CONST_sqrt_two  = (AS_FAC_FP *)0xE932;  ///< The number 1.4142135 (sqrt(2.0))
-const AS_FAC_FP *AS_CONST_ln_two    = (AS_FAC_FP *)0xE93C;  ///< The number 0.6931471 (ln(2) natural log of 2.0)
-const AS_FAC_FP *AS_CONST_log_2_e   = (AS_FAC_FP *)0xEEDB;  ///< The number 1.4426950 (log base 2 of e)
-const AS_FAC_FP *AS_CONST_half_PI   = (AS_FAC_FP *)0xF063;  ///< The number 1.5707963 (PI*0.5)
-const AS_FAC_FP *AS_CONST_two_PI    = (AS_FAC_FP *)0xF06B;  ///< The number 6.2831853 (PI*2.0)
+extern const AS_FAC_FP AS_CONST_one;      ///< The number 1.0
+extern const AS_FAC_FP AS_CONST_half;     ///< The number 0.5
+extern const AS_FAC_FP AS_CONST_two;      ///< The number 2.0
+extern const AS_FAC_FP AS_CONST_ten;      ///< The number 10.0
+extern const AS_FAC_FP AS_CONST_sqrt_two; ///< The number 1.4142135623730951 (sqrt(2))
+extern const AS_FAC_FP AS_CONST_e;        ///< The number 2.718281828459045 (exp(1))
+extern const AS_FAC_FP AS_CONST_pi;       ///< The number 3.141592653589793 (PI)
+extern const AS_FAC_FP AS_CONST_two_pi;   ///< The number 6.283185307179586 (2*PI)
+extern const AS_FAC_FP AS_CONST_ln_two;   ///< The number 0.6931471805599453 (ln(2))
+
 /** @} */
 
 /**
@@ -118,11 +117,11 @@ extern void __fastcall__ as_fp_arg_div_fac();
  *          ARG ^ 0.5 is the square root of ARG.
 * @code
     as_fp_str2fac("2.0");
-    as_fp_mem2arg(&ram_half); 
+    as_fp_mem2arg(&AS_CONST_half); 
     as_fp_swap_fac_arg();
     as_fp_arg_pow_fac();      
     printf("Computed pow(2, 0.5): %s\n", as_fp_fac2str());
-    as_fp_rom2fac(AS_CONST_sqrt_two);
+    as_fp_mem2fac(&AS_CONST_sqrt_two);
  * @endcode
  * 
  */
@@ -269,27 +268,15 @@ extern void __fastcall__ as_fp_fac2mem(AS_FAC_FP* mem);
 
 /**
  * @brief Load FAC from a memory-resident Applesoft float structure.
- * @param mem Source data to copy into FAC. Note: AS_CONST_ values are not legal.
+ * @param mem Source data to copy into FAC. 
  */
 extern void __fastcall__ as_fp_mem2fac(const AS_FAC_FP* mem);
 
 /**
- * @brief Load FAC from a ROM-resident Applesoft float structure.
- * @param rom Source data to copy into FAC.  Valid values will be AS_CONST_* values.
- */
-extern void __fastcall__ as_fp_rom2fac(const AS_FAC_FP* rom);
-
-/**
  * @brief Load ARG from a memory-resident Applesoft float structure.
- * @param mem Source data to copy into ARG. Note: AS_CONST_ values are not legal.
+ * @param mem Source data to copy into ARG. 
  */
 extern void __fastcall__ as_fp_mem2arg(const AS_FAC_FP* mem);
-
-/**
- * @brief Load ARG from a ROM-resident Applesoft float structure.
- * @param rom Source data to copy into ARG. Valid values will be AS_CONST_* values.
- */
-extern void __fastcall__ as_fp_rom2arg(const AS_FAC_FP* rom);
 
 /**
  * @brief Swap the contents of FAC and ARG.

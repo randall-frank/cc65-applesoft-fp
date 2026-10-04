@@ -40,7 +40,7 @@ Support is included for:
 - Utilities: sgn, reciprocal, absolute value, etc.
 
 Because this library leverages pre-existing routines in the Applesoft ROM,
-it has a very small memory footprint (typically around 600 bytes).  However,
+it has a very small memory footprint (typically around 650 bytes).  However,
 it does use the non-standard 40bit float format rather than the IEEE 754 standard.
 
 Building
@@ -103,16 +103,19 @@ The build script is capable of performing a number of tasks:
   - This command will generate the `html` directory contents using Doxygen.  It can be previewed
     by viewing the `html/index.html` file.
 
-- flt2as [--varname VARNAME]
+- flt2as [--varname VARNAME] [--assembly]
 
-  - This command will convert a Python (IEEE 754) float to AppleSoft floating point format.  It will output
-    the C source code needed to embed the constant into a C application. If --verbose is specified, the individual IEEE 754 fields will be displayed along with the mantissa in 
-    binary.
+  - This command will convert a Python (IEEE 754) float to AppleSoft floating point format.  It 
+    will output the C or assembly source code needed to embed the constant into a C application. 
+    If --verbose is specified, the individual IEEE 754 fields will be displayed along with the mantissa in binary.
 
     .. code::
 
       >  python build.py flt2as 0.5 --varname hello
       AS_FAC_FP hello = {0x80, {0x00, 0x00, 0x00, 0x00}}; /* 0.5 */
+      >  python build.py flt2as --assembly --varname _as_const_foo 1.0 
+      _as_const_foo:
+          .byte $81, $00, $00, $00, $00  ; 1.0
 
 
 - as2flt
@@ -144,7 +147,7 @@ to post questions and code.
 
 Things To Do
 ~~~~~~~~~~~~
-- Add more examples from testmain.c
+- Add more examples from testmain.c to the doxygen strings
 
 License
 -------
