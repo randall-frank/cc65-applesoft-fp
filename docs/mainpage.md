@@ -8,7 +8,7 @@ In short, this project is a practical Apple II floating-point toolkit for cc65 d
 
 ## Why it exists
 
-The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (less than 700 bytes).
+The stock cc65 compiler suite does not include native support for C float or double types in the way a modern system does. This project fills that gap for Apple II development by exposing a practical floating-point library that speaks the language of the Apple II runtime environment with a very small memory footprint (approximately 600 bytes).
 
 ## Typical use
 

@@ -117,108 +117,154 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC (Apple II chars $3
 .export _as_fp_fac_div_ten
 .export _as_fp_fac_cmp_mem
 
+.segment "RODATA"
+
+
+; Many of the functions have identical signatures
+; Use a dispatch table for these
+AS_IDX_FADD  =  0
+AS_IDX_FSUB  =  1
+AS_IDX_FMUL  =  2
+AS_IDX_FDIV  =  3
+AS_IDX_FPWRT =  4
+AS_IDX_ABS   =  5
+AS_IDX_INT   =  6
+AS_IDX_SQR   =  7
+AS_IDX_LOG   =  8
+AS_IDX_EXP   =  9
+AS_IDX_RND   =  10
+AS_IDX_COS   =  11
+AS_IDX_SIN   =  12
+AS_IDX_TAN   =  13
+AS_IDX_ATN   =  14
+AS_IDX_NEGOP =  15
+AS_IDX_MOVAF =  16
+AS_IDX_MOVFA =  17
+
+simple_addrs:
+    .addr    AS_ADDR_FADD  
+    .addr    AS_ADDR_FSUB  
+    .addr    AS_ADDR_FMUL  
+    .addr    AS_ADDR_FDIV  
+    .addr    AS_ADDR_FPWRT  
+    .addr    AS_ADDR_ABS  
+    .addr    AS_ADDR_INT  
+    .addr    AS_ADDR_SQR  
+    .addr    AS_ADDR_LOG  
+    .addr    AS_ADDR_EXP  
+    .addr    AS_ADDR_RND  
+    .addr    AS_ADDR_COS  
+    .addr    AS_ADDR_SIN  
+    .addr    AS_ADDR_TAN  
+    .addr    AS_ADDR_ATN  
+    .addr    AS_ADDR_NEGOP
+    .addr    AS_ADDR_MOVAF
+    .addr    AS_ADDR_MOVFA  
+
 .segment "CODE"
+
+_as_common_dispatch:
+    asl
+    tax
+    lda simple_addrs,x
+    sta dispatch+1
+    lda simple_addrs+1,x
+    sta dispatch+2
+    jsr _as_save_lc_state
+    lda AS_FAC
+dispatch:
+    jsr $ffff
+    jmp _as_restore_lc_state
 
 ; FAC = ARG + FAC
 _as_fp_arg_add_fac:
-    jsr _as_save_lc_state
-    lda AS_FAC
-    jsr AS_ADDR_FADD
-    jmp _as_restore_lc_state
+    lda #AS_IDX_FADD
+    jmp _as_common_dispatch
 
 ; FAC = ARG - FAC
 _as_fp_arg_sub_fac:
-    jsr _as_save_lc_state
-    lda AS_FAC
-    jsr AS_ADDR_FSUB
-    jmp _as_restore_lc_state
+    lda #AS_IDX_FSUB
+    jmp _as_common_dispatch
 
 ; FAC = ARG * FAC
 _as_fp_arg_mul_fac:
-    jsr _as_save_lc_state
-    lda AS_FAC
-    jsr AS_ADDR_FMUL
-    jmp _as_restore_lc_state
+    lda #AS_IDX_FMUL
+    jmp _as_common_dispatch
 
 ; FAC = ARG / FAC
 _as_fp_arg_div_fac:
-    jsr _as_save_lc_state
-    lda AS_FAC
-    jsr AS_ADDR_FDIV
-    jmp _as_restore_lc_state
+    lda #AS_IDX_FDIV
+    jmp _as_common_dispatch
 
 ; FAC = ARG ^ FAC
 _as_fp_arg_pow_fac:
-    jsr _as_save_lc_state
-    lda AS_FAC
-    jsr AS_ADDR_FPWRT
-    jmp _as_restore_lc_state
+    lda #AS_IDX_FPWRT
+    jmp _as_common_dispatch
 
 ; FAC = abs(FAC)
 _as_fp_abs_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_ABS
-    jmp _as_restore_lc_state
+    lda #AS_IDX_ABS
+    jmp _as_common_dispatch
 
 ; FAC = int(FAC)
 _as_fp_int_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_INT
-    jmp _as_restore_lc_state
+    lda #AS_IDX_INT
+    jmp _as_common_dispatch
 
 ; FAC = sqrt(FAC)  (square root)
 _as_fp_sqr_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_SQR
-    jmp _as_restore_lc_state
+    lda #AS_IDX_SQR
+    jmp _as_common_dispatch
 
 ; FAC = log(FAC) (natural, base e, log)
 _as_fp_log_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_LOG
-    jmp _as_restore_lc_state
+    lda #AS_IDX_LOG
+    jmp _as_common_dispatch
 
 ; FAC = exp(FAC) (e to the FAC power)
 _as_fp_exp_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_EXP
-    jmp _as_restore_lc_state
+    lda #AS_IDX_EXP
+    jmp _as_common_dispatch
 
 ; FAC = random() (semi)random number
 _as_fp_rnd_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_RND
-    jmp _as_restore_lc_state
+    lda #AS_IDX_RND
+    jmp _as_common_dispatch
 
 ; FAC = cos(FAC) (radians)
 _as_fp_cos_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_COS
-    jmp _as_restore_lc_state
+    lda #AS_IDX_COS
+    jmp _as_common_dispatch
 
 ; FAC = sin(FAC) (radians)
 _as_fp_sin_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_SIN
-    jmp _as_restore_lc_state
+    lda #AS_IDX_SIN
+    jmp _as_common_dispatch
 
 ; FAC = tan(FAC) (radians)
 _as_fp_tan_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_TAN
-    jmp _as_restore_lc_state
+    lda #AS_IDX_TAN
+    jmp _as_common_dispatch
 
 ; FAC = arctan(FAC) (radians)
 _as_fp_atn_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_ATN
-    jmp _as_restore_lc_state
+    lda #AS_IDX_ATN
+    jmp _as_common_dispatch
 
 ; FAC = -FAC
 _as_fp_neg_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_NEGOP
-    jmp _as_restore_lc_state
+    lda #AS_IDX_NEGOP
+    jmp _as_common_dispatch
+
+; ARG = FAC
+_as_fp_fac2arg:
+    lda #AS_IDX_MOVAF
+    jmp _as_common_dispatch
+
+; FAC = ARG
+_as_fp_arg2fac:
+    lda #AS_IDX_MOVFA
+    jmp _as_common_dispatch
 
 ; FAC = 1.0 / FAC
 AS_CONST_ADDR_ONE = $E913 ; 1.0
@@ -423,18 +469,6 @@ _as_fp_swap_fac_arg:
     dex
     bpl @loop
     rts
-
-; ARG = FAC
-_as_fp_fac2arg:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_MOVAF
-    jmp _as_restore_lc_state
-
-; FAC = ARG
-_as_fp_arg2fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_MOVFA
-    jmp _as_restore_lc_state
 
 ; Generally, this is not needed, but if the zero-page CHRGET code
 ; is not set up, this can be called to initialize it.
