@@ -131,7 +131,8 @@ The build script is capable of performing a number of tasks:
 
 Documentation and Issues
 ------------------------
-`Documentation <https://randall-frank.github.io/cc65-applesoft-fp/>`_ for the library is generated using Doxygen and is stored in the github pages for this project. 
+`Documentation <https://randall-frank.github.io/cc65-applesoft-fp/>`_ for the library is 
+generated using Doxygen and is stored in the github pages for this project. 
 
 Normally, one would download the `.po` file and use it with an emulator or 
 burn a 5.25" disk with the image.  Thanks to the great work by Chris Torrence
@@ -147,7 +148,10 @@ to post questions and code.
 
 Things To Do
 ~~~~~~~~~~~~
-- Add more examples from testmain.c to the doxygen strings
+- Add more examples from testmain.c to the doxygen strings.
+- Consider using actual IEEE 754 32bit float format in the C interface (stored in a uint32_t).
+  The conversion would happen in the RAM cache copy step.
+
 
 License
 -------

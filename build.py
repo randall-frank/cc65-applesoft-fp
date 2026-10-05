@@ -384,14 +384,14 @@ if __name__ == "__main__":
     elif args.cmd == "docs":
         build_docs(verbose=args.verbose)
     elif args.cmd == "flt2as":
-        v = a2fp.float_to_applesoft_fp(args.float, verbose=args.verbose)
+        v = a2fp.double_to_applesoft_fp(args.float, verbose=args.verbose)
         if args.assembly:
             print(f"{args.varname}:\n    .byte ${v[0]:02X}, ${v[1]:02X}, ${v[2]:02X}, ${v[3]:02X}, ${v[4]:02X}  ; {args.float}")
         else:    
             print(f"AS_FAC_FP {args.varname} = {{0x{v[0]:02X}, {{0x{v[1]:02X}, 0x{v[2]:02X}, 0x{v[3]:02X}, 0x{v[4]:02X}}}}}; /* {args.float} */")
         exit(0)
     elif args.cmd == "as2flt":
-        v = a2fp.applesoft_fp_to_float(args.asfloat, verbose=args.verbose)
+        v = a2fp.applesoft_fp_to_double(args.asfloat, verbose=args.verbose)
         print(f"{v}")
         exit(0)
     else:

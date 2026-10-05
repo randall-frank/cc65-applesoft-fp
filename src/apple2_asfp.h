@@ -59,8 +59,6 @@ typedef struct {
    printf("Computed PI: %s\n", as_fp_fac2str());
  * @endcode
  *
- * @note These constants cannot be used with as_fp_mem2arg() or as_fp_mem2fac().
- *
  * @{
  */
 extern const AS_FAC_FP AS_CONST_one;      ///< The number 1.0
