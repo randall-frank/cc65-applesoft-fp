@@ -28,7 +28,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;0.9.0</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;1.0.0</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('group__consts.
 </div><!--header-->
 <div class="contents">
 
-<p>A collection of useful numbers that are included in the ROM.  
+<p>A collection of useful numbers that are included in the package.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
@@ -130,7 +130,7 @@ Variables</h2></td></tr>
 <tr class="memitem:gaa106c512811106aa29f07fb9932ba5e0" id="r_gaa106c512811106aa29f07fb9932ba5e0"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>&#160;</td><td class="memItemRight"><a class="el" href="#gaa106c512811106aa29f07fb9932ba5e0">AS_CONST_ten</a></td></tr>
 <tr class="memdesc:gaa106c512811106aa29f07fb9932ba5e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 10.0.  <br /></td></tr>
 <tr class="memitem:gacee4bb10560b774749bab27a6f110de0" id="r_gacee4bb10560b774749bab27a6f110de0"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>&#160;</td><td class="memItemRight"><a class="el" href="#gacee4bb10560b774749bab27a6f110de0">AS_CONST_sqrt_two</a></td></tr>
-<tr class="memdesc:gacee4bb10560b774749bab27a6f110de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 1.4142135623730951 (sqrt(2)).  <br /></td></tr>
+<tr class="memdesc:gacee4bb10560b774749bab27a6f110de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 1.414213562373095 (sqrt(2)).  <br /></td></tr>
 <tr class="memitem:ga0e04b4ab1d37408a48484ab768667d7b" id="r_ga0e04b4ab1d37408a48484ab768667d7b"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>&#160;</td><td class="memItemRight"><a class="el" href="#ga0e04b4ab1d37408a48484ab768667d7b">AS_CONST_e</a></td></tr>
 <tr class="memdesc:ga0e04b4ab1d37408a48484ab768667d7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 2.718281828459045 (exp(1)).  <br /></td></tr>
 <tr class="memitem:gad8276101f49f2aa2f302fb0cfa73ef55" id="r_gad8276101f49f2aa2f302fb0cfa73ef55"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>&#160;</td><td class="memItemRight"><a class="el" href="#gad8276101f49f2aa2f302fb0cfa73ef55">AS_CONST_pi</a></td></tr>
@@ -138,23 +138,22 @@ Variables</h2></td></tr>
 <tr class="memitem:ga615b131b829e8fff0eca36ee09c55f7a" id="r_ga615b131b829e8fff0eca36ee09c55f7a"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>&#160;</td><td class="memItemRight"><a class="el" href="#ga615b131b829e8fff0eca36ee09c55f7a">AS_CONST_two_pi</a></td></tr>
 <tr class="memdesc:ga615b131b829e8fff0eca36ee09c55f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 6.283185307179586 (2*PI).  <br /></td></tr>
 <tr class="memitem:ga728c8ccf5f2fbe9863f4a48f18f34acb" id="r_ga728c8ccf5f2fbe9863f4a48f18f34acb"><td class="memItemLeft">const <a class="el" href="struct_a_s___f_a_c___f_p.html">AS_FAC_FP</a>&#160;</td><td class="memItemRight"><a class="el" href="#ga728c8ccf5f2fbe9863f4a48f18f34acb">AS_CONST_ln_two</a></td></tr>
-<tr class="memdesc:ga728c8ccf5f2fbe9863f4a48f18f34acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 0.6931471805599453 (ln(2)).  <br /></td></tr>
+<tr class="memdesc:ga728c8ccf5f2fbe9863f4a48f18f34acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number 0.693147180559945 (ln(2)).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A collection of useful numbers that are included in the ROM. </p>
-<p>These read-only constants may be passed <a class="el" href="group__funcs.html#ga55d0ea8f0d12ebcebcf14ac20e707bc7" title="Load ARG from a memory-resident Applesoft float structure.">as_fp_mem2arg()</a> or <a class="el" href="group__funcs.html#gab4c6c531bfa79876ce265030f5792320" title="Load FAC from a memory-resident Applesoft float structure.">as_fp_mem2fac()</a> to initialize the FAC or ARG registers. <br  />
- An example using two constants to compute PI:</p>
-<div class="fragment"><div class="line"><a class="code hl_function" href="group__funcs.html#gab4c6c531bfa79876ce265030f5792320">as_fp_mem2fac</a>(&amp;AS_CONST_two_PI);  <span class="comment">// FAC=2PI</span></div>
-<div class="line"><a class="code hl_function" href="group__funcs.html#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a>(&amp;<a class="code hl_variable" href="#gac2283633989ae3b2396fbe6ecbc88cba">AS_CONST_half</a>);    <span class="comment">// ARG=0.5</span></div>
-<div class="line"><a class="code hl_function" href="group__funcs.html#gaf01bdba0c2132eccd0f31063093a8f47">as_fp_arg_mul_fac</a>();             <span class="comment">// FAC=0.5*2PI</span></div>
-<div class="line">printf(<span class="stringliteral">&quot;Computed PI: %s\n&quot;</span>, <a class="code hl_function" href="group__funcs.html#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a>());</div>
+<div class="textblock"><p>A collection of useful numbers that are included in the package. </p>
+<p>These read-only constants may be passed to <a class="el" href="group__funcs.html#ga05c08c0816a653cb35809c21451317eb" title="Load FAC from a memory-resident Applesoft float structure.">asfp_mem2fac()</a> to initialize the FAC or passed to math functions like <a class="el" href="group__funcs.html#ga5f6d86c46bc3c6d008b272dbc547c742" title="Multiply a value from memory by the FAC and leave the result in the FAC.">asfp_mem_mul_fac()</a>. <br  />
+</p>
+<p>An example using two constants to compute PI: <br  />
+ </p><div class="fragment"><div class="line"><a class="code hl_function" href="group__funcs.html#ga05c08c0816a653cb35809c21451317eb">asfp_mem2fac</a>(&amp;<a class="code hl_variable" href="#ga615b131b829e8fff0eca36ee09c55f7a">AS_CONST_two_pi</a>);   <span class="comment">// FAC=2PI</span></div>
+<div class="line"><a class="code hl_function" href="group__funcs.html#ga5f6d86c46bc3c6d008b272dbc547c742">asfp_mem_mul_fac</a>(&amp;<a class="code hl_variable" href="#gac2283633989ae3b2396fbe6ecbc88cba">AS_CONST_half</a>); <span class="comment">// FAC=0.5*2PI</span></div>
+<div class="line">printf(<span class="stringliteral">&quot;Computed PI: %s\n&quot;</span>, <a class="code hl_function" href="group__funcs.html#ga8209027be6d193a7ab6d5096c4db7312">asfp_fac2str</a>());</div>
+<div class="ttc" id="agroup__consts_html_ga615b131b829e8fff0eca36ee09c55f7a"><div class="ttname"><a href="#ga615b131b829e8fff0eca36ee09c55f7a">AS_CONST_two_pi</a></div><div class="ttdeci">const AS_FAC_FP AS_CONST_two_pi</div><div class="ttdoc">The number 6.283185307179586 (2*PI).</div></div>
 <div class="ttc" id="agroup__consts_html_gac2283633989ae3b2396fbe6ecbc88cba"><div class="ttname"><a href="#gac2283633989ae3b2396fbe6ecbc88cba">AS_CONST_half</a></div><div class="ttdeci">const AS_FAC_FP AS_CONST_half</div><div class="ttdoc">The number 0.5.</div></div>
-<div class="ttc" id="agroup__funcs_html_ga55d0ea8f0d12ebcebcf14ac20e707bc7"><div class="ttname"><a href="group__funcs.html#ga55d0ea8f0d12ebcebcf14ac20e707bc7">as_fp_mem2arg</a></div><div class="ttdeci">void __fastcall__ as_fp_mem2arg(const AS_FAC_FP *mem)</div><div class="ttdoc">Load ARG from a memory-resident Applesoft float structure.</div></div>
-<div class="ttc" id="agroup__funcs_html_ga94ef166804d7402308da0c3db104834a"><div class="ttname"><a href="group__funcs.html#ga94ef166804d7402308da0c3db104834a">as_fp_fac2str</a></div><div class="ttdeci">const char *__fastcall__ as_fp_fac2str()</div><div class="ttdoc">Convert the current FAC value to its canonical string representation.</div></div>
-<div class="ttc" id="agroup__funcs_html_gab4c6c531bfa79876ce265030f5792320"><div class="ttname"><a href="group__funcs.html#gab4c6c531bfa79876ce265030f5792320">as_fp_mem2fac</a></div><div class="ttdeci">void __fastcall__ as_fp_mem2fac(const AS_FAC_FP *mem)</div><div class="ttdoc">Load FAC from a memory-resident Applesoft float structure.</div></div>
-<div class="ttc" id="agroup__funcs_html_gaf01bdba0c2132eccd0f31063093a8f47"><div class="ttname"><a href="group__funcs.html#gaf01bdba0c2132eccd0f31063093a8f47">as_fp_arg_mul_fac</a></div><div class="ttdeci">void __fastcall__ as_fp_arg_mul_fac()</div><div class="ttdoc">Multiply ARG by FAC and leave the result in FAC.</div></div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>These constants cannot be used with <a class="el" href="group__funcs.html#ga55d0ea8f0d12ebcebcf14ac20e707bc7" title="Load ARG from a memory-resident Applesoft float structure.">as_fp_mem2arg()</a> or <a class="el" href="group__funcs.html#gab4c6c531bfa79876ce265030f5792320" title="Load FAC from a memory-resident Applesoft float structure.">as_fp_mem2fac()</a>. </dd></dl>
-</div><a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<div class="ttc" id="agroup__funcs_html_ga05c08c0816a653cb35809c21451317eb"><div class="ttname"><a href="group__funcs.html#ga05c08c0816a653cb35809c21451317eb">asfp_mem2fac</a></div><div class="ttdeci">void __fastcall__ asfp_mem2fac(const AS_FAC_FP *mem)</div><div class="ttdoc">Load FAC from a memory-resident Applesoft float structure.</div></div>
+<div class="ttc" id="agroup__funcs_html_ga5f6d86c46bc3c6d008b272dbc547c742"><div class="ttname"><a href="group__funcs.html#ga5f6d86c46bc3c6d008b272dbc547c742">asfp_mem_mul_fac</a></div><div class="ttdeci">void __fastcall__ asfp_mem_mul_fac(const AS_FAC_FP *mem)</div><div class="ttdoc">Multiply a value from memory by the FAC and leave the result in the FAC.</div></div>
+<div class="ttc" id="agroup__funcs_html_ga8209027be6d193a7ab6d5096c4db7312"><div class="ttname"><a href="group__funcs.html#ga8209027be6d193a7ab6d5096c4db7312">asfp_fac2str</a></div><div class="ttdeci">const char *__fastcall__ asfp_fac2str()</div><div class="ttdoc">Convert the current FAC value to its canonical string representation.</div></div>
+</div><!-- fragment --> </div><a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="ga0e04b4ab1d37408a48484ab768667d7b" name="ga0e04b4ab1d37408a48484ab768667d7b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga0e04b4ab1d37408a48484ab768667d7b">&#9670;&#160;</a></span>AS_CONST_e</h2>
 
@@ -223,7 +222,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The number 0.6931471805599453 (ln(2)). </p>
+<p>The number 0.693147180559945 (ln(2)). </p>
 
 </div>
 </div>
@@ -295,7 +294,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>The number 1.4142135623730951 (sqrt(2)). </p>
+<p>The number 1.414213562373095 (sqrt(2)). </p>
 
 </div>
 </div>
