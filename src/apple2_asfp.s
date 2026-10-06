@@ -30,10 +30,10 @@ AS_LC_STATE   = $0295
 ; 93-97, 98-9C, 8A-8E, C9-CD
 
 ; Operation addresses (LDA AS_FAC first)
-AS_ADDR_FADD  = $E7C1 ; FAC = ARG + FAC
-AS_ADDR_FSUB  = $E7AA ; FAC = ARG - FAC
-AS_ADDR_FMUL  = $E982 ; FAC = ARG * FAC
-AS_ADDR_FDIV  = $EA69 ; FAC = ARG / FAC
+AS_ADDR_FADD  = $E7BE ; FAC = MEM + FAC
+AS_ADDR_FSUB  = $E7A7 ; FAC = MEM - FAC
+AS_ADDR_FMUL  = $E97F ; FAC = MEM * FAC
+AS_ADDR_FDIV  = $EA66 ; FAC = MEM / FAC
 AS_ADDR_FPWRT = $EE97 ; FAC = ARG ^ FAC
 AS_ADDR_ABS   = $EBAF ; FAC = abs(FAC) absolute value
 AS_ADDR_SQR   = $EE8D ; FAC = sqrt(FAC) square root
@@ -85,44 +85,40 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC
 
 .include "asfp_vers.inc"
 
-.export _as_fp_init
-.export _as_fp_version
-.export _as_fp_str2fac
-.export _as_fp_fac2str
+.export _asfp_init
+.export _asfp_version
+.export _asfp_str2fac
+.export _asfp_fac2str
 
-.export _as_fp_mem2arg
-.export _as_fp_mem2fac
-.export _as_fp_fac2mem
-.export _as_fp_swap_fac_arg
-.export _as_fp_fac2arg
-.export _as_fp_arg2fac
+.export _asfp_mem2fac
+.export _asfp_fac2mem
 
-.export _as_fp_sgn
-.export _as_fp_int2fac
-.export _as_fp_char2fac
-.export _as_fp_uchar2fac
+.export _asfp_sgn
+.export _asfp_int2fac
+.export _asfp_char2fac
+.export _asfp_uchar2fac
 
-.export _as_fp_arg_add_fac
-.export _as_fp_arg_sub_fac
-.export _as_fp_arg_mul_fac
-.export _as_fp_arg_div_fac
-.export _as_fp_arg_pow_fac
-.export _as_fp_abs_fac
-.export _as_fp_int_fac
-.export _as_fp_sqr_fac
-.export _as_fp_log_fac
-.export _as_fp_exp_fac
-.export _as_fp_rnd_fac
-.export _as_fp_cos_fac
-.export _as_fp_sin_fac
-.export _as_fp_tan_fac
-.export _as_fp_atn_fac
-.export _as_fp_neg_fac
-.export _as_fp_inv_fac
-.export _as_fp_sgn_fac
-.export _as_fp_fac_mult_ten
-.export _as_fp_fac_div_ten
-.export _as_fp_fac_cmp_mem
+.export _asfp_mem_add_fac
+.export _asfp_mem_sub_fac
+.export _asfp_mem_mul_fac
+.export _asfp_mem_div_fac
+.export _asfp_mem_pow_fac
+.export _asfp_abs_fac
+.export _asfp_int_fac
+.export _asfp_sqr_fac
+.export _asfp_log_fac
+.export _asfp_exp_fac
+.export _asfp_rnd_fac
+.export _asfp_cos_fac
+.export _asfp_sin_fac
+.export _asfp_tan_fac
+.export _asfp_atn_fac
+.export _asfp_neg_fac
+.export _asfp_inv_fac
+.export _asfp_sgn_fac
+.export _asfp_fac_mult_ten
+.export _asfp_fac_div_ten
+.export _asfp_fac_cmp_mem
 .export _AS_CONST_one
 .export _AS_CONST_half
 .export _AS_CONST_two
@@ -133,35 +129,38 @@ AS_ADDR_FIN    = $EC4A ; ROM routine to parse string into FAC
 .export _AS_CONST_two_pi
 .export _AS_CONST_ln_two
 
+
 .segment "RODATA"
 
 ; Many of the functions have identical signatures
 ; Use a dispatch table for these
-AS_IDX_FADD  =  0
-AS_IDX_FSUB  =  1
-AS_IDX_FMUL  =  2
-AS_IDX_FDIV  =  3
-AS_IDX_FPWRT =  4
-AS_IDX_ABS   =  5
-AS_IDX_INT   =  6
-AS_IDX_SQR   =  7
-AS_IDX_LOG   =  8
-AS_IDX_EXP   =  9
-AS_IDX_RND   =  10
-AS_IDX_COS   =  11
-AS_IDX_SIN   =  12
-AS_IDX_TAN   =  13
-AS_IDX_ATN   =  14
-AS_IDX_NEGOP =  15
-AS_IDX_MOVAF =  16
-AS_IDX_MOVFA =  17
+; Note: AS_IDX_FPWRT -> POW() and needs special arg handling,
+; AS_IDX_FADD through AS_IDX_FDIV all need the ARG pointer
+AS_IDX_FADD   =  0
+AS_IDX_FSUB   =  1
+AS_IDX_FMUL   =  2
+AS_IDX_FDIV   =  3
+AS_IDX_ABS    =  4
+AS_IDX_INT    =  5
+AS_IDX_SQR    =  6
+AS_IDX_LOG    =  7
+AS_IDX_EXP    =  8
+AS_IDX_RND    =  9
+AS_IDX_COS    =  10
+AS_IDX_SIN    =  11
+AS_IDX_TAN    =  12
+AS_IDX_ATN    =  13
+AS_IDX_NEGOP  =  14
+AS_IDX_SGN    =  15
+AS_IDX_MUL10  =  16
+AS_IDX_DIV10  =  17
 
-simple_addrs:
+
+dispatch_addrs:
     .addr    AS_ADDR_FADD  
     .addr    AS_ADDR_FSUB  
     .addr    AS_ADDR_FMUL  
-    .addr    AS_ADDR_FDIV  
-    .addr    AS_ADDR_FPWRT  
+    .addr    AS_ADDR_FDIV 
     .addr    AS_ADDR_ABS  
     .addr    AS_ADDR_INT  
     .addr    AS_ADDR_SQR  
@@ -173,145 +172,156 @@ simple_addrs:
     .addr    AS_ADDR_TAN  
     .addr    AS_ADDR_ATN  
     .addr    AS_ADDR_NEGOP
-    .addr    AS_ADDR_MOVAF
-    .addr    AS_ADDR_MOVFA  
+    .addr    AS_ADDR_SGN
+    .addr    AS_ADDR_MUL10
+    .addr    AS_ADDR_DIV10
+
 
 .segment "CODE"
 
-_as_common_dispatch:
+; Common entry points for many calculation functions
+
+; (X,A) points to arg from C
+; arg is copied to AS_SCR_TMP
+; Set up (Y,A) to point to copy of arg pointed to by (X,A) 
+_as_setup_arg:    
+    jsr _as_cache_float   ; tuck away arg (X,A) to AS_SCR_TMP
+    lda #<AS_SCR_TMP
+    ldy #>AS_SCR_TMP
+    rts
+
+; Simple dispatch
+; On input:
+; (Y,A) is set up for the function call
+; X is the AS_IDX value of the function to call
+_as_simple_dispatch:
+    pha
+    txa
     asl
     tax
-    lda simple_addrs,x
+    lda dispatch_addrs,x
     sta dispatch+1
-    lda simple_addrs+1,x
+    lda dispatch_addrs+1,x
     sta dispatch+2
     jsr _as_save_lc_state
-    lda AS_FAC
+    pla
 dispatch:
     jsr $ffff
     jmp _as_restore_lc_state
 
-; FAC = ARG + FAC
-_as_fp_arg_add_fac:
-    lda #AS_IDX_FADD
-    jmp _as_common_dispatch
+; FAC = mem + FAC
+_asfp_mem_add_fac:
+    jsr _as_setup_arg
+    ldx #AS_IDX_FADD
+    jmp _as_simple_dispatch
 
-; FAC = ARG - FAC
-_as_fp_arg_sub_fac:
-    lda #AS_IDX_FSUB
-    jmp _as_common_dispatch
+; FAC = mem - FAC
+_asfp_mem_sub_fac:
+    jsr _as_setup_arg
+    ldx #AS_IDX_FSUB
+    jmp _as_simple_dispatch
 
-; FAC = ARG * FAC
-_as_fp_arg_mul_fac:
-    lda #AS_IDX_FMUL
-    jmp _as_common_dispatch
+; FAC = mem * FAC
+_asfp_mem_mul_fac:
+    jsr _as_setup_arg
+    ldx #AS_IDX_FMUL
+    jmp _as_simple_dispatch
 
-; FAC = ARG / FAC
-_as_fp_arg_div_fac:
-    lda #AS_IDX_FDIV
-    jmp _as_common_dispatch
+; FAC = mem / FAC
+_asfp_mem_div_fac:
+    jsr _as_setup_arg
+    ldx #AS_IDX_FDIV
+    jmp _as_simple_dispatch
 
-; FAC = ARG ^ FAC
-_as_fp_arg_pow_fac:
-    lda #AS_IDX_FPWRT
-    jmp _as_common_dispatch
+; FAC = mem ^ FAC
+_asfp_mem_pow_fac:
+    jsr _as_setup_arg     ; mem copied to AS_SCR_ARG
+    jsr _as_save_lc_state ; enable ROM
+    jsr AS_ADDR_CONUPK    ; clone mem to ARG
+    lda AS_FAC            ; pow() requires A and Z to come from FAC
+    jsr AS_ADDR_FPWRT     ; compute POW(mem,FAC)
+    jmp _as_restore_lc_state
 
 ; FAC = abs(FAC)
-_as_fp_abs_fac:
-    lda #AS_IDX_ABS
-    jmp _as_common_dispatch
+_asfp_abs_fac:
+    ldx #AS_IDX_ABS
+    jmp _as_simple_dispatch
 
 ; FAC = int(FAC)
-_as_fp_int_fac:
-    lda #AS_IDX_INT
-    jmp _as_common_dispatch
+_asfp_int_fac:
+    ldx #AS_IDX_INT
+    jmp _as_simple_dispatch
 
 ; FAC = sqrt(FAC)  (square root)
-_as_fp_sqr_fac:
-    lda #AS_IDX_SQR
-    jmp _as_common_dispatch
+_asfp_sqr_fac:
+    ldx #AS_IDX_SQR
+    jmp _as_simple_dispatch
 
 ; FAC = log(FAC) (natural, base e, log)
-_as_fp_log_fac:
-    lda #AS_IDX_LOG
-    jmp _as_common_dispatch
+_asfp_log_fac:
+    ldx #AS_IDX_LOG
+    jmp _as_simple_dispatch
 
 ; FAC = exp(FAC) (e to the FAC power)
-_as_fp_exp_fac:
-    lda #AS_IDX_EXP
-    jmp _as_common_dispatch
+_asfp_exp_fac:
+    ldx #AS_IDX_EXP
+    jmp _as_simple_dispatch
 
 ; FAC = random() (semi)random number
-_as_fp_rnd_fac:
-    lda #AS_IDX_RND
-    jmp _as_common_dispatch
+_asfp_rnd_fac:
+    ldx #AS_IDX_RND
+    jmp _as_simple_dispatch
 
 ; FAC = cos(FAC) (radians)
-_as_fp_cos_fac:
-    lda #AS_IDX_COS
-    jmp _as_common_dispatch
+_asfp_cos_fac:
+    ldx #AS_IDX_COS
+    jmp _as_simple_dispatch
 
 ; FAC = sin(FAC) (radians)
-_as_fp_sin_fac:
-    lda #AS_IDX_SIN
-    jmp _as_common_dispatch
+_asfp_sin_fac:
+    ldx #AS_IDX_SIN
+    jmp _as_simple_dispatch
 
 ; FAC = tan(FAC) (radians)
-_as_fp_tan_fac:
-    lda #AS_IDX_TAN
-    jmp _as_common_dispatch
+_asfp_tan_fac:
+    ldx #AS_IDX_TAN
+    jmp _as_simple_dispatch
 
 ; FAC = arctan(FAC) (radians)
-_as_fp_atn_fac:
-    lda #AS_IDX_ATN
-    jmp _as_common_dispatch
+_asfp_atn_fac:
+    ldx #AS_IDX_ATN
+    jmp _as_simple_dispatch
 
 ; FAC = -FAC
-_as_fp_neg_fac:
-    lda #AS_IDX_NEGOP
-    jmp _as_common_dispatch
+_asfp_neg_fac:
+    ldx #AS_IDX_NEGOP
+    jmp _as_simple_dispatch
 
-; ARG = FAC
-_as_fp_fac2arg:
-    lda #AS_IDX_MOVAF
-    jmp _as_common_dispatch
+; FAC = SGN(FAC) - FAC=1 if FAC>0, FAC=0 if FAC==0, FAC=-1 if FAC<0
+_asfp_sgn_fac:
+    ldx #AS_IDX_SGN
+    jmp _as_simple_dispatch
 
-; FAC = ARG
-_as_fp_arg2fac:
-    lda #AS_IDX_MOVFA
-    jmp _as_common_dispatch
+; FAC = FAC * 10.0
+_asfp_fac_mult_ten:
+    ldx #AS_IDX_MUL10
+    jmp _as_simple_dispatch
+
+; FAC = FAC / 10.0
+_asfp_fac_div_ten:
+    ldx #AS_IDX_DIV10
+    jmp _as_simple_dispatch
 
 ; FAC = 1.0 / FAC
-AS_CONST_ADDR_ONE = $E913 ; 1.0
-_as_fp_inv_fac:
+_asfp_inv_fac:
     jsr _as_save_lc_state
-    ldy #>AS_CONST_ADDR_ONE ; ARG = 1.0 by loading ARG from ROM
-    lda #<AS_CONST_ADDR_ONE
-    jsr AS_ADDR_CONUPK ; Y=MSB, A=LSB
-    lda AS_FAC
+    ldy #>_AS_CONST_one ; ARG = 1.0 by loading ARG from ROM
+    lda #<_AS_CONST_one
     jsr AS_ADDR_FDIV ; FAC = ARG / FAC
     jmp _as_restore_lc_state
 
-; FAC = SGN(FAC) - FAC=1 if FAC>0, FAC=0 if FAC==0, FAC=-1 if FAC<0
-_as_fp_sgn_fac:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_SGN
-    jmp _as_restore_lc_state
-
-; FAC = FAC * 10.0
-_as_fp_fac_mult_ten:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_MUL10
-    jmp _as_restore_lc_state
-
-; FAC = FAC / 10.0
-_as_fp_fac_div_ten:
-    jsr _as_save_lc_state
-    jsr AS_ADDR_DIV10
-    jmp _as_restore_lc_state
-
 ; Returned int is the output of SGN(FAC)
-_as_fp_sgn:
+_asfp_sgn:
     jsr _as_save_fac
     jsr _as_save_lc_state
     jsr AS_ADDR_SIGN
@@ -325,7 +335,7 @@ _as_fp_sgn:
     rts
 
 ; FAC = passed signed int value
-_as_fp_int2fac:
+_asfp_int2fac:
     ; A = low byte of the int (LSB)
     ; X = high byte of the int (MSB)
     tay
@@ -335,14 +345,14 @@ _as_fp_int2fac:
     jmp _as_restore_lc_state
 
 ; FAC = passed signed char value
-_as_fp_char2fac:
+_asfp_char2fac:
     ; A = signed char
     jsr _as_save_lc_state
     jsr AS_ADDR_FLOAT ; A = signed integer value
     jmp _as_restore_lc_state
 
 ; FAC = passed unsigned char value
-_as_fp_uchar2fac:
+_asfp_uchar2fac:
     ; A = unsigned char
     tay
     jsr _as_save_lc_state
@@ -352,7 +362,7 @@ _as_fp_uchar2fac:
 
 ; Returns the result of comparing a number in memory to the FAC as a signed char.
 ; TODO: include a raw bitwise comparison to work around mantissa differences
-_as_fp_fac_cmp_mem:
+_asfp_fac_cmp_mem:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     jsr _as_cache_float  ; (X,A) -> AS_SCR_TMP
@@ -371,7 +381,7 @@ _as_fp_fac_cmp_mem:
 
 ; Convert text pointed to by a C string into a number and store into FAC.
 ; Returns 0 on success, non-zero on error.
-_as_fp_str2fac:
+_asfp_str2fac:
     jsr _as_cache_str
     lda #<AS_SCR_STR
     sta AS_TXTPTR
@@ -395,7 +405,7 @@ _as_fp_str2fac:
     rts
 
 ; Convert FAC to a temp string (stored at bottom of FBUFFER, aka hardware stack).
-_as_fp_fac2str:
+_asfp_fac2str:
     jsr _as_save_lc_state
     jsr _as_save_fac
     jsr _as_save_arg
@@ -414,19 +424,8 @@ _as_fp_fac2str:
     ; ldx #>AS_FBUFFR
     rts
 
-; Load ARG from memory (AS_FAC_FP struct)
-_as_fp_mem2arg:
-    ; A = low byte of the pointer (LSB)
-    ; X = high byte of the pointer (MSB)
-    jsr _as_cache_float  ; (X,A) -> AS_SCR_TMP
-    jsr _as_save_lc_state
-    lda #<AS_SCR_TMP
-    ldy #>AS_SCR_TMP
-    jsr AS_ADDR_CONUPK ; Y=MSB, A=LSB
-    jmp _as_restore_lc_state
-
 ; Load FAC from memory (AS_FAC_FP struct)
-_as_fp_mem2fac:
+_asfp_mem2fac:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     jsr _as_cache_float  ; (X,A) -> AS_SCR_TMP
@@ -437,7 +436,7 @@ _as_fp_mem2fac:
     jmp _as_restore_lc_state
 
 ; Convert the FAC into memory (AS_FAC_FP struct)
-_as_fp_fac2mem:
+_asfp_fac2mem:
     ; A = low byte of the pointer (LSB)
     ; X = high byte of the pointer (MSB)
     sta AS_SCR_TMPA
@@ -449,28 +448,12 @@ _as_fp_fac2mem:
     jsr _as_restore_lc_state
     jmp _as_restore_float
 
-; Swap the FAC and ARG
-_as_fp_swap_fac_arg:
-    ldx #5   ; FAC and ARG are 6 byte representations
-@loop:
-    lda AS_FAC,x
-    ldy AS_ARG,x
-    sta AS_ARG,x
-    sty AS_FAC,x
-    dex
-    bpl @loop
-    lda AS_FAC_EX
-    ldy AS_ARG_EX
-    sta AS_ARG_EX
-    sty AS_FAC_EX
-    rts
-
 ; Generally, this is not needed, but if the zero-page CHRGET code
 ; is not set up, this can be called to initialize it.
 AS_CHRGET_ORIG = $F10B ; The 'template' CHRGET routine in Applesoft
 AS_INIT_APPLESOFT = $E40C
 
-_as_fp_init:
+_asfp_init:
     jsr _as_save_lc_state
     jsr AS_INIT_APPLESOFT
     ; Set up the CHRGET routine from the template in ROM
@@ -482,7 +465,7 @@ cpy_loop:
     bpl cpy_loop
     jmp _as_restore_lc_state
 
-_as_fp_version:
+_asfp_version:
     ldy        #0
 @loop:
     lda AS_VERSION,y
@@ -642,13 +625,12 @@ _AS_CONST_two:
 _AS_CONST_ten:
     .byte $84, $20, $00, $00, $00  ; 10.0
 _AS_CONST_sqrt_two:
-    .byte $81, $35, $04, $F3, $00  ; 1.4142135623730951
+    .byte $81, $35, $04, $F3, $00  ; 1.41421356
 _AS_CONST_e:
-    .byte $82, $2D, $F8, $54, $58  ; 2.718281828459045
+    .byte $82, $2D, $F8, $54, $58  ; 2.71828182
 _AS_CONST_pi:
-    .byte $82, $49, $0F, $DA, $A2  ; 3.141592653589793
+    .byte $82, $49, $0F, $DA, $A2  ; 3.14159265
 _AS_CONST_two_pi:
-    .byte $83, $49, $0F, $DA, $A2  ; 6.283185307179586
+    .byte $83, $49, $0F, $DA, $A2  ; 6.28318530
 _AS_CONST_ln_two:
-    .byte $80, $31, $72, $17, $F7  ; 0.6931471805599453
-
+    .byte $80, $31, $72, $17, $F7  ; 0.69314718

@@ -54,7 +54,7 @@ for debugging, etc.  Specifically, the build output is:
 - **apple2_asfp.h**: The header file for the library.
 - **libasfp.a**: The source code compiled into a library.
 - **testmain.c**: The source to the **.SYSTEM** file included in the disk image.
-- **a2fp_release.po**: A ProDOS disk image that includes the library and a simple test program
+- **asfp_release.po**: A ProDOS disk image that includes the library and a simple test program
 
 All but the disk image file are included in the released **.zip** file.
 

@@ -10,7 +10,7 @@ import sys
 import subprocess
 import requests
 from ghp_import import ghp_import
-from src import a2fp
+from src import asfp
 
 exe_ext = ""
 if platform.system().lower().startswith("windows"):
@@ -212,10 +212,10 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     # include the test program source
     shutil.copy(os.path.join("src", "testmain.c"), "build")
     # build a zip file for distribution
-    shutil.make_archive("a2fp_release", 'zip', "build")
+    shutil.make_archive("asfp_release", 'zip', "build")
     
     # build test app
-    test_name = os.path.join("SYSTEM", "FPTEST.SYSTEM#FF2000")
+    test_name = os.path.join("SYSTEM", "TESTASFP.SYSTEM#FF2000")
     test_src = os.path.join("src", "testmain.c")
     system_file = ["-C", "apple2-system.cfg"]
     cmd = [ln, "-O", "-t", "apple2", "-I", "."]
@@ -241,7 +241,7 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     ciderpresscli = find_ciderpress()
     log.info("Building .po disk image...")
     # Create a release .po image
-    rel_filename = "a2fp_release.po"
+    rel_filename = "asfp_release.po"
     try:
         os.remove(rel_filename)
     except Exception:
@@ -249,7 +249,7 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     cmd = [ciderpresscli, "create-disk-image", rel_filename, "140K", "prodos"]
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
     log.info(f"Created release disk image: {result.stdout} {result.stderr}")
-    cmd = [ciderpresscli, "rename", rel_filename, ":", f"A2FP_{__version__}"]
+    cmd = [ciderpresscli, "rename", rel_filename, ":", f"ASFP_{__version__}"]
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
     log.info(f"Renamed release disk image: {result.stdout} {result.stderr}")
 
@@ -384,14 +384,14 @@ if __name__ == "__main__":
     elif args.cmd == "docs":
         build_docs(verbose=args.verbose)
     elif args.cmd == "flt2as":
-        v = a2fp.double_to_applesoft_fp(args.float, verbose=args.verbose)
+        v = asfp.double_to_applesoft_fp(args.float, verbose=args.verbose)
         if args.assembly:
             print(f"{args.varname}:\n    .byte ${v[0]:02X}, ${v[1]:02X}, ${v[2]:02X}, ${v[3]:02X}, ${v[4]:02X}  ; {args.float}")
         else:    
             print(f"AS_FAC_FP {args.varname} = {{0x{v[0]:02X}, {{0x{v[1]:02X}, 0x{v[2]:02X}, 0x{v[3]:02X}, 0x{v[4]:02X}}}}}; /* {args.float} */")
         exit(0)
     elif args.cmd == "as2flt":
-        v = a2fp.applesoft_fp_to_double(args.asfloat, verbose=args.verbose)
+        v = asfp.applesoft_fp_to_double(args.asfloat, verbose=args.verbose)
         print(f"{v}")
         exit(0)
     else:

@@ -14,8 +14,8 @@ __pycache__/
 src/*.lst
 src/asfp_vers.inc
 src/example.txt
-a2fp_release.po
-a2fp_release.zip
+asfp_release.po
+asfp_release.zip
 
 # Environments
 .env
@@ -25,7 +25,7 @@ cc65/
 ciderpress/
 build/
 html/
-SYSTEM/FP*
+SYSTEM/TEST*
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
