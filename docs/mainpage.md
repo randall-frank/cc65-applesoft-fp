@@ -63,7 +63,7 @@ All but the disk image file are included in the released **.zip** file.
 The example **.SYSTEM** file is built using the following command:
 
 ```ps1
-> cl65.exe -O -t apple2 -I . -C apple2-system.cfg -o FPTEST.SYSTEM testmain.c libasfp.a
+> cl65.exe -O -t apple2 -I . -C apple2-system.cfg -o TESTASFP.SYSTEM testmain.c libasfp.a
 ```
 
 ## Implementation notes
