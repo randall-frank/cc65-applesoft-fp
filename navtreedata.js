@@ -26,7 +26,7 @@ var NAVTREE =
 [
   [ "Applesoft floating point cc65 bindings", "index.html", [
     [ "cc65 Applesoft Floating Point Library", "index.html", "index" ],
-    [ "AS_FAC Interface Module", "topics.html", "topics" ],
+    [ "ASFP Interface Module", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],

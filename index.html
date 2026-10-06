@@ -151,7 +151,7 @@ Project structure</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Building the example file</h2>
 <p>The example <b>.SYSTEM</b> file is built using the following command:</p>
-<div class="fragment"><div class="line">&gt; cl65.exe -O -t apple2 -I . -C apple2-system.cfg -o FPTEST.SYSTEM testmain.c libasfp.a</div>
+<div class="fragment"><div class="line">&gt; cl65.exe -O -t apple2 -I . -C apple2-system.cfg -o TESTASFP.SYSTEM testmain.c libasfp.a</div>
 </div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Implementation notes</h1>
 <p>The library is a cc65 thin compatible wrapper written as a C header file and a 6502 assembly language file. The library does use the Applesoft floating point routines in ROM. As such, it uses a few resources that could conflict with a higher level application. These are noted below.</p>
