@@ -1,3 +1,12 @@
+/*
+ * @file testmain.c
+ * @details Simple example that exercises the Applesoft floating point library
+ * routines.  It serves as a basic test case.
+ *
+ * @author Randall Frank
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>

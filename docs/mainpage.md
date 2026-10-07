@@ -56,6 +56,12 @@ for debugging, etc.  Specifically, the build output is:
 - **testmain.c**: The source to the **.SYSTEM** file included in the disk image.
 - **asfp_release.po**: A ProDOS disk image that includes the library and a simple test program
 
+Booting the disk image will display the following screen:
+
+<div style="display: flex; justify-content: center;">
+  <img src="asfp_release_po.png" width="600" height="auto">
+</div>
+
 All but the disk image file are included in the released **.zip** file.
 
 ### Building the example file
@@ -88,6 +94,27 @@ afterward.
 The library 'caches' any input arguments from C as they could be located
 in the language card.  This is done in the traditional Apple input buffer: $0200.  Thus,
 several routines will destroy memory between $0200 and $02A0.
+
+## Performance notes
+
+This library uses the Applesoft ROM floating point routines directly.  Thus, for compute
+heavy applications, the floating point performance will generally be in line with compiled
+Applesoft Basic as the library avoids all the overhead of the interpreter, variables, etc.
+
+There is a simple example included: **perftest.c** which is a port of the Applesoft program
+**PERFTEST**.  Runnable versions of both are included in the disk image.  The source of the
+Applesoft version is in **src/PERFTEST.ABAS**.  This test case evaluates the expression:
+
+ **X' = 4.0 * X * (1.0 - X)**
+ 
+for 1000 iterations.  Stopwatch timings are:
+
+- Applesoft Basic : ~16.6s
+- cc65 perftest.c : ~ 6.8s
+- Compiled Applesoft (Beagle Compiler) : ~ 6.7s
+
+This is what one would expect as the cc65 version has some overhead with language card
+flipping and argument caching the that compiled basic version does not.
 
 ## Reference documentation
 

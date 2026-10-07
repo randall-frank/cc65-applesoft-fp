@@ -1,0 +1,12 @@
+10 REM simple performance test
+20 POKE 4096*12+16,0
+30 HOME : PRINT "Logistic map simple FP benchmark"
+40 PRINT "Press any key to begin"
+50 IF PEEK(4096*12) < 128 GOTO 50
+60 POKE 4096*12+16,0
+70 PRINT "Running test..."
+80 X = 0.4
+90 FOR I=0 TO 1000
+100 X = 4.0 * X * (1.0 - X)
+110 NEXT I
+120 PRINT "Done!"

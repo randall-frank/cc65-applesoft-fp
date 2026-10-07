@@ -1,0 +1,22 @@
+10 HOME : PRINT "Applesoft Floating Point from C (cc65)"
+20 PRINT "Copyright (C) ASFP_YEAR Randall Frank"
+30 PRINT "Version: ASFP_VERSION"
+40 PRINT "---------------------------------------"
+50 PRINT "This disk contains the ASFP library"
+60 PRINT "binaries and test/example programs."
+70 PRINT
+80 PRINT "- PERFTEST        : Applesoft perf test"
+90 PRINT "- PERFTEST.SYSTEM : C perf test"
+100 PRINT "- TESTASFP.SYSTEM : C Example/test prog"
+110 PRINT
+120 D$ =  CHR$ (4)
+130 PRINT D$;"OPEN /ASFP.ASFP_VERSION,TDIR"
+140 PRINT D$;"READ /ASFP.ASFP_VERSION"
+150 INPUT L$: PRINT LEFT$(L$, 39)
+160 INPUT L$: PRINT LEFT$(L$, 39)
+170 INPUT L$: PRINT LEFT$(L$, 39)
+180 INPUT L$: PRINT LEFT$(L$, 39)
+190 INPUT L$: PRINT LEFT$(L$, 39)
+200 IF L$ <  > "" THEN  GOTO 190
+210 INPUT L$: PRINT LEFT$(L$, 39)
+220 PRINT D$;"CLOSE /ASFP.ASFP_VERSION"

@@ -36,9 +36,12 @@ __version_date__ = datetime.datetime.now().isoformat(timespec='minutes', sep=" "
 def download_file(url, filename) -> bool:
     """Download a file from a given URL and save it to a specified filename.
     
-    :param url: str The URL to download the file from.
-    :param filename: str The local filename to save the downloaded file.
-    :return: bool True if the download was successful, False otherwise.
+    :param url: The URL to download the file from.
+    :type url: str
+    :param filename: The local filename to save the downloaded file.
+    :type filename: str
+    :return: True if the download was successful, False otherwise.
+    :rtype: bool
     """
     try:
         # Send a GET request to the URL, enabling streaming for large files
@@ -86,6 +89,12 @@ def find_compiler() -> None:
 
 
 def find_ciderpress() -> str:
+    """Look for the ciderpress executable.
+    If not found, download and unpack it.
+
+    :return: The pathname to the ciderpress CLI executable
+    :rtype: str
+    """
     if not os.path.exists("ciderpress"):
         url = "https://github.com/fadden/CiderPress2/releases/download/v1.1.1/cp2_1.1.1_win-x86_sc.zip"
         if not download_file(url, "ciderpress.zip"):
@@ -106,6 +115,12 @@ def find_ciderpress() -> str:
 
 
 def find_doxygen() -> str:
+    """Look for the doxygen executable.
+    If not found, download and unpack it.
+
+    :return: The pathname to the doxygen executable
+    :rtype: str
+    """
     if not os.path.exists("doxygen"):
         url = "https://www.doxygen.nl/files/doxygen-1.18.0.windows.x64.bin.zip"
         if not download_file(url, "doxygen.zip"):
@@ -129,8 +144,8 @@ def clean(remove_cli_tools: bool = False) -> None:
     """
     Clear out the "build" directory and remove any 'intermediate' build files
     
-    :param remove_cli_tools: bool If True, remove the cc65 directory as well.
-    :return: None
+    :param remove_cli_tools: If True, remove the cc65, ciderpress and doxygen directories as well.
+    :type remove_cli_tools: bool, optional
     """
     try:
         shutil.rmtree("build")
@@ -155,13 +170,52 @@ def clean(remove_cli_tools: bool = False) -> None:
         except OSError:
             pass
 
-def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> None:
+def build_system_app(src: str, tgt: str, lib_name: str) -> None:
+    """
+    Build a ProDOS .SYSTEM application from C source
+    
+    :param src: The name of the .c file (in the src directory) to compile
+    :type src: str
+    :param tgt: The name of the .SYSTEM file (in the SYSTEM directory) to create
+    :type tgt: str
+    :param libname: The name (with path) of the asfp library
+    :type libname: str
+    """
+    ln = os.path.join("cc65", "bin", f"cl65{exe_ext}") 
+    test_name = os.path.join("SYSTEM", tgt)
+    test_src = os.path.join("src", src)
+    system_file = ["-C", "apple2-system.cfg"]
+    cmd = [ln, "-O", "-t", "apple2", "-I", "."]
+    cmd.extend(system_file)
+    cmd.extend(["-o", test_name])
+    cmd.append(test_src)
+    cmd.append(lib_name)
+    log.info(f"Building test app: {test_name}")
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        log.error(f"test app: {test_name}: {result.stdout}: {result.stderr}")
+        sys.exit(1)
+        
+    # if the type and aux is in the filename, then drop any apple single header
+    if "#" in tgt:
+        # remove apple single header (58 bytes)
+        with open(test_name, "rb") as f:
+            data = f.read()
+        if data[:4] == b'\x00\x05\x16\x00':
+            data = data[58:]
+        with open(test_name, "wb") as f:
+            data = f.write(data)
+
+def build(verbose: bool = False, symbols: bool = False, debug: bool = True) -> None:
     """
     Build the library from source files.
 
-    :param verbose: bool If True, include verbose output.
-    :param symbols: bool If True, generate listing files (.lst).
-    :return: None
+    :param verbose: If True, include verbose output.
+    :type verbose: bool, optional
+    :param symbols: If True, generate listing files (.lst).
+    :type symbols: bool, optional
+    :param debug: If True, include BASIC.SYSTEM (this is the default).
+    :type debug: bool, optional
     """
     try:
         shutil.rmtree("build")
@@ -172,8 +226,7 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     # get tool paths
     find_compiler()
     asm = os.path.join("cc65", "bin", f"ca65{exe_ext}")
-    ar = os.path.join("cc65", "bin", f"ar65{exe_ext}")
-    ln = os.path.join("cc65", "bin", f"cl65{exe_ext}")       
+    ar = os.path.join("cc65", "bin", f"ar65{exe_ext}")      
     lib_bins = []
     
     with open(os.path.join("src","asfp_vers.inc"), "w") as fp:
@@ -214,28 +267,9 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
     # build a zip file for distribution
     shutil.make_archive("asfp_release", 'zip', "build")
     
-    # build test app
-    test_name = os.path.join("SYSTEM", "TESTASFP.SYSTEM#FF2000")
-    test_src = os.path.join("src", "testmain.c")
-    system_file = ["-C", "apple2-system.cfg"]
-    cmd = [ln, "-O", "-t", "apple2", "-I", "."]
-    cmd.extend(system_file)
-    cmd.extend(["-o", test_name])
-    cmd.append(test_src)
-    cmd.append(lib_name)
-    log.info(f"Building test app: {test_name}")
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        log.error(f"test app: {test_name}: {result.stdout}: {result.stderr}")
-        sys.exit(1)
-        
-    # remove apple single header (58 bytes)
-    with open(test_name, "rb") as f:
-        data = f.read()
-    if data[:4] == b'\x00\x05\x16\x00':
-        data = data[58:]
-    with open(test_name, "wb") as f:
-        data = f.write(data)
+    # build test apps
+    build_system_app("testmain.c", "TESTASFP.SYSTEM#FF2000", lib_name);
+    build_system_app("perftest.c", "PERFTEST.SYSTEM#FF2000", lib_name);
 
     # build .po disk image
     ciderpresscli = find_ciderpress()
@@ -268,8 +302,28 @@ def build(verbose: bool = False, symbols: bool = False, debug: bool = False) -> 
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         log.info(f"System files added to disk image: {result.stdout} {result.stderr}")
     
+    for name in os.listdir("src"):
+        if name.upper().endswith(".ABAS"):
+            root = os.path.splitext(name)[0]
+            # make a copy to rename the file so the import is clean
+            with open(os.path.join("src", name), "r") as f:
+                data = f.read()
+            data = data.replace("ASFP_VERSION", __version__)
+            data = data.replace("ASFP_YEAR", str(datetime.datetime.now().year))
+            with open(os.path.join("build", root), "w") as f:
+                f.write(data)
+            cmd = [ciderpresscli, "import", "--strip-paths", rel_filename, "bas",  f"build/{root}"]
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            os.remove(os.path.join("build", root))
+            log.info(f"Imported: src/{name} as {root}")
+        
 
 def build_docs(verbose: bool = False) -> None:
+    """Use doxygen to build the HTML documentation
+
+    :param verbose: If True, print detailed output, defaults to False
+    :type verbose: bool, optional
+    """
     doxygen = find_doxygen()
     try:
         shutil.rmtree("html")
@@ -293,6 +347,8 @@ def build_docs(verbose: bool = False) -> None:
         if verbose:
             log.info(f"Doxygen output: {result.stdout}\n{result.stderr}")
             log.info("Documentation built successfully")
+        shutil.copyfile("asfp_release_po.png", os.path.join("..", "html", "asfp_release_po.png"))
+
     finally:
         os.chdir(original_dir)
 
@@ -301,7 +357,8 @@ def gh_pages(commit_str: str = "Update pages") -> None:
     """
     Deploy the current build directory to GitHub Pages.
     
-    :return: None
+    :param commit_str: Commit message for the gh-pages push
+    :type commit_str: str, optional
     """
     build_docs()
     # Check if we are in a git repository
@@ -346,7 +403,6 @@ if __name__ == "__main__":
     build_parser = cmd_parsers.add_parser("build", aliases=["fullbuild"],
                                           help="Rebuild the entire build directory contents")
     build_parser.add_argument("--symbols", action="store_true", default=False, help="Output the symbol listing.")
-    build_parser.add_argument("--debug", action="store_true", default=False, help="Include BASIC.SYSTEM")
 
     docs_parser = cmd_parsers.add_parser("docs", help="Build the documentation for the project")
     
@@ -376,7 +432,7 @@ if __name__ == "__main__":
     log.debug(f"Command line args: {args}")
     
     if args.cmd.endswith("build"):
-        build(verbose=args.verbose, symbols=args.symbols, debug=args.debug)
+        build(verbose=args.verbose, symbols=args.symbols)
     elif args.cmd == "clean":
         clean(remove_cli_tools=args.full)
     elif args.cmd == "ghpages":

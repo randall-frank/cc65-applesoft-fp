@@ -84,11 +84,10 @@ The build script is capable of performing a number of tasks:
  
   - Remove the contents of the `build` and `html` directories.  `--full` removes the build tools as well.
 
-- build, fullbuild [--debug] [--symbols]
+- build, fullbuild [--symbols]
 
-  - rebuild the entire `build` directory. This does a `clean` followed by a build of the library
-    `--debug` includes `BASIC.SYSTEM` in the disk image and boots to Applesoft. `--symbols` generates
-    an assembly level listing file of the interface.
+  - rebuild the entire `build` directory. This does a `clean` followed by a build of the library.
+    `--symbols` generates an assembly level listing file of the interface.
 
 - ghpages [--ghmsg 'commit message']
 

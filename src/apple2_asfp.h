@@ -1,12 +1,11 @@
 /**
  * @file apple2_asfp.h
  * @brief Header description of an assembly language glue interface to the Applesoft floating point routines
+ * @author Randall Frank
+ * 
+ * Copyright (C) 2026 Randall Frank
+ * Released under the MIT OpenSource license.  See the file LICENSE for details.
  */
- 
- /* 
-  * Copyright (C) 2026 Randall Frank
-  * Released under the MIT OpenSource license.  See the file LICENSE for details.
-  */
 
 #ifndef _APPLE2ASFP_H
 #define _APPLE2ASFP_H
