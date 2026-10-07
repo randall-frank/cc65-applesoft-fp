@@ -10,6 +10,7 @@ var index =
       [ "Zero page usage", "index.html#autotoc_md7", null ],
       [ "ROM/Language card bank switching", "index.html#autotoc_md8", null ]
     ] ],
-    [ "Reference documentation", "index.html#autotoc_md9", null ],
-    [ "License and copyright", "index.html#autotoc_md10", null ]
+    [ "Performance notes", "index.html#autotoc_md9", null ],
+    [ "Reference documentation", "index.html#autotoc_md10", null ],
+    [ "License and copyright", "index.html#autotoc_md11", null ]
 ];

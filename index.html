@@ -28,7 +28,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="project_logo_small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;1.0.0</span>
+   <div id="projectname">Applesoft floating point cc65 bindings<span id="projectnumber">&#160;1.0.1</span>
    </div>
    <div id="projectbrief">A cc65 library that provides an interface to the Applesoft ROM floating point routines</div>
   </td>
@@ -147,7 +147,8 @@ Project structure</h1>
 <li><b><a class="el" href="testmain_8c.html">testmain.c</a></b>: The source to the <b>.SYSTEM</b> file included in the disk image.</li>
 <li><b>asfp_release.po</b>: A ProDOS disk image that includes the library and a simple test program</li>
 </ul>
-<p>All but the disk image file are included in the released <b>.zip</b> file.</p>
+<p>Booting the disk image will display the following screen:</p>
+<div style="display: flex; justify-content: center;"> <img src="asfp_release_po.png" alt="" width="600" height="auto" class="inline"/> </div><p>All but the disk image file are included in the released <b>.zip</b> file.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Building the example file</h2>
 <p>The example <b>.SYSTEM</b> file is built using the following command:</p>
@@ -163,6 +164,18 @@ ROM/Language card bank switching</h2>
 <p>Many Apple II cc65 applications run with the language card bank enabled for additional memory. This library wraps functions that make ROM calls with code that switches to ROM reading before making the call and restores the incoming bank selection afterward.</p>
 <p>The library 'caches' any input arguments from C as they could be located in the language card. This is done in the traditional Apple input buffer: $0200. Thus, several routines will destroy memory between $0200 and $02A0.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Performance notes</h1>
+<p>This library uses the Applesoft ROM floating point routines directly. Thus, for compute heavy applications, the floating point performance will generally be in line with compiled Applesoft Basic as the library avoids all the overhead of the interpreter, variables, etc.</p>
+<p>There is a simple example included: <b><a class="el" href="perftest_8c.html">perftest.c</a></b> which is a port of the Applesoft program <b>PERFTEST</b>. Runnable versions of both are included in the disk image. The source of the Applesoft version is in <b>src/PERFTEST.ABAS</b>. This test case evaluates the expression:</p>
+<p><b>X' = 4.0 * X * (1.0 - X)</b></p>
+<p>for 1000 iterations. Stopwatch timings are:</p>
+<ul>
+<li>Applesoft Basic : ~16.6s</li>
+<li>cc65 <a class="el" href="perftest_8c.html">perftest.c</a> : ~ 6.8s</li>
+<li>Compiled Applesoft (Beagle Compiler) : ~ 6.7s</li>
+</ul>
+<p>This is what one would expect as the cc65 version has some overhead with language card flipping and argument caching the that compiled basic version does not.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Reference documentation</h1>
 <p>Some reference documentation used to develop this library is available in the <em>docs</em> directory. These files document the Applesoft entry points from Apple.</p>
 <ul>
@@ -170,9 +183,9 @@ Reference documentation</h1>
 <li>Basic numeric function details <a href="TIL00075.pdf" target="_blank">Core Math Functions</a>.</li>
 <li>I/O and other transform functions <a href="TIL00076.pdf" target="_blank">Utility Functions</a>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 License and copyright</h1>
-<p><b>Library version:</b> 1.0.0 <br  />
+<p><b>Library version:</b> 1.0.1 <br  />
  <b>Copyright:</b> © 2026 Randall Frank</p>
 <p>This project is licensed under the MIT OpenSource license. See the file <a href="LICENSE" target="_blank">LICENSE</a> for details. </p>
 </div></div><!-- PageDoc -->
